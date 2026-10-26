@@ -1,0 +1,151 @@
+{
+  "note": "郊區田地的作物與產季。stages 以「MM-DD」起迄（含）切一整年，fields.js 依日期挑顏色並在階段交界前幾天平滑過渡；byDistrict 的 key 是 city.json 的區 id，一區多種作物時輪流分配給各塊田。產季對齊 events.json：白河蓮花季 6～8 月、官田菱角季 9～10 月。",
+  "crops": {
+    "rice": {
+      "name": "水稻",
+      "stages": [
+        { "from": "01-01", "to": "01-31", "color": "#c9b58f", "label": "休耕" },
+        { "from": "02-01", "to": "03-15", "color": "#9bc7a3", "label": "一期插秧" },
+        { "from": "03-16", "to": "06-10", "color": "#4f9a4a", "label": "一期成長" },
+        { "from": "06-11", "to": "07-10", "color": "#d9b64a", "label": "一期收割" },
+        { "from": "07-11", "to": "08-10", "color": "#9bc7a3", "label": "二期插秧" },
+        { "from": "08-11", "to": "10-31", "color": "#4f9a4a", "label": "二期成長" },
+        { "from": "11-01", "to": "11-30", "color": "#d9b64a", "label": "二期收割" },
+        { "from": "12-01", "to": "12-31", "color": "#c9b58f", "label": "休耕" }
+      ]
+    },
+    "lotus": {
+      "name": "蓮花",
+      "stages": [
+        { "from": "01-01", "to": "03-31", "color": "#c9b58f", "label": "休耕" },
+        { "from": "04-01", "to": "05-14", "color": "#8fbf8e", "label": "展葉" },
+        { "from": "05-15", "to": "08-31", "color": "#cf9fb5", "label": "花期" },
+        { "from": "09-01", "to": "10-31", "color": "#8c9c5f", "label": "採蓮子蓮藕" },
+        { "from": "11-01", "to": "12-31", "color": "#c9b58f", "label": "休耕" }
+      ]
+    },
+    "waterChestnut": {
+      "name": "菱角",
+      "stages": [
+        { "from": "01-01", "to": "02-15", "color": "#c9b58f", "label": "休耕" },
+        { "from": "02-16", "to": "06-15", "color": "#5f9e55", "label": "稻菱輪作（水稻）" },
+        { "from": "06-16", "to": "07-14", "color": "#8fa6a8", "label": "放水整田" },
+        { "from": "07-15", "to": "08-31", "color": "#2f6b3f", "label": "菱葉鋪田" },
+        { "from": "09-01", "to": "10-31", "color": "#3f7d4a", "label": "採菱" },
+        { "from": "11-01", "to": "11-30", "color": "#5f8a55", "label": "採菱尾聲" },
+        { "from": "12-01", "to": "12-31", "color": "#c9b58f", "label": "休耕" }
+      ]
+    },
+    "pomelo": {
+      "name": "文旦",
+      "stages": [
+        { "from": "01-01", "to": "02-29", "color": "#4e7f46", "label": "冬季修剪" },
+        { "from": "03-01", "to": "04-15", "color": "#8fb87c", "label": "開花" },
+        { "from": "04-16", "to": "08-15", "color": "#3f7a3c", "label": "結果" },
+        { "from": "08-16", "to": "09-30", "color": "#9bb24a", "label": "採收" },
+        { "from": "10-01", "to": "12-31", "color": "#4e7f46", "label": "採後養樹" }
+      ]
+    },
+    "mango": {
+      "name": "芒果",
+      "stages": [
+        { "from": "01-01", "to": "02-29", "color": "#8ea05c", "label": "開花" },
+        { "from": "03-01", "to": "04-30", "color": "#5f8f4a", "label": "結小果套袋" },
+        { "from": "05-01", "to": "07-31", "color": "#e0973a", "label": "盛產" },
+        { "from": "08-01", "to": "12-31", "color": "#4a7d45", "label": "採後養樹" }
+      ]
+    },
+    "sesame": {
+      "name": "胡麻",
+      "stages": [
+        { "from": "01-01", "to": "01-31", "color": "#c9b58f", "label": "休耕" },
+        { "from": "02-01", "to": "06-20", "color": "#6aa65c", "label": "稻麻輪作（水稻）" },
+        { "from": "06-21", "to": "09-10", "color": "#c9b58f", "label": "整地" },
+        { "from": "09-11", "to": "10-15", "color": "#a9c08a", "label": "播種出苗" },
+        { "from": "10-16", "to": "11-30", "color": "#7a9a4e", "label": "開花結莢" },
+        { "from": "12-01", "to": "12-31", "color": "#b08e4f", "label": "收成曬麻" }
+      ]
+    },
+    "sugarcane": {
+      "name": "甘蔗",
+      "stages": [
+        { "from": "01-01", "to": "03-31", "color": "#b5a35d", "label": "採收" },
+        { "from": "04-01", "to": "06-30", "color": "#8fbf7a", "label": "新植萌芽" },
+        { "from": "07-01", "to": "11-30", "color": "#3e8f52", "label": "拔節生長" },
+        { "from": "12-01", "to": "12-31", "color": "#6d9b4f", "label": "成熟" }
+      ]
+    },
+    "fishpond": {
+      "name": "魚塭",
+      "stages": [
+        { "from": "01-01", "to": "03-31", "color": "#8aa0a8", "label": "冬季曬坪" },
+        { "from": "04-01", "to": "10-31", "color": "#5f8ea3", "label": "養殖" },
+        { "from": "11-01", "to": "12-31", "color": "#6f93a0", "label": "收成" }
+      ]
+    },
+    "pineapple": {
+      "name": "鳳梨",
+      "stages": [
+        { "from": "01-01", "to": "03-31", "color": "#5a8c4f", "label": "植株生長" },
+        { "from": "04-01", "to": "07-31", "color": "#c9a640", "label": "採收" },
+        { "from": "08-01", "to": "12-31", "color": "#5a8c4f", "label": "植株生長" }
+      ]
+    },
+    "longan": {
+      "name": "龍眼",
+      "stages": [
+        { "from": "01-01", "to": "03-15", "color": "#4f7d49", "label": "休眠" },
+        { "from": "03-16", "to": "04-30", "color": "#a8b36a", "label": "開花" },
+        { "from": "05-01", "to": "07-14", "color": "#5f9150", "label": "結果" },
+        { "from": "07-15", "to": "08-31", "color": "#c99a4a", "label": "採收烘焙" },
+        { "from": "09-01", "to": "12-31", "color": "#4f7d49", "label": "採後養樹" }
+      ]
+    },
+    "coffee": {
+      "name": "咖啡",
+      "stages": [
+        { "from": "01-01", "to": "02-29", "color": "#9a5c47", "label": "採收" },
+        { "from": "03-01", "to": "09-30", "color": "#3f7a46", "label": "開花結果" },
+        { "from": "10-01", "to": "12-31", "color": "#9a5c47", "label": "採收" }
+      ]
+    },
+    "avocado": {
+      "name": "酪梨",
+      "stages": [
+        { "from": "01-01", "to": "06-30", "color": "#4c8148", "label": "結果" },
+        { "from": "07-01", "to": "10-31", "color": "#7fa04a", "label": "採收" },
+        { "from": "11-01", "to": "12-31", "color": "#4c8148", "label": "開花前" }
+      ]
+    }
+  },
+  "byDistrict": {
+    "d1001105": ["rice"],
+    "d1001103": ["rice", "lotus"],
+    "d1001101": ["rice", "sugarcane"],
+    "d1001102": ["rice"],
+    "d1001117": ["fishpond"],
+    "d1001104": ["rice"],
+    "d1001106": ["longan", "coffee"],
+    "d1001113": ["fishpond", "rice"],
+    "d1001108": ["rice"],
+    "d1001109": ["rice"],
+    "d1001116": ["fishpond"],
+    "d1001110": ["rice", "waterChestnut"],
+    "d1001124": ["mango"],
+    "d1001107": ["pomelo"],
+    "d1001112": ["rice"],
+    "d1001119": ["sesame", "sugarcane"],
+    "d1001114": ["sesame"],
+    "d1001111": ["avocado"],
+    "d1001115": ["fishpond"],
+    "d1001123": ["mango"],
+    "d1001121": ["sesame"],
+    "d1001122": ["rice"],
+    "d1001120": ["rice"],
+    "d1001126": ["rice"],
+    "d1001125": ["mango"],
+    "d1001118": ["rice"],
+    "d1001129": ["pineapple"],
+    "d1001130": ["pineapple"]
+  }
+}

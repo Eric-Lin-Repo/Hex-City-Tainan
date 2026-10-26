@@ -1,0 +1,493 @@
+{
+  "note": "清單來自網路（來源見各筆 source），經緯度為近似值（誤差約 1 公里），可自行修正後重跑 build_city.py。夜市營業日 0=週日…6=週六。",
+  "pois": [
+    {
+      "id": "chihkan",
+      "type": "attraction",
+      "model": "temple",
+      "name": "赤崁樓",
+      "desc": "1652 年荷蘭人所建的普羅民遮城舊址，台南最具代表性的古蹟之一，夜間打上黃色燈光。",
+      "source": "https://www.gvm.com.tw/article/75072",
+      "pos": [
+        -19.367,
+        23.375
+      ],
+      "district": "d1002102",
+      "geocoded": true
+    },
+    {
+      "id": "anping-fort",
+      "type": "attraction",
+      "model": "fort",
+      "name": "安平古堡",
+      "desc": "1624 年起建的熱蘭遮城，荷蘭時期統治台灣的中樞，國定古蹟。",
+      "source": "https://www.gvm.com.tw/article/75072",
+      "pos": [
+        -25.2,
+        22.714
+      ],
+      "district": "d1002107",
+      "geocoded": true
+    },
+    {
+      "id": "anping-treehouse",
+      "type": "attraction",
+      "model": "oldstreet",
+      "name": "安平樹屋",
+      "desc": "德記洋行舊倉庫被榕樹盤據而成的奇景，與安平古堡相鄰。",
+      "source": "https://roo.cash/blog/travel-tainan-attraction-article",
+      "pos": [
+        -24.902,
+        23.49
+      ],
+      "district": "d1002107",
+      "geocoded": true
+    },
+    {
+      "id": "eternal-fort",
+      "type": "attraction",
+      "model": "fort",
+      "name": "億載金城",
+      "desc": "1874 年沈葆楨籌建的西式砲台，台灣第一座現代化砲台。",
+      "source": "https://news.tvbs.com.tw/life/1395732",
+      "pos": [
+        -25.343,
+        24.851
+      ],
+      "district": "d1002107",
+      "geocoded": true
+    },
+    {
+      "id": "confucius",
+      "type": "attraction",
+      "model": "temple",
+      "name": "台南孔廟",
+      "desc": "1665 年創建的全台首學，台灣第一座孔廟。",
+      "source": "https://www.gvm.com.tw/article/75072",
+      "pos": [
+        -19.152,
+        24.436
+      ],
+      "district": "d1002102",
+      "geocoded": true
+    },
+    {
+      "id": "hayashi",
+      "type": "attraction",
+      "model": "gallery",
+      "name": "林百貨",
+      "desc": "1932 年開幕的日治時期百貨，保留流籠電梯與頂樓神社。",
+      "source": "https://www.gvm.com.tw/article/75072",
+      "pos": [
+        -19.857,
+        24.01
+      ],
+      "district": "d1002102",
+      "geocoded": true
+    },
+    {
+      "id": "shennong",
+      "type": "attraction",
+      "model": "oldstreet",
+      "name": "神農街",
+      "desc": "清代五條港區的老街，保存狹長街屋與燈籠夜景。",
+      "source": "https://roo.cash/blog/travel-tainan-attraction-article",
+      "pos": [
+        -20.293,
+        23.294
+      ],
+      "district": "d1002102",
+      "geocoded": true
+    },
+    {
+      "id": "blueprint",
+      "type": "attraction",
+      "model": "gallery",
+      "name": "藍晒圖文創園區",
+      "desc": "舊司法宿舍群改造的文創園區，以藍白線條的立體藍晒圖聞名。",
+      "source": "https://roo.cash/blog/travel-tainan-attraction-article",
+      "pos": [
+        -20.18,
+        24.974
+      ],
+      "district": "d1002102",
+      "geocoded": true
+    },
+    {
+      "id": "chimei",
+      "type": "attraction",
+      "model": "gallery",
+      "name": "奇美博物館",
+      "desc": "坂茂設計的白色博物館，典藏西洋藝術、樂器與兵器。",
+      "source": "https://www.bring-you.info/?p=10289",
+      "pos": [
+        -16.043,
+        32.905
+      ],
+      "district": "d1001127",
+      "geocoded": true
+    },
+    {
+      "id": "tendrum",
+      "type": "attraction",
+      "model": "gallery",
+      "name": "十鼓仁糖文創園區",
+      "desc": "仁德糖廠改造的鼓樂文創園區，保留糖廠煙囪與廠房。",
+      "source": "https://www.gvm.com.tw/article/75072",
+      "pos": [
+        -14.228,
+        32.473
+      ],
+      "district": "d1001127",
+      "geocoded": true
+    },
+    {
+      "id": "nmth",
+      "type": "attraction",
+      "model": "gallery",
+      "name": "國立臺灣歷史博物館",
+      "desc": "以台灣四百年歷史為主題的國家級博物館。",
+      "source": "https://roo.cash/blog/travel-tainan-attraction-article",
+      "pos": [
+        -14.874,
+        14.074
+      ],
+      "district": "d1002106",
+      "geocoded": true
+    },
+    {
+      "id": "sicao",
+      "type": "attraction",
+      "model": "nature",
+      "name": "四草綠色隧道",
+      "desc": "台江國家公園內的紅樹林水道，搭竹筏穿越綠色隧道。",
+      "source": "https://roo.cash/blog/travel-tainan-attraction-article",
+      "pos": [
+        -28.616,
+        20.025
+      ],
+      "district": "d1002106",
+      "geocoded": true
+    },
+    {
+      "id": "qigu-salt",
+      "type": "attraction",
+      "model": "salt",
+      "name": "七股鹽山",
+      "desc": "曬鹽堆成的白色鹽山，可登頂，有鹹冰棒與鹽雕活動。",
+      "source": "https://www.setn.com/news/343085",
+      "pos": [
+        -33.352,
+        -0.793
+      ],
+      "district": "d1001115",
+      "geocoded": true
+    },
+    {
+      "id": "jingzaijiao",
+      "type": "attraction",
+      "model": "salt",
+      "name": "井仔腳瓦盤鹽田",
+      "desc": "台灣現存最古老的瓦盤鹽田，夕陽倒影聞名。",
+      "source": "https://roo.cash/blog/travel-tainan-attraction-article",
+      "pos": [
+        -32.441,
+        -16.53
+      ],
+      "district": "d1001117",
+      "geocoded": true
+    },
+    {
+      "id": "nankunshen",
+      "type": "attraction",
+      "model": "temple",
+      "name": "南鯤鯓代天府",
+      "desc": "台灣王爺信仰的總廟，國定古蹟。",
+      "source": "https://roo.cash/blog/travel-tainan-attraction-article",
+      "pos": [
+        -27.587,
+        -20.58
+      ],
+      "district": "d1001117",
+      "geocoded": true
+    },
+    {
+      "id": "madou-temple",
+      "type": "attraction",
+      "model": "temple",
+      "name": "麻豆代天府",
+      "desc": "以巨龍天堂地獄造景聞名的五王廟。",
+      "source": "https://roo.cash/blog/travel-tainan-attraction-article",
+      "pos": [
+        -11.431,
+        -5.997
+      ],
+      "district": "d1001107",
+      "geocoded": true
+    },
+    {
+      "id": "soulangh",
+      "type": "attraction",
+      "model": "gallery",
+      "name": "蕭壠文化園區",
+      "desc": "佳里糖廠改造的藝文園區，有兒童美術館與展覽。",
+      "source": "https://roo.cash/blog/travel-tainan-attraction-article",
+      "pos": [
+        -22.939,
+        -3.59
+      ],
+      "district": "d1001112",
+      "geocoded": true
+    },
+    {
+      "id": "wushantou",
+      "type": "attraction",
+      "model": "nature",
+      "name": "烏山頭水庫",
+      "desc": "八田與一設計的嘉南大圳水源，珊瑚潭風景區。",
+      "source": "https://roo.cash/blog/travel-tainan-attraction-article",
+      "pos": [
+        8.178,
+        -9.441
+      ],
+      "district": "d1001109",
+      "geocoded": true
+    },
+    {
+      "id": "guanziling",
+      "type": "attraction",
+      "model": "hotspring",
+      "name": "關子嶺溫泉",
+      "desc": "世界少見的泥漿溫泉，台灣四大溫泉之一。",
+      "source": "https://roo.cash/blog/travel-tainan-attraction-article",
+      "pos": [
+        22.36,
+        -28.746
+      ],
+      "district": "d1001103",
+      "geocoded": true
+    },
+    {
+      "id": "hutoupi",
+      "type": "attraction",
+      "model": "nature",
+      "name": "虎頭埤風景區",
+      "desc": "台灣第一座水庫，有環湖步道與吊橋。",
+      "source": "https://www.setn.com/news/343085",
+      "pos": [
+        -0.233,
+        17.834
+      ],
+      "district": "d1001118",
+      "geocoded": true
+    },
+    {
+      "id": "qingan",
+      "type": "attraction",
+      "model": "temple",
+      "name": "西港慶安宮",
+      "desc": "主祀千歲爺，三年一科的「西港刈香」自 1823 年起由慶安宮接辦，涵蓋近百村庄，為國家級重要民俗。",
+      "source": "https://www.thenewslens.com/article/200404",
+      "pos": [
+        -19.624,
+        3.075
+      ],
+      "district": "d1001114",
+      "geocoded": true
+    },
+    {
+      "id": "zizhu",
+      "type": "attraction",
+      "model": "temple",
+      "name": "南化紫竹寺",
+      "desc": "南化山區的觀音寺，面向嘉南平原可遠眺山巒，入口有農特產集貨場，是登山遊客聚集處。",
+      "source": "https://www.moa.gov.tw/ws.php?id=18504",
+      "pos": [
+        19.92,
+        16.031
+      ],
+      "district": "d1001125",
+      "geocoded": false
+    },
+    {
+      "id": "jintang",
+      "type": "attraction",
+      "model": "temple",
+      "name": "佳里金唐殿",
+      "desc": "主祀朱、雷、殷府千歲，三年一科的「蕭壠香」為台南五大香醮之一，百足真人蜈蚣陣聞名。",
+      "source": "https://www.storm.mg/article/222381",
+      "pos": [
+        -23.015,
+        -1.58
+      ],
+      "district": "d1001112",
+      "geocoded": true
+    },
+    {
+      "id": "nm-garden",
+      "type": "nightmarket",
+      "model": "nightmarket",
+      "name": "花園夜市",
+      "days": [
+        4,
+        6,
+        0
+      ],
+      "desc": "台南三大夜市之一，週四、六、日營業。",
+      "source": "https://supertaste.tvbs.com.tw/pack/350443",
+      "pos": [
+        -19.8,
+        21.377
+      ],
+      "district": "d1002104",
+      "geocoded": true
+    },
+    {
+      "id": "nm-dadong",
+      "type": "nightmarket",
+      "model": "nightmarket",
+      "name": "大東夜市",
+      "days": [
+        1,
+        2,
+        5
+      ],
+      "desc": "週一、二、五營業，2023 年起分為大東與大東東兩區相鄰。",
+      "source": "https://supertaste.tvbs.com.tw/pack/350443",
+      "pos": [
+        -17.077,
+        25.608
+      ],
+      "district": "d1002101",
+      "geocoded": true
+    },
+    {
+      "id": "nm-wusheng",
+      "type": "nightmarket",
+      "model": "nightmarket",
+      "name": "武聖夜市",
+      "days": [
+        3,
+        6
+      ],
+      "desc": "週三、六營業（單一來源，建議再確認）。",
+      "source": "https://supertaste.tvbs.com.tw/pack/350443",
+      "pos": [
+        -20.783,
+        22.718
+      ],
+      "district": "d1002102",
+      "geocoded": true
+    },
+    {
+      "id": "nm-xiaobei",
+      "type": "nightmarket",
+      "model": "nightmarket",
+      "name": "小北成功夜市",
+      "days": [
+        2,
+        5
+      ],
+      "desc": "北區西門路四段，週二、五 17:00 到 00:00。",
+      "source": "https://supertaste.tvbs.com.tw/pack/350443",
+      "pos": [
+        -18.658,
+        21.268
+      ],
+      "district": "d1002104",
+      "geocoded": true
+    },
+    {
+      "id": "nm-fuguo",
+      "type": "nightmarket",
+      "model": "nightmarket",
+      "name": "永康復國夜市",
+      "days": [
+        2,
+        5
+      ],
+      "desc": "永康區復國一路，營業日以週二、五登記，待確認。",
+      "source": "https://travel.yam.com/article/128986",
+      "pos": [
+        -13.44,
+        21.593
+      ],
+      "district": "d1001131",
+      "geocoded": true
+    },
+    {
+      "id": "nm-xinying",
+      "type": "nightmarket",
+      "model": "nightmarket",
+      "name": "新營夜市",
+      "days": [
+        1,
+        4
+      ],
+      "desc": "溪北地區最大的夜市，營業日以週一、四登記，待確認。",
+      "source": "https://travel.yam.com/article/131495",
+      "pos": [
+        -4.057,
+        -24.667
+      ],
+      "district": "d1001101",
+      "geocoded": true
+    },
+    {
+      "id": "stsp-admin",
+      "type": "sciencepark",
+      "model": "hq",
+      "name": "南科管理局",
+      "desc": "南部科學園區台南園區位於新市、善化、安定交界，一二期面積約 1,043 公頃。",
+      "source": "https://www.cna.com.tw/news/afe/202110200090.aspx",
+      "pos": [
+        -8.386,
+        7.521
+      ],
+      "district": "d1001120",
+      "geocoded": true
+    },
+    {
+      "id": "stsp-fab",
+      "type": "sciencepark",
+      "model": "fab",
+      "name": "晶圓廠區（台積電）",
+      "desc": "台積電為園區主要進駐廠商，2017 年宣布 5 奈米與 3 奈米先進製程在台南園區建廠。",
+      "source": "https://www.cake.me/resources/industry-job-overview/tainan-science-park",
+      "pos": [
+        -10.045,
+        5.335
+      ],
+      "district": "d1001119",
+      "geocoded": false
+    },
+    {
+      "id": "stsp-rd",
+      "type": "sciencepark",
+      "model": "fab",
+      "name": "研發與育成區",
+      "desc": "園區東側的研發機構與新創育成空間，第三期擴建於新市區台糖土地。",
+      "source": "https://www.cna.com.tw/news/afe/202110200090.aspx",
+      "pos": [
+        -6.833,
+        8.743
+      ],
+      "district": "d1001120",
+      "geocoded": false
+    },
+    {
+      "id": "stsp-life",
+      "type": "sciencepark",
+      "model": "hq",
+      "name": "園區生活區",
+      "desc": "員工宿舍、商場與樹谷園區一帶的生活機能區。",
+      "source": "https://www.inside.com.tw/article/18049-stsp",
+      "pos": [
+        -11.739,
+        7.777
+      ],
+      "district": "d1001120",
+      "geocoded": false
+    }
+  ]
+}

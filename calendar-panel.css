@@ -1,0 +1,71 @@
+/* 月曆面板：只管 <aside id="calendar"> 裡面；外框位置由 style.css 決定 */
+.cal {
+  display: flex; flex-direction: column; gap: 10px;
+  width: 100%; max-width: 320px; max-height: 100%; overflow: auto;
+  padding: 14px 14px 16px; color: var(--ink);
+  background: var(--cream); border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: 0 10px 30px #211d1d2e;
+}
+.cal[hidden] { display: none; }
+
+/* 表頭：‹ 月份 › 今天 */
+.cal-head { display: flex; align-items: center; gap: 6px; }
+.cal-title { flex: 1; text-align: center; font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.cal-nav { width: 32px; min-height: 32px; padding: 0; font-size: 18px; line-height: 1; }
+.cal-today { min-height: 32px; padding: 2px 10px; font-size: 12px; }
+
+/* 月曆格：7 欄，每格約 40px */
+.cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.cal-wd { font-size: 11px; font-weight: 600; color: var(--muted); padding: 0 0 4px; text-align: center; }
+.cal-wd:first-child, .cal-wd:last-child { color: var(--coral); }
+.cal-day { padding: 1px; text-align: center; vertical-align: top; }
+.cal-daybtn {
+  width: 100%; height: 40px; min-height: 0; padding: 2px 0 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 2px;
+  border: 1px solid transparent; border-radius: 9px; background: transparent;
+  font-variant-numeric: tabular-nums;
+}
+.cal-daybtn:hover { background: var(--yellow); }
+.cal-num { font-size: 13px; line-height: 1.2; }
+.cal-day--has .cal-num { font-weight: 700; }
+.cal-day--today .cal-daybtn { border-color: var(--teal); }
+.cal-day--today .cal-num { color: var(--teal); }
+.cal-day--selected .cal-daybtn, .cal-day--selected .cal-daybtn:hover { background: var(--ink); color: var(--cream); }
+.cal-day--selected.cal-day--today .cal-num { color: var(--yellow); }
+
+/* 活動色點：最多 4 顆，再多就 +n */
+.cal-dots { display: flex; align-items: center; justify-content: center; gap: 2px; height: 8px; }
+.cal-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--c, var(--coral)); flex: none; }
+.cal-day--selected .cal-dot { box-shadow: 0 0 0 1px var(--cream); }
+.cal-more { font-size: 8px; font-weight: 700; line-height: 1; color: var(--muted); }
+.cal-day--selected .cal-more { color: var(--cream); }
+
+/* 選取日期與農曆 */
+.cal-caption { font-size: 12px; color: var(--muted); padding-top: 6px; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.cal-caption b { color: var(--ink); }
+
+/* 本月活動清單 */
+.cal-events-title { font-size: 11px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
+.cal-empty { font-size: 12px; color: var(--muted); }
+.cal-list { list-style: none; margin: 0; padding: 0; }
+.cal-item { border-top: 1px solid var(--line); }
+.cal-item:first-child { border-top: 0; }
+.cal-ev {
+  width: 100%; min-height: 34px; padding: 5px 6px; text-align: left;
+  display: flex; align-items: flex-start; gap: 8px;
+  border: 0; border-radius: 6px; background: transparent; font-size: 13px; line-height: 1.4;
+}
+.cal-ev .cal-dot { width: 8px; height: 8px; margin-top: 5px; }
+.cal-ev-text { min-width: 0; }
+.cal-ev-range { font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
+.cal-ev-name { font-weight: 600; }
+.cal-item--active .cal-ev { background: color-mix(in srgb, var(--yellow) 45%, transparent); }
+.cal-item--active .cal-ev-name::after { content: " 進行中"; font-size: 11px; font-weight: 600; color: #2f8a4b; }
+
+/* 手機：單欄、可捲動，寬度交給外框 */
+@media (max-width: 800px) {
+  .cal { max-width: none; border-radius: 14px 14px 0 0; padding: 12px 12px calc(12px + env(safe-area-inset-bottom)); }
+  .cal-daybtn { height: 42px; }
+  .cal-nav, .cal-today { min-height: 40px; }
+  .cal-nav { width: 40px; }
+}

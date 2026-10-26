@@ -1,0 +1,98 @@
+/* 一日行程面板：右下角浮動卡（比照 .card 的米白底、圓角、陰影）；收合時只剩標題列，手機上只剩一顆圓鈕 */
+.trip {
+  position: absolute; right: calc(var(--side) + 20px); bottom: 20px; z-index: 5;
+  width: 320px; max-height: calc(100% - 120px);
+  display: flex; flex-direction: column;
+  background: var(--cream); border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: 0 10px 30px #211d1d2e; overflow: hidden;
+  color: var(--ink);
+}
+.trip.collapsed { width: auto; max-width: 320px; }
+.trip.bump { animation: trip-bump 0.4s ease-out; }
+@keyframes trip-bump { 0% { transform: scale(1); } 35% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* 標題列：🧭 行程  N 站 · 約 X 公里  ▴ */
+.trip-head {
+  display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; padding: 8px 14px;
+  border: 0; border-radius: 0; background: transparent; text-align: left; white-space: nowrap;
+}
+.trip-head:hover { background: var(--yellow); }
+.trip-icon { font-size: 16px; line-height: 1; }
+.trip-title { font-weight: 700; }
+.trip-count { font-size: 12px; color: var(--muted); margin-left: auto; font-variant-numeric: tabular-nums; }
+.trip-badge { display: none; }
+.trip-caret { font-size: 11px; color: var(--muted); transition: transform 0.2s; }
+.trip.collapsed .trip-caret { transform: rotate(180deg); }
+
+/* 內容：清單 + 提示 + 三顆按鈕 */
+.trip-body { display: flex; flex-direction: column; min-height: 0; border-top: 1px solid var(--line); }
+.trip.collapsed .trip-body { display: none; }
+.trip-empty, .trip-hint { font-size: 12px; color: var(--muted); margin: 0; }
+.trip-empty { padding: 14px 16px; }
+.trip-hint { padding: 0 16px 8px; }
+.trip-empty[hidden], .trip-hint[hidden] { display: none; }
+.trip-list { list-style: none; margin: 0; padding: 6px 8px; overflow: auto; min-height: 0; flex: 1; overscroll-behavior: contain; }
+.trip-item {
+  position: relative; display: grid; grid-template-columns: 28px 22px minmax(0, 1fr) 28px; align-items: center; gap: 4px;
+  padding: 4px 2px; border-radius: 9px; background: transparent;
+}
+.trip-item + .trip-item { margin-top: 2px; }
+.trip-item.active { background: color-mix(in srgb, var(--yellow) 55%, transparent); }
+.trip-item.dragging { background: #fff; box-shadow: 0 6px 18px #211d1d33; z-index: 1; }
+.trip.is-dragging { user-select: none; -webkit-user-select: none; }
+.trip-handle {
+  min-height: 0; width: 28px; height: 32px; padding: 0; border: 0; border-radius: 6px; background: transparent;
+  color: var(--muted); cursor: grab; touch-action: none; font-size: 16px; line-height: 1;
+}
+.trip-handle:hover { background: var(--yellow); color: var(--ink); }
+.trip-item.dragging .trip-handle { cursor: grabbing; }
+.trip-num {
+  display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--teal); color: var(--cream); font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums;
+}
+.trip-item.active .trip-num { background: var(--coral); }
+.trip-go { min-height: 0; min-width: 0; padding: 2px 6px; border: 0; border-radius: 6px; background: transparent; text-align: left; display: grid; gap: 0; line-height: 1.35; }
+.trip-go:hover { background: var(--yellow); }
+.trip-name { font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.trip-go small { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.trip-remove { min-height: 0; width: 28px; height: 28px; padding: 0; border-radius: 50%; font-size: 16px; line-height: 1; }
+.trip-bar { display: none; position: absolute; left: 8px; right: 8px; bottom: 0; height: 2px; width: 0; max-width: calc(100% - 16px); border-radius: 2px; background: var(--coral); }
+.trip-item.active .trip-bar { display: block; }
+.trip-actions { display: flex; gap: 6px; padding: 8px 10px 10px; border-top: 1px solid var(--line); }
+.trip-actions button { flex: 1; min-height: 34px; padding: 4px 6px; font-size: 13px; white-space: nowrap; }
+.trip-actions button:disabled { opacity: 0.45; cursor: default; }
+.trip-actions button:disabled:hover { background: var(--cream); }
+.trip-play[aria-pressed="true"] { background: var(--coral); color: var(--cream); border-color: var(--coral); }
+
+/* 導覽中整列隱藏（和 .hud、.controls 一樣） */
+body.touring .trip { display: none; }
+
+/* 窄桌面：時間列（置中、最寬 440px）會靠近右側，面板往上讓位 */
+@media (max-width: 1180px) and (min-width: 801px) { .trip { bottom: 132px; max-height: calc(100% - 230px); } }
+@media (max-height: 600px) and (min-width: 801px) { .trip { bottom: 112px; max-height: calc(100% - 140px); } }
+
+/* 手機：面板貼在時間列上方，寬度留 16px 邊；收合只剩一顆小圓鈕（右下，和時間列錯開） */
+@media (max-width: 800px) {
+  .trip { left: 16px; right: 16px; width: calc(100% - 32px); max-width: none; bottom: calc(96px + env(safe-area-inset-bottom)); max-height: 50vh; }
+  .trip.collapsed {
+    left: auto; right: 12px; width: 48px; height: 48px; max-width: none; border-radius: 50%; overflow: visible;
+    bottom: calc(96px + env(safe-area-inset-bottom));
+  }
+  .trip.collapsed .trip-head { justify-content: center; padding: 0; min-height: 48px; height: 48px; border-radius: 50%; }
+  .trip.collapsed .trip-title, .trip.collapsed .trip-count, .trip.collapsed .trip-caret { display: none; }
+  .trip.collapsed .trip-icon { font-size: 20px; }
+  .trip.collapsed.has-items .trip-badge {
+    display: grid; place-items: center; position: absolute; top: -4px; right: -4px;
+    min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px;
+    background: var(--coral); color: var(--cream); font-size: 11px; font-weight: 700; line-height: 1;
+  }
+  .trip-handle { height: 40px; }
+  .trip-remove { width: 36px; height: 36px; }
+  .trip-actions { padding: 8px 10px 10px; }
+  .trip-actions button { min-height: 40px; }
+  body.has-card .trip { display: none; } /* 卡片抽板開著時藏起來（和圖層列一樣），關卡片就回來 */
+}
+@media (prefers-reduced-motion: reduce) {
+  .trip.bump { animation: none; }
+  .trip-caret { transition: none; }
+}

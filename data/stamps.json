@@ -1,0 +1,190 @@
+{
+ "note": "集章：每區一個代表地標，點到卡片就蓋章",
+ "byDistrict": {
+  "d1001105": {
+   "type": "building",
+   "id": "d1001105-2",
+   "name": "菁寮老街"
+  },
+  "d1001103": {
+   "type": "poi",
+   "id": "guanziling",
+   "name": "關子嶺溫泉"
+  },
+  "d1001101": {
+   "type": "building",
+   "id": "d1001101-2",
+   "name": "新營糖廠鐵道文化園區"
+  },
+  "d1001102": {
+   "type": "building",
+   "id": "d1001102-0",
+   "name": "鹽水武廟"
+  },
+  "d1001117": {
+   "type": "poi",
+   "id": "nankunshen",
+   "name": "南鯤鯓代天府"
+  },
+  "d1001104": {
+   "type": "building",
+   "id": "d1001104-0",
+   "name": "德元埤荷蘭村"
+  },
+  "d1001106": {
+   "type": "building",
+   "id": "d1001106-0",
+   "name": "碧軒寺"
+  },
+  "d1001113": {
+   "type": "building",
+   "id": "d1001113-0",
+   "name": "慈濟宮"
+  },
+  "d1001108": {
+   "type": "building",
+   "id": "d1001108-0",
+   "name": "北極殿玄天上帝廟"
+  },
+  "d1001109": {
+   "type": "poi",
+   "id": "wushantou",
+   "name": "烏山頭水庫"
+  },
+  "d1001116": {
+   "type": "building",
+   "id": "d1001116-4",
+   "name": "青鯤鯓扇形鹽田"
+  },
+  "d1001110": {
+   "type": "building",
+   "id": "d1001110-0",
+   "name": "八田與一紀念園區"
+  },
+  "d1001124": {
+   "type": "building",
+   "id": "d1001124-2",
+   "name": "曾文水庫"
+  },
+  "d1001107": {
+   "type": "poi",
+   "id": "madou-temple",
+   "name": "麻豆代天府"
+  },
+  "d1001112": {
+   "type": "poi",
+   "id": "soulangh",
+   "name": "蕭壠文化園區"
+  },
+  "d1001119": {
+   "type": "building",
+   "id": "d1001119-0",
+   "name": "善化慶安宮"
+  },
+  "d1001114": {
+   "type": "poi",
+   "id": "qingan",
+   "name": "西港慶安宮"
+  },
+  "d1001111": {
+   "type": "building",
+   "id": "d1001111-0",
+   "name": "南瀛天文館"
+  },
+  "d1001115": {
+   "type": "poi",
+   "id": "qigu-salt",
+   "name": "七股鹽山"
+  },
+  "d1001123": {
+   "type": "building",
+   "id": "d1001123-1",
+   "name": "噍吧哖事件紀念園區"
+  },
+  "d1001121": {
+   "type": "building",
+   "id": "d1001121-0",
+   "name": "蘇厝長興宮"
+  },
+  "d1001122": {
+   "type": "building",
+   "id": "d1001122-0",
+   "name": "山上花園水道博物館"
+  },
+  "d1001120": {
+   "type": "poi",
+   "id": "stsp-admin",
+   "name": "南科管理局"
+  },
+  "d1002106": {
+   "type": "poi",
+   "id": "sicao",
+   "name": "四草綠色隧道"
+  },
+  "d1001125": {
+   "type": "poi",
+   "id": "zizhu",
+   "name": "南化紫竹寺"
+  },
+  "d1001126": {
+   "type": "building",
+   "id": "d1001126-0",
+   "name": "左鎮化石園區"
+  },
+  "d1001118": {
+   "type": "building",
+   "id": "d1001118-0",
+   "name": "新化老街"
+  },
+  "d1001131": {
+   "type": "building",
+   "id": "d1001131-0",
+   "name": "台南市立圖書館總館"
+  },
+  "d1002104": {
+   "type": "building",
+   "id": "d1002104-0",
+   "name": "台南公園"
+  },
+  "d1002102": {
+   "type": "poi",
+   "id": "chihkan",
+   "name": "赤崁樓"
+  },
+  "d1002107": {
+   "type": "poi",
+   "id": "anping-fort",
+   "name": "安平古堡"
+  },
+  "d1002101": {
+   "type": "building",
+   "id": "d1002101-0",
+   "name": "國立成功大學"
+  },
+  "d1001129": {
+   "type": "building",
+   "id": "d1001129-0",
+   "name": "山西宮"
+  },
+  "d1002103": {
+   "type": "building",
+   "id": "d1002103-1",
+   "name": "水交社文化園區"
+  },
+  "d1001130": {
+   "type": "building",
+   "id": "d1001130-3",
+   "name": "龍崎文衡殿"
+  },
+  "d1001127": {
+   "type": "poi",
+   "id": "chimei",
+   "name": "奇美博物館"
+  },
+  "d1001128": {
+   "type": "building",
+   "id": "d1001128-4",
+   "name": "亞太國際棒球訓練中心"
+  }
+ }
+}

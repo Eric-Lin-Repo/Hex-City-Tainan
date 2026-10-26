@@ -1,0 +1,834 @@
+{
+  "_note": "民俗活動，綁定一個地點（景點 id 或某區的建築名稱）。來源見各筆 source。 schedule 為農曆月日；三年一科的以 anchor 年為基準。蕭壠香與王船的確切日期每科不同，此為近似。 schedule 可為單一或陣列；lunar=[月,日] 或 solar=[月,日]，window 為前後天數，solarEnd 為國曆區間結束日。to 為遊行終點。 path 為龍舟水道（世界座標，沿中西區南緣、離建築至少 0.43）；fruit／steam 為農產市集的特產顏色與是否冒熱氣；crop: \"rice\" 為彩繪稻田；unsure 表示日期依往年慣例、待確認。",
+  "events": [
+    {
+      "id": "beehive",
+      "name": "鹽水蜂炮",
+      "effect": "fireworks",
+      "at": {
+        "building": [
+          "鹽水區",
+          "鹽水武廟"
+        ]
+      },
+      "when": "每年農曆正月十五元宵節",
+      "desc": "源於清末瘟疫時恭請關聖帝君出巡、沿途施放炮竹的習俗，如今以數十萬支蜂炮齊發的炮城聞名，是台灣最具代表性的元宵活動之一。",
+      "source": "https://www.gvm.com.tw/article/75072",
+      "schedule": {
+        "lunar": [
+          1,
+          15
+        ],
+        "window": 1
+      }
+    },
+    {
+      "id": "wangchuan",
+      "name": "西港刈香・燒王船",
+      "effect": "boat",
+      "at": {
+        "poi": "qingan"
+      },
+      "when": "三年一科（丑、辰、未、戌年），農曆四月",
+      "desc": "西港刈香自 1823 年由慶安宮接辦，遶境涵蓋近百村庄，國家級重要民俗。香科最後一天的燒王船，恭送千歲爺與王船出航，象徵帶走瘟疫。",
+      "source": "https://www.thenewslens.com/article/200404",
+      "schedule": {
+        "lunar": [
+          4,
+          15
+        ],
+        "everyYears": 3,
+        "anchor": 2027,
+        "window": 4
+      }
+    },
+    {
+      "id": "centipede",
+      "name": "蕭壠香・蜈蚣陣",
+      "effect": "centipede",
+      "at": {
+        "poi": "jintang"
+      },
+      "when": "三年一科，2026 丙午科",
+      "desc": "佳里金唐殿蕭壠香為台南五大香醮之一，百足真人蜈蚣陣由孩童扮演神將坐在長列平台上遶境，2026 年 108 節獲金氏世界紀錄認證。",
+      "source": "https://www.storm.mg/article/222381",
+      "schedule": {
+        "lunar": [
+          1,
+          20
+        ],
+        "everyYears": 3,
+        "anchor": 2026,
+        "window": 4
+      }
+    },
+    {
+      "id": "yuejin",
+      "name": "月津港燈節",
+      "effect": "lanterns",
+      "at": {
+        "building": [
+          "鹽水區",
+          "月津港親水公園"
+        ]
+      },
+      "when": "每年春節前後約一個月（以元宵為中心）",
+      "desc": "鹽水月津港的水上燈光藝術節，2025 年邁入第 15 年，2024 年起延伸到新營。",
+      "source": "https://www.mirrormedia.mg/story/20250110edi050",
+      "schedule": {
+        "lunar": [
+          1,
+          15
+        ],
+        "window": 20
+      }
+    },
+    {
+      "id": "dongshan",
+      "name": "東山迎佛祖",
+      "effect": "procession",
+      "at": {
+        "building": [
+          "東山區",
+          "碧軒寺"
+        ]
+      },
+      "to": {
+        "building": [
+          "白河區",
+          "碧雲寺"
+        ]
+      },
+      "when": "農曆十二月廿三迎往碧雲寺，正月初十迎回碧軒寺",
+      "desc": "東山碧軒寺與白河碧雲寺之間的觀音佛祖往返遶境，國家重要民俗；信眾徒步翻越山路護駕。",
+      "source": "https://news.ltn.com.tw/news/life/breakingnews/4582520",
+      "schedule": [
+        {
+          "lunar": [
+            12,
+            23
+          ],
+          "window": 1,
+          "label": "去程"
+        },
+        {
+          "lunar": [
+            1,
+            10
+          ],
+          "window": 1,
+          "label": "回程"
+        }
+      ]
+    },
+    {
+      "id": "xuejia",
+      "name": "學甲上白礁",
+      "effect": "centipede",
+      "at": {
+        "building": [
+          "學甲區",
+          "慈濟宮"
+        ]
+      },
+      "when": "農曆三月十一前後",
+      "desc": "學甲慈濟宮的謁祖祭典，遙祭福建白礁祖廟，有蜈蚣陣與陣頭遶境。",
+      "source": "https://smiletaiwan.cw.com.tw/article/6987",
+      "schedule": {
+        "lunar": [
+          3,
+          11
+        ],
+        "window": 2
+      }
+    },
+    {
+      "id": "longqi",
+      "name": "龍崎光節・空山祭",
+      "effect": "hilllights",
+      "at": {
+        "building": [
+          "龍崎區",
+          "虎形山公園"
+        ]
+      },
+      "when": "春節前後約一個月",
+      "desc": "虎形山公園的山林燈節，被譽為全國最美的山林燈節。",
+      "source": "https://www.mirrormedia.mg/story/20250110edi050",
+      "schedule": {
+        "lunar": [
+          1,
+          1
+        ],
+        "window": 18
+      }
+    },
+    {
+      "id": "kapok",
+      "name": "白河木棉花季",
+      "effect": "kapok",
+      "at": {
+        "building": [
+          "白河區",
+          "白河蓮花公園"
+        ]
+      },
+      "when": "每年三月",
+      "desc": "林初埤木棉道盛開，整個白河區染成橘紅色。",
+      "source": "https://settour.com.tw/travel_guide/台灣/白河木棉花/attractions_POI0000369592.html",
+      "schedule": {
+        "solar": [
+          3,
+          1
+        ],
+        "solarEnd": [
+          3,
+          31
+        ]
+      }
+    },
+    {
+      "id": "jiangjun",
+      "name": "將軍吼音樂節",
+      "effect": "beachstage",
+      "at": {
+        "building": [
+          "將軍區",
+          "馬沙溝濱海遊憩區"
+        ]
+      },
+      "when": "每年夏季（約七月初週末）",
+      "desc": "馬沙溝沙灘上的海灘音樂祭，夜間舞台燈光與人潮。",
+      "source": "https://www.thenewslens.com/article/130884",
+      "schedule": {
+        "solar": [
+          7,
+          5
+        ],
+        "window": 2
+      }
+    },
+    {
+      "id": "anping-ny",
+      "name": "安平跨年煙火與迎春",
+      "effect": "bigfireworks",
+      "at": {
+        "building": [
+          "安平區",
+          "安平開臺天后宮"
+        ]
+      },
+      "when": "12 月 31 日跨年夜，以及農曆正月初一",
+      "desc": "安平開臺天后宮前的跨年煙火與新春迎春活動。",
+      "source": "https://www.thenewslens.com/article/130884",
+      "schedule": [
+        {
+          "solar": [
+            12,
+            31
+          ],
+          "window": 1,
+          "label": "跨年"
+        },
+        {
+          "lunar": [
+            1,
+            1
+          ],
+          "window": 1,
+          "label": "迎春"
+        }
+      ]
+    },
+    {
+      "id": "luermen",
+      "name": "鹿耳門聖母廟迎春煙火",
+      "effect": "bigfireworks",
+      "at": {
+        "building": [
+          "安南區",
+          "正統鹿耳門聖母廟"
+        ]
+      },
+      "when": "農曆正月初一前後",
+      "desc": "正統鹿耳門聖母廟以高空煙火迎春聞名，施放規模為台南之最。",
+      "source": "https://www.thenewslens.com/article/130884",
+      "schedule": {
+        "lunar": [
+          1,
+          1
+        ],
+        "window": 2
+      }
+    },
+    {
+      "id": "lotus",
+      "name": "白河蓮花季",
+      "effect": "lotus",
+      "at": {
+        "building": [
+          "白河區",
+          "白河蓮花公園"
+        ]
+      },
+      "when": "每年六到八月",
+      "desc": "白河蓮田盛開，蓮花公園與賞蓮步道是主要據點。",
+      "source": "https://supertaste.tvbs.com.tw/pack/348784",
+      "schedule": {
+        "solar": [
+          6,
+          1
+        ],
+        "solarEnd": [
+          8,
+          31
+        ]
+      }
+    },
+    {
+      "id": "cypress",
+      "name": "六甲落羽松季",
+      "effect": "treecolor",
+      "color": "#d1622a",
+      "at": {
+        "building": [
+          "六甲區",
+          "菁埔埤落羽松"
+        ]
+      },
+      "when": "每年十二月到一月",
+      "desc": "菁埔埤畔的落羽松轉為橘紅，整個六甲染上秋色。",
+      "source": "https://supertaste.tvbs.com.tw/pack/348784",
+      "schedule": [
+        {
+          "solar": [
+            12,
+            1
+          ],
+          "solarEnd": [
+            12,
+            31
+          ]
+        },
+        {
+          "solar": [
+            1,
+            1
+          ],
+          "solarEnd": [
+            1,
+            31
+          ]
+        }
+      ]
+    },
+    {
+      "id": "plum",
+      "name": "梅嶺賞梅",
+      "effect": "treecolor",
+      "color": "#f4efe9",
+      "at": {
+        "building": [
+          "楠西區",
+          "梅嶺風景區"
+        ]
+      },
+      "when": "每年一月",
+      "desc": "梅嶺的梅花在一月盛開，楠西山區成為白色花海。",
+      "source": "https://supertaste.tvbs.com.tw/pack/348784",
+      "schedule": {
+        "solar": [
+          1,
+          1
+        ],
+        "solarEnd": [
+          1,
+          31
+        ]
+      }
+    },
+    {
+      "id": "firefly",
+      "name": "梅嶺螢火蟲季",
+      "effect": "fireflies",
+      "at": {
+        "building": [
+          "楠西區",
+          "梅嶺風景區"
+        ]
+      },
+      "when": "每年四月中到五月中",
+      "desc": "梅嶺步道夜間的螢火蟲群，是台南最知名的賞螢地點。",
+      "source": "https://supertaste.tvbs.com.tw/pack/348784",
+      "schedule": {
+        "solar": [
+          4,
+          15
+        ],
+        "solarEnd": [
+          5,
+          15
+        ]
+      }
+    },
+    {
+      "id": "spoonbill",
+      "name": "黑面琵鷺季",
+      "effect": "birds",
+      "at": {
+        "building": [
+          "七股區",
+          "七股潟湖"
+        ]
+      },
+      "when": "每年十月到隔年三月",
+      "desc": "黑面琵鷺在七股潟湖與曾文溪口度冬，是全球最重要的度冬地。",
+      "source": "https://supertaste.tvbs.com.tw/pack/348784",
+      "schedule": [
+        {
+          "solar": [
+            10,
+            1
+          ],
+          "solarEnd": [
+            12,
+            31
+          ]
+        },
+        {
+          "solar": [
+            1,
+            1
+          ],
+          "solarEnd": [
+            3,
+            31
+          ]
+        }
+      ]
+    },
+    {
+      "id": "caltrop",
+      "name": "官田菱角季",
+      "effect": "paddy",
+      "at": {
+        "building": [
+          "官田區",
+          "水雉生態教育園區"
+        ]
+      },
+      "when": "每年九到十月",
+      "desc": "官田菱角採收期，菱角田是水雉的繁殖棲地。",
+      "source": "https://supertaste.tvbs.com.tw/pack/348784",
+      "schedule": {
+        "solar": [
+          9,
+          1
+        ],
+        "solarEnd": [
+          10,
+          31
+        ]
+      }
+    },
+    {
+      "id": "madou",
+      "name": "麻豆香（五王香）",
+      "effect": "centipede",
+      "at": {
+        "poi": "madou-temple"
+      },
+      "when": "三年一科（與西港香同年），農曆三月",
+      "desc": "麻豆代天府五府千歲的香科遶境，南瀛五大香之一。",
+      "source": "https://news.ltn.com.tw/news/life/breakingnews/3428554",
+      "schedule": {
+        "lunar": [
+          3,
+          20
+        ],
+        "everyYears": 3,
+        "anchor": 2027,
+        "window": 3
+      }
+    },
+    {
+      "id": "tucheng",
+      "name": "土城香",
+      "effect": "centipede",
+      "at": {
+        "building": [
+          "安南區",
+          "正統鹿耳門聖母廟"
+        ]
+      },
+      "when": "三年一科（丑、辰、未、戌年），農曆三月",
+      "desc": "正統鹿耳門聖母廟的香科遶境，南瀛五大香之一，有蜈蚣陣與陣頭。",
+      "source": "https://news.ltn.com.tw/news/life/breakingnews/3428554",
+      "schedule": {
+        "lunar": [
+          3,
+          10
+        ],
+        "everyYears": 3,
+        "anchor": 2027,
+        "window": 3
+      }
+    },
+    {
+      "id": "shibayao",
+      "name": "新化十八嬈",
+      "effect": "procession",
+      "at": {
+        "building": [
+          "新化區",
+          "新化老街"
+        ]
+      },
+      "to": {
+        "building": [
+          "新化區",
+          "新化武德殿"
+        ]
+      },
+      "when": "農曆正月十八",
+      "desc": "新化武安宮元宵後的夜間遶境，傳說為驅除蜘蛛精，街上鞭炮不斷。",
+      "source": "https://supertaste.tvbs.com.tw/pack/348784",
+      "schedule": {
+        "lunar": [
+          1,
+          18
+        ],
+        "window": 1
+      }
+    },
+    {
+      "id": "sixteen",
+      "name": "府城做十六歲",
+      "effect": "lanterns",
+      "at": {
+        "building": [
+          "中西區",
+          "開隆宮"
+        ]
+      },
+      "when": "七夕（農曆七月初七）",
+      "desc": "開隆宮七娘媽生的成年禮，十六歲少年鑽七娘媽亭，是台南獨有的習俗。",
+      "source": "https://supertaste.tvbs.com.tw/pack/348784",
+      "schedule": {
+        "lunar": [
+          7,
+          7
+        ],
+        "window": 1
+      }
+    },
+    {
+      "id": "orchid",
+      "name": "台灣國際蘭展",
+      "effect": "orchid",
+      "at": {
+        "building": [
+          "後壁區",
+          "烏樹林糖廠"
+        ]
+      },
+      "when": "每年三月上旬",
+      "desc": "後壁烏樹林的國際蘭展，世界三大蘭展之一。",
+      "source": "https://supertaste.tvbs.com.tw/pack/348784",
+      "schedule": {
+        "solar": [
+          3,
+          1
+        ],
+        "solarEnd": [
+          3,
+          10
+        ]
+      }
+    },
+    {
+      "id": "hotspringfair",
+      "name": "關子嶺溫泉美食節",
+      "effect": "steamfair",
+      "at": {
+        "poi": "guanziling"
+      },
+      "when": "每年九月下旬到十月",
+      "desc": "關子嶺泥漿溫泉季開幕的美食市集與溫泉體驗。",
+      "source": "https://supertaste.tvbs.com.tw/pack/348784",
+      "schedule": {
+        "solar": [
+          9,
+          20
+        ],
+        "solarEnd": [
+          10,
+          20
+        ]
+      }
+    },
+    {
+      "id": "siraya",
+      "name": "頭社太祖夜祭",
+      "effect": "nightritual",
+      "at": {
+        "building": [
+          "大內區",
+          "頭社公廨"
+        ]
+      },
+      "when": "每年農曆十月十四、十五夜",
+      "desc": "大內頭社西拉雅族祭祀阿立祖的夜祭：公廨前點篝火、獻豬、牽曲圍舞唱到天亮，台南市登錄的民俗文化資產。",
+      "source": "https://www.tainan.gov.tw/",
+      "schedule": {
+        "lunar": [
+          10,
+          14
+        ],
+        "window": 2
+      }
+    },
+    {
+      "id": "confucius",
+      "name": "孔廟祭孔大典",
+      "effect": "ceremony",
+      "at": {
+        "poi": "confucius"
+      },
+      "when": "每年 9 月 28 日（教師節）清晨",
+      "desc": "全臺首學台南孔廟的秋祭釋奠典禮，依古禮行三獻禮，學生著古服跳八佾舞，典禮後民眾會搶拔牛身上的「智慧毛」。",
+      "source": "https://zh.wikipedia.org/wiki/臺南孔子廟",
+      "schedule": {
+        "solar": [
+          9,
+          28
+        ],
+        "window": 0
+      }
+    },
+    {
+      "id": "mazu",
+      "name": "大天后宮媽祖聖誕",
+      "effect": "procession",
+      "at": {
+        "building": [
+          "中西區",
+          "大天后宮"
+        ]
+      },
+      "to": {
+        "building": [
+          "安平區",
+          "安平開臺天后宮"
+        ]
+      },
+      "when": "農曆三月廿三媽祖聖誕前後",
+      "desc": "府城大天后宮是台灣第一座官建媽祖廟，媽祖聖誕前後有祝壽祭典與繞境，信眾一路從府城走向安平。",
+      "source": "https://zh.wikipedia.org/wiki/祀典臺南大天后宮",
+      "schedule": {
+        "lunar": [
+          3,
+          23
+        ],
+        "window": 2
+      }
+    },
+    {
+      "id": "dragonboat",
+      "name": "臺南國際龍舟錦標賽",
+      "effect": "dragonboats",
+      "at": {
+        "building": [
+          "中西區",
+          "河樂廣場"
+        ]
+      },
+      "when": "端午節前後約五天，台南運河安億橋至承天橋段",
+      "desc": "台南運河每年端午舉辦龍舟賽，各國與在地隊伍在運河上競渡，岸邊有加油的人潮。2025 年在 5 月 27 日至 31 日、2026 年在 6 月 17 日至 21 日。",
+      "source": "https://newtalk.tw/news/view/2026-06-17/1041993",
+      "schedule": {
+        "lunar": [
+          5,
+          5
+        ],
+        "window": 2
+      },
+      "path": [
+        [
+          -20.9,
+          22.3
+        ],
+        [
+          -21.6,
+          22.0
+        ],
+        [
+          -22.3,
+          21.9
+        ],
+        [
+          -24.4,
+          21.9
+        ],
+        [
+          -24.75,
+          22.0
+        ]
+      ]
+    },
+    {
+      "id": "mango",
+      "name": "台南國際芒果節（玉井）",
+      "effect": "market",
+      "fruit": "#f6b130",
+      "steam": false,
+      "at": {
+        "building": [
+          "玉井區",
+          "芒果產業文化資訊館"
+        ]
+      },
+      "when": "每年六月底到七月（依往年慣例，以當年公告為準）",
+      "desc": "芒果產季的農產節，玉井、楠西、南化、左鎮輪流有市集、品嚐與芒果冰，玉井是台灣愛文芒果的故鄉。",
+      "source": "https://www.ctee.com.tw/news/20260614700634-431401",
+      "schedule": {
+        "solar": [
+          6,
+          27
+        ],
+        "solarEnd": [
+          7,
+          20
+        ]
+      }
+    },
+    {
+      "id": "pomelo",
+      "name": "麻豆文旦節",
+      "effect": "market",
+      "fruit": "#d8e07a",
+      "steam": false,
+      "at": {
+        "building": [
+          "麻豆區",
+          "麻豆文旦產業中心"
+        ]
+      },
+      "when": "中秋節前約一個月（文旦採收期；日期依往年慣例，待確認）",
+      "desc": "麻豆文旦在白露前後採收，中秋前產地有文旦市集與推廣活動。",
+      "unsure": true,
+      "schedule": {
+        "solar": [
+          8,
+          15
+        ],
+        "solarEnd": [
+          9,
+          15
+        ]
+      }
+    },
+    {
+      "id": "pineapple",
+      "name": "臺南鳳梨好筍季（關廟）",
+      "effect": "market",
+      "fruit": "#f2c335",
+      "steam": false,
+      "at": {
+        "building": [
+          "關廟區",
+          "山西宮"
+        ]
+      },
+      "when": "每年五到六月鳳梨與竹筍產季（日期依往年慣例，待確認）",
+      "desc": "關廟鳳梨與竹筍的產季推廣，曾在關廟山西宮舉辦闖關遊戲、手作與鳳筍料理比賽。",
+      "unsure": true,
+      "schedule": {
+        "solar": [
+          5,
+          1
+        ],
+        "solarEnd": [
+          6,
+          15
+        ]
+      }
+    },
+    {
+      "id": "rice",
+      "name": "台南好米季（後壁菁寮）",
+      "effect": "paddy",
+      "crop": "rice",
+      "at": {
+        "building": [
+          "後壁區",
+          "菁寮老街"
+        ]
+      },
+      "when": "每年十月（2026 年 10 月 9 日起），八月先插秧彩繪稻田",
+      "desc": "後壁區農會承辦的稻米節，菁寮田區種出彩繪稻田，秋收時有割稻體驗、米食與老街市集；後壁是紀錄片《無米樂》的故鄉。",
+      "source": "https://news.ltn.com.tw/news/life/breakingnews/5548064",
+      "schedule": {
+        "solar": [
+          10,
+          1
+        ],
+        "solarEnd": [
+          10,
+          31
+        ]
+      }
+    },
+    {
+      "id": "coffee",
+      "name": "東山咖啡節",
+      "effect": "market",
+      "fruit": "#6b3e26",
+      "steam": true,
+      "at": {
+        "building": [
+          "東山區",
+          "東山咖啡公路休憩站"
+        ]
+      },
+      "when": "每年十月左右起，約到十一月（日期依往年慣例，以當年公告為準）",
+      "desc": "東山咖啡採收季，台南市自 2013 年起辦精品咖啡評鑑，之後每年秋天在東山咖啡公路一帶舉辦咖啡節。",
+      "source": "https://www.foodnext.net/life/placemaking/paper/5234735601",
+      "schedule": {
+        "solar": [
+          10,
+          1
+        ],
+        "solarEnd": [
+          11,
+          30
+        ]
+      }
+    },
+    {
+      "id": "flametree",
+      "name": "鳳凰花季",
+      "effect": "treecolor",
+      "color": "#e03a2f",
+      "at": {
+        "building": [
+          "東區",
+          "國立成功大學"
+        ]
+      },
+      "when": "每年五月中到六月底（畢業季）",
+      "desc": "台南被稱為鳳凰城，成大校園與市區的鳳凰木在畢業季開滿火紅的花。",
+      "source": "https://zh.wikipedia.org/wiki/鳳凰木",
+      "schedule": {
+        "solar": [
+          5,
+          15
+        ],
+        "solarEnd": [
+          6,
+          30
+        ]
+      }
+    }
+  ]
+}

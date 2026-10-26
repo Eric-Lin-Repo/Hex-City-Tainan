@@ -1,0 +1,11 @@
+{
+  "_note": "各水庫主壩的 WGS84 座標（壩體，不是湖心），build_city.py 用來把壩體建築放到湖岸、把曾文水庫的示意湖壩端對齊。2026-10 查證。",
+  "dams": {
+    "曾文水庫": { "lat": 23.2486, "lon": 120.5359, "source": "https://www.openstreetmap.org/way/103274537", "note": "壩址在縣界附近、偏嘉義大埔一側；蓄水區大多在嘉義縣大埔鄉，入口與管理中心在台南楠西（https://zh.wikipedia.org/wiki/曾文水庫）" },
+    "南化水庫": { "lat": 23.0894, "lon": 120.5378, "source": "https://en.wikipedia.org/wiki/Nanhua_Dam", "note": "OSM 沒有標壩體，未交叉核對" },
+    "白河水庫": { "lat": 23.3510, "lon": 120.4771, "source": "https://zh.wikipedia.org/wiki/白河水庫_(臺灣)", "note": "待查證：資訊框座標是否為主壩" },
+    "鏡面水庫": { "lat": 23.0581, "lon": 120.4882, "source": "https://www.openstreetmap.org/way/308532433" },
+    "烏山頭水庫": { "lat": 23.2014, "lon": 120.3708, "source": "https://www.openstreetmap.org/way/177464844", "note": "依堰堤長度推斷" },
+    "尖山埤": { "lat": 23.2643, "lon": 120.3923, "source": "https://www.openstreetmap.org/way/202256166" }
+  }
+}

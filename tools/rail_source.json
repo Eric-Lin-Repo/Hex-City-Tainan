@@ -1,0 +1,171 @@
+{
+  "_note": "站點座標為近似值（誤差約 1 公里），可自行修正。沙崙站與高鐵台南站相連，合併為一站。",
+  "stations": [
+    {
+      "id": "houbi",
+      "name": "後壁",
+      "lat": 23.3656,
+      "lon": 120.3625
+    },
+    {
+      "id": "xinying",
+      "name": "新營",
+      "lat": 23.3066,
+      "lon": 120.3217
+    },
+    {
+      "id": "liuying",
+      "name": "柳營",
+      "lat": 23.279,
+      "lon": 120.3133
+    },
+    {
+      "id": "linfengying",
+      "name": "林鳳營",
+      "lat": 23.244,
+      "lon": 120.3174
+    },
+    {
+      "id": "longtian",
+      "name": "隆田",
+      "lat": 23.1925,
+      "lon": 120.3141
+    },
+    {
+      "id": "balin",
+      "name": "拔林",
+      "lat": 23.17,
+      "lon": 120.312
+    },
+    {
+      "id": "shanhua",
+      "name": "善化",
+      "lat": 23.1318,
+      "lon": 120.3016
+    },
+    {
+      "id": "nanke",
+      "name": "南科",
+      "lat": 23.1,
+      "lon": 120.285
+    },
+    {
+      "id": "xinshi",
+      "name": "新市",
+      "lat": 23.077,
+      "lon": 120.296
+    },
+    {
+      "id": "yongkang",
+      "name": "永康",
+      "lat": 23.0231,
+      "lon": 120.2434
+    },
+    {
+      "id": "daqiao",
+      "name": "大橋",
+      "lat": 23.011,
+      "lon": 120.23
+    },
+    {
+      "id": "tainan",
+      "name": "台南",
+      "lat": 22.9971,
+      "lon": 120.2126,
+      "kind": "major"
+    },
+    {
+      "id": "rende",
+      "name": "仁德",
+      "lat": 22.97,
+      "lon": 120.223
+    },
+    {
+      "id": "baoan",
+      "name": "保安",
+      "lat": 22.934,
+      "lon": 120.23
+    },
+    {
+      "id": "zhongzhou",
+      "name": "中洲",
+      "lat": 22.909,
+      "lon": 120.246
+    },
+    {
+      "id": "changrong",
+      "name": "長榮大學",
+      "lat": 22.9085,
+      "lon": 120.273
+    },
+    {
+      "id": "shalun",
+      "name": "沙崙／高鐵台南",
+      "lat": 22.9245,
+      "lon": 120.287,
+      "kind": "hsr"
+    }
+  ],
+  "lines": [
+    {
+      "id": "main",
+      "name": "台鐵縱貫線",
+      "color": "#2f6f9f",
+      "stations": [
+        "houbi",
+        "xinying",
+        "liuying",
+        "linfengying",
+        "longtian",
+        "balin",
+        "shanhua",
+        "nanke",
+        "xinshi",
+        "yongkang",
+        "daqiao",
+        "tainan",
+        "rende",
+        "baoan",
+        "zhongzhou"
+      ]
+    },
+    {
+      "id": "shalun",
+      "name": "台鐵沙崙線",
+      "color": "#d98c3a",
+      "stations": [
+        "zhongzhou",
+        "changrong",
+        "shalun"
+      ]
+    }
+  ],
+  "services": [
+    {
+      "id": "houbi-shalun",
+      "name": "後壁—沙崙 直通車",
+      "color": "#2f6f9f",
+      "stations": [
+        "houbi",
+        "xinying",
+        "liuying",
+        "linfengying",
+        "longtian",
+        "balin",
+        "shanhua",
+        "nanke",
+        "xinshi",
+        "yongkang",
+        "daqiao",
+        "tainan",
+        "rende",
+        "baoan",
+        "zhongzhou",
+        "changrong",
+        "shalun"
+      ],
+      "cars": 4,
+      "trains": 2
+    }
+  ]
+}

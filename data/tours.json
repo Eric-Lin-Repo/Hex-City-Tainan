@@ -1,0 +1,100 @@
+{
+  "note": "主題導覽：每條路線是一串 cue，sel 是要選取的物件（type: island/building/poi/station/event，null 表示回全景），minute 是切換到的時刻，seconds 是停留秒數，eventDate 為 true 時會把日曆切到活動當天。",
+  "tours": [
+    {
+      "id": "city",
+      "name": "全市巡迴",
+      "icon": "🏙️",
+      "blurb": "一分多鐘繞台南一圈：車站、古蹟、科學園區、鹽田與溫泉。",
+      "cues": [
+        { "sel": null, "minute": 480, "seconds": 7, "caption": "歡迎來到 HEX CITY 台南。島是 37 個行政區的真實輪廓，接下來花一分多鐘帶你繞一圈。" },
+        { "sel": { "type": "station", "id": "tainan" }, "minute": 540, "seconds": 8, "caption": "台南車站：縱貫線的特等站。火車從後壁開到沙崙，每站停靠、到終點折返。" },
+        { "sel": { "type": "poi", "id": "chihkan" }, "minute": 600, "seconds": 8, "caption": "赤崁樓：1653 年荷蘭人建的普羅民遮城，台南四百年歷史的起點。" },
+        { "sel": { "type": "poi", "id": "anping-fort" }, "minute": 660, "seconds": 8, "caption": "安平古堡：熱蘭遮城的舊址，台灣最早的西式城堡，面向昔日的台江內海。" },
+        { "sel": { "type": "poi", "id": "stsp-admin" }, "minute": 720, "seconds": 8, "caption": "南部科學園區：圍籬框住管理局、晶圓廠與研發區，白天的上班族都往這裡走。" },
+        { "sel": { "type": "event", "id": "beehive" }, "minute": 1260, "seconds": 10, "eventDate": true, "caption": "鹽水蜂炮：元宵夜武廟前萬炮齊發，入夜後煙火越來越密。" },
+        { "sel": { "type": "poi", "id": "qigu-salt" }, "minute": 1080, "seconds": 8, "caption": "七股鹽山：西海岸的鹽田與鹽山，黃昏的夕照最好看。" },
+        { "sel": { "type": "poi", "id": "guanziling" }, "minute": 390, "seconds": 8, "caption": "關子嶺溫泉：白河山腳下少見的泥漿溫泉，清晨山霧還沒散。" },
+        { "sel": { "type": "station", "id": "shalun" }, "minute": 600, "seconds": 8, "caption": "沙崙站：沙崙線的終點，也是高鐵台南站，火車在這裡折返。" },
+        { "sel": null, "minute": 1080, "seconds": 8, "caption": "導覽結束。點任何一個區、建築、車站或路上的行人，繼續探索台南。" }
+      ]
+    },
+    {
+      "id": "temples",
+      "name": "廟宇巡禮",
+      "icon": "⛩️",
+      "blurb": "從府城的官廟到濱海的王爺廟，看台南的信仰版圖。",
+      "cues": [
+        { "sel": null, "minute": 420, "seconds": 6, "caption": "台南是台灣廟宇密度最高的城市。這趟從府城的官廟出發，一路往北到濱海的王爺廟。" },
+        { "sel": { "type": "building", "id": "d1002102-2" }, "minute": 480, "seconds": 8, "caption": "祀典武廟：清代官方祭祀的關帝廟，國定古蹟，紅牆沿著永福路延伸是府城最有名的一面牆。" },
+        { "sel": { "type": "building", "id": "d1002102-3" }, "minute": 520, "seconds": 8, "caption": "大天后宮：明寧靖王府邸改建的媽祖廟，台灣第一座官建媽祖廟。" },
+        { "sel": { "type": "poi", "id": "confucius" }, "minute": 560, "seconds": 8, "caption": "台南孔廟：1665 年建的全臺首學，紅牆、老樹與大成殿。" },
+        { "sel": { "type": "building", "id": "d1002107-0" }, "minute": 600, "seconds": 8, "caption": "安平開臺天后宮：安平人的媽祖廟，廟前就是安平老街。" },
+        { "sel": { "type": "building", "id": "d1002106-1" }, "minute": 660, "seconds": 8, "caption": "正統鹿耳門聖母廟：號稱全台最大的廟宇建築群，跨年的迎春煙火在這裡放。" },
+        { "sel": { "type": "poi", "id": "qingan" }, "minute": 720, "seconds": 8, "caption": "西港慶安宮：三年一科的西港刈香從這裡出發，最後燒王船送神。" },
+        { "sel": { "type": "poi", "id": "madou-temple" }, "minute": 780, "seconds": 8, "caption": "麻豆代天府：五府千歲的大廟，廟後的十八地獄和巨龍是許多人的童年記憶。" },
+        { "sel": { "type": "building", "id": "d1001113-0" }, "minute": 840, "seconds": 8, "caption": "學甲慈濟宮：保生大帝廟，每年上白礁祭典回到鄭成功登陸的將軍溪畔遙祭祖廟。" },
+        { "sel": { "type": "poi", "id": "nankunshen" }, "minute": 900, "seconds": 8, "caption": "南鯤鯓代天府：全台王爺信仰的總廟，進香團一年到頭不斷。" },
+        { "sel": { "type": "poi", "id": "zizhu" }, "minute": 960, "seconds": 8, "caption": "南化紫竹寺：山區的觀音道場，從濱海一路走到了山裡。" },
+        { "sel": null, "minute": 1020, "seconds": 6, "caption": "廟宇巡禮結束。打開「活動」可以看蜂炮、燒王船、蜈蚣陣這些廟會的樣子。" }
+      ]
+    },
+    {
+      "id": "heritage",
+      "name": "古蹟一日",
+      "icon": "🏛️",
+      "blurb": "荷蘭、明鄭、清代、日治，一天走過四百年。",
+      "cues": [
+        { "sel": null, "minute": 480, "seconds": 6, "caption": "台南四百年的歷史層層疊在市區裡。這趟依年代順序走：荷蘭、明鄭、清代、日治。" },
+        { "sel": { "type": "poi", "id": "anping-fort" }, "minute": 540, "seconds": 8, "caption": "安平古堡：1624 年荷蘭人建的熱蘭遮城，台灣史的開場。" },
+        { "sel": { "type": "poi", "id": "chihkan" }, "minute": 600, "seconds": 8, "caption": "赤崁樓：1653 年的普羅民遮城，鄭成功收復台灣後在這裡設承天府。" },
+        { "sel": { "type": "building", "id": "d1001112-2" }, "minute": 640, "seconds": 7, "caption": "佳里延平郡王廟：紀念鄭成功，佳里一帶是明鄭屯墾的重要據點。" },
+        { "sel": { "type": "building", "id": "d1002101-3" }, "minute": 700, "seconds": 7, "caption": "大東門：清代台灣府城的東門，城牆拆了，城門還在圓環中央。" },
+        { "sel": { "type": "poi", "id": "eternal-fort" }, "minute": 760, "seconds": 8, "caption": "億載金城：1874 年沈葆楨請法國工程師建的西式砲台，為了牡丹社事件而築。" },
+        { "sel": { "type": "poi", "id": "hayashi" }, "minute": 820, "seconds": 8, "caption": "林百貨：1932 年開幕的日治百貨公司，有當年南台灣唯一的電梯。" },
+        { "sel": { "type": "building", "id": "d1002102-1" }, "minute": 880, "seconds": 8, "caption": "國立臺灣文學館：原台南州廳，1916 年落成的馬薩式屋頂官署。" },
+        { "sel": { "type": "building", "id": "d1001118-1" }, "minute": 940, "seconds": 7, "caption": "新化武德殿：日治時期的武道場，老街就在旁邊。" },
+        { "sel": { "type": "building", "id": "d1001110-0" }, "minute": 1000, "seconds": 8, "caption": "八田與一紀念園區：烏山頭水庫與嘉南大圳的設計者，宿舍群保留了下來。" },
+        { "sel": { "type": "building", "id": "d1001105-0" }, "minute": 1060, "seconds": 7, "caption": "菁寮天主堂：1960 年普立茲克獎得主波姆設計的金字塔教堂，稻田中的現代建築。" },
+        { "sel": null, "minute": 1100, "seconds": 6, "caption": "古蹟一日結束。每棟建築的卡片都有 Google 地圖連結，可以直接規劃路線。" }
+      ]
+    },
+    {
+      "id": "night",
+      "name": "夜市之夜",
+      "icon": "🏮",
+      "blurb": "入夜後跟著人潮逛六個夜市，看看哪天開。",
+      "cues": [
+        { "sel": null, "minute": 1110, "seconds": 6, "caption": "台南夜市不是天天開：大大武花大武花。這趟從黃昏逛到深夜。" },
+        { "sel": { "type": "poi", "id": "nm-garden" }, "minute": 1140, "seconds": 9, "caption": "花園夜市：四六日開，北區的大夜市，入夜後人潮從四面八方走過來。" },
+        { "sel": { "type": "poi", "id": "nm-dadong" }, "minute": 1170, "seconds": 8, "caption": "大東夜市：一二五開，東區成大附近，學生最多。" },
+        { "sel": { "type": "poi", "id": "nm-wusheng" }, "minute": 1200, "seconds": 8, "caption": "武聖夜市：三六開，中西區的老牌夜市。" },
+        { "sel": { "type": "poi", "id": "nm-xiaobei" }, "minute": 1230, "seconds": 8, "caption": "小北成功夜市：二五開，北區另一個選擇。" },
+        { "sel": { "type": "poi", "id": "nm-fuguo" }, "minute": 1260, "seconds": 8, "caption": "永康復國夜市：永康人的夜市，離市區不遠。" },
+        { "sel": { "type": "poi", "id": "nm-xinying" }, "minute": 1290, "seconds": 8, "caption": "新營夜市：溪北最大的夜市，新營車站走路就到。" },
+        { "sel": { "type": "poi", "id": "shennong" }, "minute": 1320, "seconds": 8, "caption": "神農街：逛完夜市到老街散步，清代的五條港在這裡留下了街屋。" },
+        { "sel": null, "minute": 1380, "seconds": 6, "caption": "夜市之夜結束。時間軸拉到晚上，行人會自己往今天有開的夜市走。" }
+      ]
+    },
+    {
+      "id": "mountainsea",
+      "name": "山海一日",
+      "icon": "🌊",
+      "blurb": "從西海岸的潟湖與鹽田，到東邊的水庫、梅嶺與月世界。",
+      "cues": [
+        { "sel": null, "minute": 360, "seconds": 6, "caption": "台南西邊是潟湖與鹽田，東邊是淺山與水庫。這趟從海邊的清晨走到山上的黃昏。" },
+        { "sel": { "type": "building", "id": "d1001115-2" }, "minute": 390, "seconds": 8, "caption": "七股潟湖：台灣最大的潟湖，蚵棚與膠筏，清晨的漁人先出門。" },
+        { "sel": { "type": "poi", "id": "jingzaijiao" }, "minute": 450, "seconds": 8, "caption": "井仔腳瓦盤鹽田：現存最古老的瓦盤鹽田，黃昏的倒影最有名。" },
+        { "sel": { "type": "building", "id": "d1001115-1" }, "minute": 510, "seconds": 7, "caption": "黑面琵鷺生態展示館：每年十月到隔年三月，黑面琵鷺來曾文溪口過冬。" },
+        { "sel": { "type": "poi", "id": "sicao" }, "minute": 570, "seconds": 8, "caption": "四草綠色隧道：紅樹林夾出的水道，膠筏慢慢穿過去。" },
+        { "sel": { "type": "poi", "id": "wushantou" }, "minute": 660, "seconds": 8, "caption": "烏山頭水庫：1930 年完工，珊瑚潭的名字來自空中看像珊瑚的湖岸。" },
+        { "sel": { "type": "building", "id": "d1001124-2" }, "minute": 720, "seconds": 8, "caption": "曾文水庫：台灣最大的水庫，供應嘉南平原的灌溉與民生用水。" },
+        { "sel": { "type": "building", "id": "d1001124-1" }, "minute": 800, "seconds": 8, "caption": "梅嶺風景區：冬天賞梅、春末看螢火蟲，楠西的山上。" },
+        { "sel": { "type": "building", "id": "d1001126-2" }, "minute": 900, "seconds": 8, "caption": "草山月世界：泥岩惡地，寸草不生的灰白山脊。" },
+        { "sel": { "type": "building", "id": "d1001126-1" }, "minute": 1050, "seconds": 8, "caption": "二寮觀日亭：低海拔看日出的名點，雲海從月世界的山谷升起。" },
+        { "sel": { "type": "poi", "id": "guanziling" }, "minute": 1080, "seconds": 8, "caption": "關子嶺溫泉：泥漿溫泉配黃昏，山海一日在這裡收尾。" },
+        { "sel": null, "minute": 1110, "seconds": 6, "caption": "山海一日結束。山區的步道與自行車道，在地圖上也看得到騎士來回。" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,422 @@
+{
+  "白色教堂": {
+    "en": {
+      "name": "White Church (Yintian Shanfang)",
+      "desc": "A pure-white Japanese-style chapel inside the Yintian Shanfang garden, a popular wedding-photo spot in Yujing."
+    },
+    "ja": {
+      "name": "白色教堂（隠田山房）",
+      "desc": "隠田山房の園内にある純白の日本風チャペルで、玉井で人気のウェディング・撮影スポットです。"
+    }
+  },
+  "玉井芒果冰老街": {
+    "en": {
+      "name": "Yujing Mango Ice Street",
+      "desc": "The streets around Yujing Market, lined with mango shaved-ice shops and busiest in the summer mango season."
+    },
+    "ja": {
+      "name": "玉井マンゴーかき氷通り",
+      "desc": "玉井市場周辺に多くのマンゴーかき氷店が集まる通りで、夏のマンゴーの季節が最も賑わいます。"
+    }
+  },
+  "蘇厝真護宮": {
+    "en": {
+      "name": "Sucuo Zhenhu Temple",
+      "desc": "A Wangye temple in Sucuo that, like Changxing Temple, holds a royal-boat festival every three years."
+    },
+    "ja": {
+      "name": "蘇厝真護宮",
+      "desc": "蘇厝の王爺廟で、長興宮と同じく三年に一度の王船祭を行います。"
+    }
+  },
+  "台灣蘭科植物園": {
+    "en": {
+      "name": "Taiwan Orchid Plantation",
+      "desc": "An ecological park themed on Taiwan's native orchids, with orchid greenhouses and landscaped trails."
+    },
+    "ja": {
+      "name": "台湾蘭科植物園",
+      "desc": "台湾原生のランをテーマにした生態園で、ランの温室と景観遊歩道があります。"
+    }
+  },
+  "南科迎曦湖": {
+    "en": {
+      "name": "Yingxi Lake, Southern Taiwan Science Park",
+      "desc": "An artificial lake inside the science park; the lakeside path and large art installation are the park's leisure landmark."
+    },
+    "ja": {
+      "name": "南科迎曦湖",
+      "desc": "南部サイエンスパーク内の人工湖で、湖畔の遊歩道と大型アート作品が園区の憩いのランドマークです。"
+    }
+  },
+  "樹谷農場": {
+    "en": {
+      "name": "Tree Valley Farm",
+      "desc": "A family leisure farm in Tree Valley Park where visitors can feed goats, rabbits and other small animals up close."
+    },
+    "ja": {
+      "name": "樹谷農場",
+      "desc": "樹谷園区内のファミリー向け観光農場で、ヤギやウサギなどの小動物に間近で餌やりができます。"
+    }
+  },
+  "台江國家公園遊客中心": {
+    "en": {
+      "name": "Taijiang National Park Visitor Center",
+      "desc": "A visitor center shaped like a cluster of white stilt houses; the buildings mirrored in the water are a Sicao landmark."
+    },
+    "ja": {
+      "name": "台江国家公園ビジターセンター",
+      "desc": "白い高床式の集落をかたどったビジターセンターで、水面に映る建物群は四草のランドマークです。"
+    }
+  },
+  "鹿耳門溪口鄭成功登陸紀念碑": {
+    "en": {
+      "name": "Koxinga Landing Monument at Luermen",
+      "desc": "A monument at the mouth of Luermen Creek marking the spot where Koxinga's army landed in Taiwan."
+    },
+    "ja": {
+      "name": "鹿耳門渓口 鄭成功上陸記念碑",
+      "desc": "鹿耳門渓の河口にある記念碑で、鄭成功の軍が台湾に上陸した地点を示しています。"
+    }
+  },
+  "安順鹽場": {
+    "en": {
+      "name": "Anshun Salt Field",
+      "desc": "Salt pans opened in the Japanese era, now the Salt Field Eco-Culture Village, preserving tile-paved and fan-shaped salt pans."
+    },
+    "ja": {
+      "name": "安順塩田",
+      "desc": "日本統治時代に開かれた塩田で、現在は塩田生態文化村として瓦盤塩田と扇形塩田の景観を残しています。"
+    }
+  },
+  "308 高地觀景台": {
+    "en": {
+      "name": "308 Highland Lookout",
+      "desc": "A lookout on a hill about 308 m high, overlooking the Moon World badlands, sunrise and seas of clouds."
+    },
+    "ja": {
+      "name": "308高地展望台",
+      "desc": "標高約308mの高台にある展望台で、月世界の悪地地形や日の出、雲海を望めます。"
+    }
+  },
+  "北寮老街": {
+    "en": {
+      "name": "Beiliao Old Street",
+      "desc": "A mountain-village old street near Nanhua Reservoir that keeps its old houses and simple hill-settlement character."
+    },
+    "ja": {
+      "name": "北寮老街",
+      "desc": "南化ダム近くの山村の古い街並みで、古民家と素朴な山間集落の風情が残っています。"
+    }
+  },
+  "大目降文化園區": {
+    "en": {
+      "name": "Damujiang Cultural Park",
+      "desc": "Xinhua was once called Damujiang; the park restores Japanese-era dormitories next to the Butokuden."
+    },
+    "ja": {
+      "name": "大目降文化園区",
+      "desc": "新化の旧名は大目降で、園区では日本統治時代の日本式宿舎群を修復し、武徳殿に隣接しています。"
+    }
+  },
+  "新化朝天宮": {
+    "en": {
+      "name": "Xinhua Chaotian Temple",
+      "desc": "A Mazu temple beside Xinhua Old Street and the center of faith for the Xinhua town area."
+    },
+    "ja": {
+      "name": "新化朝天宮",
+      "desc": "新化老街のそばにある媽祖廟で、新化の市街地の信仰の中心です。"
+    }
+  },
+  "瓜瓜園地瓜生態故事館": {
+    "en": {
+      "name": "Guaguayuan Sweet Potato Story House",
+      "desc": "A sweet-potato-themed tourist factory introducing Taiwan's sweet potato industry and processing."
+    },
+    "ja": {
+      "name": "瓜瓜園サツマイモ生態物語館",
+      "desc": "サツマイモをテーマにした観光工場で、台湾のサツマイモ産業と加工工程を紹介しています。"
+    }
+  },
+  "永康二王廟": {
+    "en": {
+      "name": "Yongkang Erwang Temple",
+      "desc": "The main temple of Erwang Village in Yongkang, dedicated to the Second Prince deity and a center of local faith."
+    },
+    "ja": {
+      "name": "永康二王廟",
+      "desc": "永康二王里の大廟で、二王爺を主神とする地域の信仰の中心です。"
+    }
+  },
+  "永康探索教育公園": {
+    "en": {
+      "name": "Yongkang Adventure Education Park",
+      "desc": "A park known for its adventure play equipment, with large slides and climbing structures."
+    },
+    "ja": {
+      "name": "永康探索教育公園",
+      "desc": "冒険遊具が特徴の公園で、大型の滑り台やクライミング設備があります。"
+    }
+  },
+  "三山國王廟": {
+    "en": {
+      "name": "Sanshan Guowang Temple",
+      "desc": "Built by Hakka settlers from eastern Guangdong in the Qing era, a rare Chaozhou-style temple and national monument."
+    },
+    "ja": {
+      "name": "三山国王廟",
+      "desc": "清代に広東東部の客家移民が建てた、台湾では珍しい潮州様式の廟で、国定古蹟です。"
+    }
+  },
+  "西華堂": {
+    "en": {
+      "name": "Xihua Hall",
+      "desc": "A Qing-era vegetarian hall of the Jinchuang sect of Zhaijiao, a rare surviving hall of its kind in the city."
+    },
+    "ja": {
+      "name": "西華堂",
+      "desc": "斎教金幢派の斎堂で、清代に創建された、市街地では珍しい斎堂建築です。"
+    }
+  },
+  "水萍塭公園": {
+    "en": {
+      "name": "Shuipingwen Park",
+      "desc": "A large green park in the city with lawns, a pond and sports facilities."
+    },
+    "ja": {
+      "name": "水萍塭公園",
+      "desc": "市街地にある大型の緑地公園で、芝生、池、運動施設があります。"
+    }
+  },
+  "延平郡王祠": {
+    "en": {
+      "name": "Koxinga Shrine",
+      "desc": "A shrine to Koxinga, formerly the Kaishan King Temple, rebuilt as a shrine in the late Qing at Shen Baozhen's petition."
+    },
+    "ja": {
+      "name": "延平郡王祠",
+      "desc": "鄭成功を祀る祠廟で、前身は開山王廟、清末に沈葆楨の上奏により祠として建てられました。"
+    }
+  },
+  "五妃廟": {
+    "en": {
+      "name": "Temple of the Five Concubines",
+      "desc": "A temple and tomb honoring the five concubines of Ming Prince Ningjing, a national monument."
+    },
+    "ja": {
+      "name": "五妃廟",
+      "desc": "明の寧靖王の五人の妃を祀る廟と墓で、国定古蹟です。"
+    }
+  },
+  "司法博物館（舊台南地方法院）": {
+    "en": {
+      "name": "Judicial Museum (Former Tainan District Court)",
+      "desc": "The Japanese-era Tainan District Court, a Baroque-style building by Moriyama Matsunosuke and a national monument."
+    },
+    "ja": {
+      "name": "司法博物館（旧台南地方法院）",
+      "desc": "日本統治時代の台南地方法院で、森山松之助設計のバロック様式建築、国定古蹟です。"
+    }
+  },
+  "河樂廣場": {
+    "en": {
+      "name": "Heyue Plaza (The Spring)",
+      "desc": "A sunken water plaza built where the China Town mall was demolished, at the canal end of Zhongzheng Road."
+    },
+    "ja": {
+      "name": "河楽広場",
+      "desc": "中国城ショッピングセンターの跡地に造られた下沈式の親水広場で、中正路の突き当たり、運河のそばにあります。"
+    }
+  },
+  "水仙宮": {
+    "en": {
+      "name": "Shuixian Temple",
+      "desc": "An old temple to the Water Immortals, once the meeting hall of Tainan's three merchant guilds, now inside Yongle Market."
+    },
+    "ja": {
+      "name": "水仙宮",
+      "desc": "水仙尊王を祀る古廟で、清代には府城三郊の議事の場でした。現在は永楽市場の中にあります。"
+    }
+  },
+  "北極殿": {
+    "en": {
+      "name": "Beiji Temple",
+      "desc": "A Ming-Zheng-era temple to Xuantian Shangdi with a plaque inscribed by Prince Ningjing, a national monument."
+    },
+    "ja": {
+      "name": "北極殿",
+      "desc": "玄天上帝を祀る明鄭時代の古廟で、寧靖王直筆の扁額があり、国定古蹟です。"
+    }
+  },
+  "風神廟": {
+    "en": {
+      "name": "Wind God Temple",
+      "desc": "Taiwan's only temple dedicated to the Wind God, with a Qing-era stone archway of the official reception pavilion in front."
+    },
+    "ja": {
+      "name": "風神廟",
+      "desc": "台湾で唯一、風神を主神とする廟で、前には清代の接官亭の石坊があります。"
+    }
+  },
+  "吳園": {
+    "en": {
+      "name": "Wu Garden",
+      "desc": "A garden built by Qing-era merchant Wu Shangxin, one of Taiwan's four famous gardens, next to the Public Hall."
+    },
+    "ja": {
+      "name": "呉園",
+      "desc": "清代の豪商・呉尚新が造った庭園で、台湾四大名園の一つ。公会堂に隣接しています。"
+    }
+  },
+  "漁光島": {
+    "en": {
+      "name": "Yuguang Island",
+      "desc": "A sandbar island off Anping; the Crescent Bay beach and windbreak forest are a favorite sunset spot."
+    },
+    "ja": {
+      "name": "漁光島",
+      "desc": "安平沖の砂州の小島で、月牙湾のビーチと防風林は夕日を眺める人気スポットです。"
+    }
+  },
+  "大魚的祝福": {
+    "en": {
+      "name": "Blessing of the Big Fish",
+      "desc": "A large whale-shaped public artwork in Harbor History Park; visitors can walk inside to view the canal."
+    },
+    "ja": {
+      "name": "大魚の祝福",
+      "desc": "港浜歴史公園にある大型のクジラ型パブリックアートで、中に入って運河の景色を眺められます。"
+    }
+  },
+  "海山館": {
+    "en": {
+      "name": "Haishan Hall",
+      "desc": "The Qing-era guild hall of the Haishan naval battalion, a Fujian-style house now serving as Anping's folk culture exhibition hall."
+    },
+    "ja": {
+      "name": "海山館",
+      "desc": "清代の水軍・海山営の会館で、閩南式の古民家。現在は安平郷土文化展示館です。"
+    }
+  },
+  "安平定情碼頭": {
+    "en": {
+      "name": "Anping Dingqing Pier",
+      "desc": "A waterfront pier park on Anping Harbor beside the Te Yang destroyer, a place to watch the harbor and sunset."
+    },
+    "ja": {
+      "name": "安平定情埠頭",
+      "desc": "安平港の親水埠頭パークで、徳陽艦のそばにあり、港の景色と夕日を楽しめます。"
+    }
+  },
+  "知事官邸生活館": {
+    "en": {
+      "name": "Magistrate's Residence",
+      "desc": "The Japanese-era residence of the Tainan prefectural governor, a red-brick mansion that once hosted Japanese royalty."
+    },
+    "ja": {
+      "name": "知事官邸生活館",
+      "desc": "日本統治時代の台南県知事官邸で、赤レンガの洋館。皇族が来台した際の宿舎にもなりました。"
+    }
+  },
+  "台南車站百年站房": {
+    "en": {
+      "name": "Tainan Station Historic Building",
+      "desc": "The Japanese-era station building, a national monument whose second floor once housed the Railway Hotel."
+    },
+    "ja": {
+      "name": "台南駅 歴史駅舎",
+      "desc": "日本統治時代に建てられた駅舎で、国定古蹟。二階にはかつて鉄道ホテルがありました。"
+    }
+  },
+  "千佛山菩提寺": {
+    "en": {
+      "name": "Qianfoshan Puti Temple",
+      "desc": "A large Buddhist monastery in the Guanmiao hills, founded by Master Baiyun."
+    },
+    "ja": {
+      "name": "千仏山菩提寺",
+      "desc": "関廟の山間にある大規模な仏教道場で、白雲老和尚によって創建されました。"
+    }
+  },
+  "關廟轉運站": {
+    "en": {
+      "name": "Guanmiao Transfer Station",
+      "desc": "A Greater Tainan bus transfer station, the hub for routes to Longqi, Xinhua and downtown."
+    },
+    "ja": {
+      "name": "関廟バスターミナル",
+      "desc": "大台南バスの乗換ターミナルで、龍崎・新化・市街地方面への乗り継ぎ拠点です。"
+    }
+  },
+  "喜樹老街": {
+    "en": {
+      "name": "Xishu Old Street",
+      "desc": "An old coastal settlement in South District, known in recent years for community art and restored old houses."
+    },
+    "ja": {
+      "name": "喜樹老街",
+      "desc": "南区の海沿いの古い集落で、近年はコミュニティアートと古民家の再生で知られています。"
+    }
+  },
+  "灣裡萬年殿": {
+    "en": {
+      "name": "Wanli Wannian Temple",
+      "desc": "The Wangye temple of Wanli, which keeps a royal boat inside and serves as the area's center of faith."
+    },
+    "ja": {
+      "name": "湾裡万年殿",
+      "desc": "湾裡の王爺廟で、廟内に王船を保存しており、湾裡地区の信仰の中心です。"
+    }
+  },
+  "亞太國際棒球訓練中心": {
+    "en": {
+      "name": "Asia-Pacific International Baseball Training Center",
+      "desc": "A national-level baseball training base in Shalun with a main stadium plus youth and little-league fields."
+    },
+    "ja": {
+      "name": "アジア太平洋国際野球トレーニングセンター",
+      "desc": "沙崙にある国家級の野球トレーニング拠点で、メインスタジアムのほか少年・青年野球場があります。"
+    }
+  },
+  "敦源聖廟": {
+    "en": {
+      "name": "Dunyuan Confucius Temple",
+      "desc": "Guiren's Confucius temple, built by local gentry, which holds a Confucius memorial ceremony every year."
+    },
+    "ja": {
+      "name": "敦源聖廟",
+      "desc": "帰仁の孔子廟で、地元の有志によって建てられ、毎年祭孔典礼が行われます。"
+    }
+  },
+  "七甲花卉園區": {
+    "en": {
+      "name": "Qijia Flower Park",
+      "desc": "A flower-growing zone in Qijia, Guiren, mainly orchid and potted-plant nurseries open for visits and purchases."
+    },
+    "ja": {
+      "name": "七甲花卉園区",
+      "desc": "帰仁七甲の花卉専業区で、ランや鉢植えの苗圃が中心。見学や購入ができます。"
+    }
+  },
+  "沙崙綠能科學城": {
+    "en": {
+      "name": "Shalun Green Energy Science City",
+      "desc": "A green-energy R&D cluster next to THSR Tainan Station, home to a green technology demonstration site."
+    },
+    "ja": {
+      "name": "沙崙グリーンエネルギー科学城",
+      "desc": "高鉄台南駅のそばにあるグリーンエネルギー技術の研究開発拠点で、実証フィールドが設けられています。"
+    }
+  },
+  "二空新村眷村文化園區": {
+    "en": {
+      "name": "Erkong New Village Military Dependents' Culture Park",
+      "desc": "An air force dependents' village in Rende, part of which has been preserved and turned into a culture park."
+    },
+    "ja": {
+      "name": "二空新村 眷村文化園区",
+      "desc": "仁徳にある空軍の眷村（軍人家族村）で、一部の住宅を保存して眷村文化園区として再生しています。"
+    }
+  }
+}

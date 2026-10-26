@@ -1,0 +1,57 @@
+{
+ "asOf": "2026-10-26T13:00:00+08:00",
+ "note": "水利署開放資料（水庫水情資料＋水庫每日營運狀況）的快照，由 tools/fetch_reservoir.mjs 產生；尖山埤（台糖經營）不在水利署資料裡，故為 null。",
+ "reservoirs": {
+  "尖山埤": null,
+  "白河水庫": {
+   "percent": 62.1,
+   "asOf": "2026-10-26T08:00:00+08:00",
+   "storage": 892,
+   "capacity": 1436.28,
+   "level": 105.81,
+   "full": 109,
+   "dead": 85,
+   "source": "https://data.gov.tw/dataset/45501"
+  },
+  "烏山頭水庫": {
+   "percent": 83.4,
+   "asOf": "2026-10-26T07:00:00+08:00",
+   "storage": 6574,
+   "capacity": 7885.19,
+   "level": 56.81,
+   "full": 58.18,
+   "dead": 40,
+   "source": "https://data.gov.tw/dataset/45501"
+  },
+  "曾文水庫": {
+   "percent": 90.8,
+   "asOf": "2026-10-26T13:00:00+08:00",
+   "storage": 44167,
+   "capacity": 48654,
+   "level": 227.53,
+   "full": 230,
+   "dead": 171,
+   "source": "https://data.gov.tw/dataset/45501"
+  },
+  "南化水庫": {
+   "percent": 98.4,
+   "asOf": "2026-10-26T07:00:00+08:00",
+   "storage": 8051.21,
+   "capacity": 8180.9,
+   "level": 179.72,
+   "full": 180,
+   "dead": 131,
+   "source": "https://data.gov.tw/dataset/45501"
+  },
+  "鏡面水庫": {
+   "percent": 56.4,
+   "asOf": "2026-10-26T07:00:00+08:00",
+   "storage": 54.46,
+   "capacity": 96.57,
+   "level": 138.89,
+   "full": 143,
+   "dead": 130,
+   "source": "https://data.gov.tw/dataset/45501"
+  }
+ }
+}

@@ -1,0 +1,26 @@
+/* 集章簿：工具列按鈕 + 浮動面板 */
+.stamps {
+  position: absolute; top: 64px; right: calc(var(--side) + 18px); width: min(420px, calc(100vw - 32px)); max-height: calc(100% - 100px); overflow: auto; z-index: 12;
+  background: var(--cream); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; box-shadow: 0 14px 36px rgba(33, 29, 29, 0.16);
+}
+.stamps[hidden] { display: none; }
+.stamps-head { display: flex; align-items: center; gap: 10px; }
+.stamps-head b { font-size: 16px; }
+.stamps-head span { color: var(--muted); font-size: 13px; margin-left: auto; }
+.stamps-head button { border: 0; background: transparent; font-size: 20px; line-height: 1; padding: 2px 6px; }
+.stamps > p { font-size: 12px; margin: 4px 0 10px; }
+.stamps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 6px; }
+.stamp { position: relative; border: 1px dashed rgba(33, 29, 29, 0.25); border-radius: 10px; background: transparent; padding: 8px 6px 6px; text-align: left; min-height: 58px; display: flex; flex-direction: column; gap: 2px; }
+.stamp i { font-style: normal; font-size: 10px; color: var(--muted); }
+.stamp b { font-size: 12px; }
+.stamp small { font-size: 10px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stamp.on { border: 2px solid var(--c); background: color-mix(in srgb, var(--c) 14%, var(--cream)); }
+.stamp.on small { color: #211d1d; }
+.stamps-foot { margin-top: 10px; display: flex; justify-content: flex-end; }
+@media (max-width: 800px) { .stamps { top: 60px; right: 16px; left: 16px; width: auto; } }
+
+/* 猜產地：沿用集章面板外觀 */
+.quiz .quiz-q { font-size: 17px; font-weight: 600; margin: 10px 0 4px; display: flex; align-items: center; gap: 8px; }
+.quiz .quiz-icon { font-size: 30px; }
+.quiz .quiz-msg { font-size: 14px; margin: 6px 0; }
+.quiz > p { font-size: 13px; }

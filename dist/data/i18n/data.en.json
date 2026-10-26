@@ -1,0 +1,2106 @@
+{
+  "districts": {
+    "d1001105": {
+      "name": "Houbi District",
+      "summary": "Houbi District, Tainan City, area about 73 km²."
+    },
+    "d1001103": {
+      "name": "Baihe District",
+      "summary": "Baihe District, Tainan City, area about 126 km²."
+    },
+    "d1001101": {
+      "name": "Xinying District",
+      "summary": "Xinying District, Tainan City, area about 39 km²."
+    },
+    "d1001102": {
+      "name": "Yanshui District",
+      "summary": "Yanshui District, Tainan City, area about 49 km²."
+    },
+    "d1001117": {
+      "name": "Beimen District",
+      "summary": "Beimen District, Tainan City, area about 63 km²."
+    },
+    "d1001104": {
+      "name": "Liuying District",
+      "summary": "Liuying District, Tainan City, area about 61 km²."
+    },
+    "d1001106": {
+      "name": "Dongshan District",
+      "summary": "Dongshan District, Tainan City, area about 124 km²."
+    },
+    "d1001113": {
+      "name": "Xuejia District",
+      "summary": "Xuejia District, Tainan City, area about 54 km²."
+    },
+    "d1001108": {
+      "name": "Xiaying District",
+      "summary": "Xiaying District, Tainan City, area about 34 km²."
+    },
+    "d1001109": {
+      "name": "Liujia District",
+      "summary": "Liujia District, Tainan City, area about 64 km²."
+    },
+    "d1001116": {
+      "name": "Jiangjun District",
+      "summary": "Jiangjun District, Tainan City, area about 46 km²."
+    },
+    "d1001110": {
+      "name": "Guantian District",
+      "summary": "Guantian District, Tainan City, area about 72 km²."
+    },
+    "d1001124": {
+      "name": "Nanxi District",
+      "summary": "Nanxi District, Tainan City, area about 107 km²."
+    },
+    "d1001107": {
+      "name": "Madou District",
+      "summary": "Madou District, Tainan City, area about 55 km²."
+    },
+    "d1001112": {
+      "name": "Jiali District",
+      "summary": "Jiali District, Tainan City, area about 39 km²."
+    },
+    "d1001119": {
+      "name": "Shanhua District",
+      "summary": "Shanhua District, Tainan City, area about 51 km²."
+    },
+    "d1001114": {
+      "name": "Xigang District",
+      "summary": "Xigang District, Tainan City, area about 33 km²."
+    },
+    "d1001111": {
+      "name": "Danei District",
+      "summary": "Danei District, Tainan City, area about 69 km²."
+    },
+    "d1001115": {
+      "name": "Qigu District",
+      "summary": "Qigu District, Tainan City, area about 137 km²."
+    },
+    "d1001123": {
+      "name": "Yujing District",
+      "summary": "Yujing District, Tainan City, area about 76 km²."
+    },
+    "d1001121": {
+      "name": "Anding District",
+      "summary": "Anding District, Tainan City, area about 30 km²."
+    },
+    "d1001122": {
+      "name": "Shanshang District",
+      "summary": "Shanshang District, Tainan City, area about 27 km²."
+    },
+    "d1001120": {
+      "name": "Sinshih District",
+      "summary": "Sinshih District, Tainan City, area about 51 km²."
+    },
+    "d1002106": {
+      "name": "Annan District",
+      "summary": "Annan District, Tainan City, area about 117 km²."
+    },
+    "d1001126": {
+      "name": "Zuojhen District",
+      "summary": "Zuojhen District, Tainan City, area about 70 km²."
+    },
+    "d1001125": {
+      "name": "Nanhua District",
+      "summary": "Nanhua District, Tainan City, area about 169 km²."
+    },
+    "d1001118": {
+      "name": "Sinhua District",
+      "summary": "Sinhua District, Tainan City, area about 61 km²."
+    },
+    "d1001131": {
+      "name": "Yongkang District",
+      "summary": "Yongkang District, Tainan City, area about 41 km²."
+    },
+    "d1002104": {
+      "name": "North District",
+      "summary": "North District, Tainan City, area about 9 km²."
+    },
+    "d1002102": {
+      "name": "West Central District",
+      "summary": "West Central District, Tainan City, area about 7 km²."
+    },
+    "d1002107": {
+      "name": "Anping District",
+      "summary": "Anping District, Tainan City, area about 12 km²."
+    },
+    "d1002101": {
+      "name": "East District",
+      "summary": "East District, Tainan City, area about 11 km²."
+    },
+    "d1001129": {
+      "name": "Guanmiao District",
+      "summary": "Guanmiao District, Tainan City, area about 53 km²."
+    },
+    "d1002103": {
+      "name": "South District",
+      "summary": "South District, Tainan City, area about 27 km²."
+    },
+    "d1001130": {
+      "name": "Longci District",
+      "summary": "Longci District, Tainan City, area about 62 km²."
+    },
+    "d1001128": {
+      "name": "Guiren District",
+      "summary": "Guiren District, Tainan City, area about 55 km²."
+    },
+    "d1001127": {
+      "name": "Rende District",
+      "summary": "Rende District, Tainan City, area about 52 km²."
+    }
+  },
+  "buildings": {
+    "d1001105-0": {
+      "name": "Jingliao Holy Cross Church",
+      "desc": "The Holy Cross Church designed by German architect Gottfried Böhm; its pointed aluminium-clad roof is Jingliao's landmark."
+    },
+    "d1001105-1": {
+      "name": "Wushulin Sugar Factory",
+      "desc": "A former sugar factory park preserving narrow-gauge sugar trains and sugar-industry heritage."
+    },
+    "d1001105-2": {
+      "name": "Jingliao Old Street",
+      "desc": "The old street of the hometown of the film 'Let It Be', preserving the dowry street and old shops."
+    },
+    "d1001103-0": {
+      "name": "Daxian Temple",
+      "desc": "An ancient temple at the foot of Guanziling, founded in the Kangxi era of the Qing dynasty."
+    },
+    "d1001103-1": {
+      "name": "Biyun Temple",
+      "desc": "A Guanyin temple on Zhentou Mountain, sharing the 'Welcoming the Buddha' custom with Bixuan Temple in Dongshan."
+    },
+    "d1001103-2": {
+      "name": "Baihe Lotus Park",
+      "desc": "The main spot for lotus viewing in summer."
+    },
+    "d1001101-0": {
+      "name": "Minzhi Civic Center",
+      "desc": "Tainan City Government's office complex north of the Zengwen River, formerly the Tainan County Government."
+    },
+    "d1001101-1": {
+      "name": "Nanying Green Heart Park",
+      "desc": "A large urban park next to the civic center."
+    },
+    "d1001101-2": {
+      "name": "Xinying Sugar Factory Railway Culture Park",
+      "desc": "A park preserving narrow-gauge sugar trains and sugar factory facilities."
+    },
+    "d1001101-3": {
+      "name": "Xinying Taizi Temple",
+      "desc": "A major temple dedicated to the Third Prince Nezha (Zhongtan Yuanshuai)."
+    },
+    "d1001102-0": {
+      "name": "Yanshui Wu Temple",
+      "desc": "Birthplace of the Lantern Festival beehive fireworks, dedicated to Guan Yu (Guansheng Dijun)."
+    },
+    "d1001102-1": {
+      "name": "Yuejin Harbor Waterfront Park",
+      "desc": "Venue of the Yuejin Lantern Festival."
+    },
+    "d1001102-2": {
+      "name": "Octagonal Pavilion",
+      "desc": "The wooden mansion of the Ye family, Qing-era sugar merchants, and a landmark of Yanshui's old town."
+    },
+    "d1001102-3": {
+      "name": "Qiaonan Old Street",
+      "desc": "An old street with well-preserved Qing-dynasty shophouses."
+    },
+    "d1001117-0": {
+      "name": "Beimen Visitor Center",
+      "desc": "A visitor center known for the Crystal Church and its painted walls."
+    },
+    "d1001117-1": {
+      "name": "Beimenyu Presbyterian Church",
+      "desc": "A church and clinic founded in the Japanese era for blackfoot disease patients."
+    },
+    "d1001117-2": {
+      "name": "Qianlaiye Grocery Store",
+      "desc": "A nostalgic grocery store converted from old salt-industry dormitories."
+    },
+    "d1001117-3": {
+      "name": "Shuangchun Coastal Recreation Area",
+      "desc": "A coastal forest and beach recreation area at the northern tip of Beimen."
+    },
+    "d1001104-0": {
+      "name": "Deyuanpi Holland Village",
+      "desc": "A pond park with Dutch windmills and a campground."
+    },
+    "d1001104-1": {
+      "name": "Jianshanpi Jiangnan Resort",
+      "desc": "A lakeside resort run by Taiwan Sugar Corporation."
+    },
+    "d1001104-2": {
+      "name": "Liu Family Historic Residence",
+      "desc": "A cluster of Fujian-style three-sided courtyard houses of the Liu family of Liuying."
+    },
+    "d1001104-3": {
+      "name": "Liuying Dairy Farming Zone",
+      "desc": "Taiwan's largest dairy farming area, with farm experiences."
+    },
+    "d1001106-0": {
+      "name": "Bixuan Temple",
+      "desc": "Main temple of the Dongshan 'Welcoming the Buddha' procession, a nationally important folk custom."
+    },
+    "d1001106-1": {
+      "name": "Fuyou Temple (Xiangong Temple)",
+      "desc": "A large mountain temple dedicated to Lü Dongbin."
+    },
+    "d1001106-2": {
+      "name": "Dongshan Coffee Road Rest Stop",
+      "desc": "Coffee estates and rest stops along the Route 175 Coffee Road."
+    },
+    "d1001106-3": {
+      "name": "Kabuasua Village",
+      "desc": "A Siraya indigenous village known for its Night Ceremony."
+    },
+    "d1001113-0": {
+      "name": "Ciji Temple",
+      "desc": "A Baosheng Dadi temple famous for Ye Wang's Koji pottery."
+    },
+    "d1001113-1": {
+      "name": "Laotanghu Art Village",
+      "desc": "An art village built around old houses and waterscapes."
+    },
+    "d1001113-2": {
+      "name": "Wanpi World Safari Zoo",
+      "desc": "A safari zoo in southern Taiwan."
+    },
+    "d1001113-3": {
+      "name": "Xuejia Wetland",
+      "desc": "A wetland at the mouth of the Jishui River, a habitat for migratory birds and black-faced spoonbills."
+    },
+    "d1001108-0": {
+      "name": "Beiji Temple (Xuantian Shangdi Temple)",
+      "desc": "Xiaying's center of faith, dedicated to Xuantian Shangdi."
+    },
+    "d1001108-1": {
+      "name": "Maogangwei Tianhou Temple",
+      "desc": "The Mazu temple of the Qing-era port of Maogangwei."
+    },
+    "d1001108-2": {
+      "name": "Wuchengen Park",
+      "desc": "A green park in the town of Xiaying."
+    },
+    "d1001108-3": {
+      "name": "Xiaying Farmers' Association A-Win Town",
+      "desc": "A farmers' association showroom famous for goose meat and silk quilts."
+    },
+    "d1001109-0": {
+      "name": "Heng'an Temple",
+      "desc": "Liujia's Mazu temple."
+    },
+    "d1001109-1": {
+      "name": "Chishan Longhu Temple",
+      "desc": "One of Taiwan's earliest renowned Buddhist temples."
+    },
+    "d1001109-2": {
+      "name": "Jingpupi Bald Cypress Grove",
+      "desc": "A pond lined with bald cypresses that turn red in winter."
+    },
+    "d1001109-3": {
+      "name": "Linfengying Ranch",
+      "desc": "A dairy ranch in Linfengying where visitors can see the cows."
+    },
+    "d1001116-0": {
+      "name": "Jiangjun Fishing Harbor",
+      "desc": "A fishing harbor where you can buy the catch directly."
+    },
+    "d1001116-1": {
+      "name": "Mashagou Coastal Recreation Area",
+      "desc": "A recreation area for beach and seaside activities."
+    },
+    "d1001116-2": {
+      "name": "Lingziliao Baoji Temple",
+      "desc": "Center of faith for Lingziliao in Jiangjun."
+    },
+    "d1001116-3": {
+      "name": "Fangyuan Art Museum",
+      "desc": "An art museum converted from the residence of a former Jiangjun township mayor."
+    },
+    "d1001110-0": {
+      "name": "Yoichi Hatta Memorial Park",
+      "desc": "A cluster of Japanese-style dormitories and a memorial hall beside Wushantou Reservoir."
+    },
+    "d1001110-1": {
+      "name": "Tainan National University of the Arts",
+      "desc": "An arts university on the shore of Wushantou Reservoir."
+    },
+    "d1001110-2": {
+      "name": "Jacana Ecological Education Park",
+      "desc": "A jacana conservation park set among water caltrop fields."
+    },
+    "d1001124-0": {
+      "name": "Xuankong Temple",
+      "desc": "A Buddhist temple known for its landscaping with unusual rocks and old trees."
+    },
+    "d1001124-1": {
+      "name": "Meiling Scenic Area",
+      "desc": "A mountain area for plum blossoms in winter and escaping the heat in summer."
+    },
+    "d1001124-2": {
+      "name": "Zengwen Reservoir",
+      "desc": "Taiwan's largest reservoir; the Nanxi end is the main entrance."
+    },
+    "d1001124-3": {
+      "name": "Lutaoyang Jiang Family Historic Settlement",
+      "desc": "A well-preserved cluster of Fujian-style settlement houses."
+    },
+    "d1001107-0": {
+      "name": "Zongye Arts and Culture Center",
+      "desc": "An arts park converted from the Japanese-era Zongye Sugar Factory."
+    },
+    "d1001107-1": {
+      "name": "Madou Old Street",
+      "desc": "The Zhongshan Road old street, with shophouses such as the Dianji Theater."
+    },
+    "d1001107-2": {
+      "name": "Daofeng Inland Sea Story House",
+      "desc": "A story house on the history of the Daofeng Inland Sea and Madou port, next to Madou Junior High School."
+    },
+    "d1001107-3": {
+      "name": "Madou Pomelo Industry Center",
+      "desc": "The Madou Farmers' Association's pomelo showroom and industry hall, busiest around the Mid-Autumn Festival."
+    },
+    "d1001112-0": {
+      "name": "Jialixing Zhenxing Temple",
+      "desc": "An ancient temple famous for Ye Wang's Koji pottery."
+    },
+    "d1001112-1": {
+      "name": "Beitouyang Pingpu Culture Park",
+      "desc": "A culture park of the Siraya Soulangh community, with the Flying Fan tomb and Pingpu artifacts."
+    },
+    "d1001112-2": {
+      "name": "Yanping Junwang Temple",
+      "desc": "Jiali's temple dedicated to Koxinga (Zheng Chenggong)."
+    },
+    "d1001119-0": {
+      "name": "Shanhua Qing'an Temple",
+      "desc": "The Mazu temple of Shanhua town, one of Tainan's three great Mazu temples."
+    },
+    "d1001119-1": {
+      "name": "Shanhua Sugar Factory",
+      "desc": "A still-operating sugar factory with narrow-gauge trains and ice treats."
+    },
+    "d1001119-2": {
+      "name": "Shanhua Cattle Market",
+      "desc": "A traditional cattle market held on days of the month ending in 2, 5 and 8."
+    },
+    "d1001114-0": {
+      "name": "Xigang Bridge",
+      "desc": "A highway bridge over the Zengwen River linking Xigang and Anding, an important bridge on Provincial Highway 19."
+    },
+    "d1001114-1": {
+      "name": "Xigang Pink Shower Tree Trail",
+      "desc": "A trail of pink shower trees beside the Zengwen River levee, blooming into a sea of pink every March to April."
+    },
+    "d1001114-2": {
+      "name": "Xigang Sesame Industry Hall",
+      "desc": "The Xigang Farmers' Association's showroom for sesame oil and farm produce."
+    },
+    "d1001114-3": {
+      "name": "Chenggong Elementary School Butterfly Garden",
+      "desc": "A butterfly ecology garden at Xigang's Chenggong Elementary School, where you can observe butterflies."
+    },
+    "d1001111-0": {
+      "name": "Nanying Astronomical Museum",
+      "desc": "A science museum with astronomical observation and a planetarium."
+    },
+    "d1001111-1": {
+      "name": "Zoumalai Farm",
+      "desc": "A leisure farm run by the Tainan Farmers' Association."
+    },
+    "d1001111-2": {
+      "name": "Shizilai Tianhou Temple",
+      "desc": "The Mazu temple of Shizilai in Danei."
+    },
+    "d1001111-3": {
+      "name": "Danei Avocado Production and Marketing Center",
+      "desc": "The marketing hub of the home of avocados, with an avocado festival in summer."
+    },
+    "d1001115-0": {
+      "name": "Taiwan Salt Museum",
+      "desc": "A museum devoted to the salt industry, shaped like salt mountains."
+    },
+    "d1001115-1": {
+      "name": "Black-faced Spoonbill Ecology Exhibition Hall",
+      "desc": "An exhibition hall introducing black-faced spoonbills and wetland ecology."
+    },
+    "d1001115-2": {
+      "name": "Qigu Lagoon",
+      "desc": "Taiwan's largest lagoon, which you can tour by boat."
+    },
+    "d1001115-3": {
+      "name": "Longshan Temple",
+      "desc": "A Wangye temple in Longshan Village, Qigu."
+    },
+    "d1001123-0": {
+      "name": "Mango Industry Culture Information Center",
+      "desc": "An exhibition hall on Yujing's mango industry."
+    },
+    "d1001123-1": {
+      "name": "Tapani Incident Memorial Park",
+      "desc": "A park commemorating the Tapani Incident of 1915."
+    },
+    "d1001123-2": {
+      "name": "Yujing Beiji Temple",
+      "desc": "The Xuantian Shangdi temple of Yujing town."
+    },
+    "d1001123-3": {
+      "name": "Hutou Mountain",
+      "desc": "A hiking spot overlooking the Yujing Basin."
+    },
+    "d1001121-0": {
+      "name": "Sucuo Changxing Temple",
+      "desc": "A plague-god temple with a royal boat festival held once every three years."
+    },
+    "d1001121-1": {
+      "name": "Gangkou Ci'an Temple",
+      "desc": "The Mazu temple of Gangkou in Anding."
+    },
+    "d1001121-2": {
+      "name": "Anding Sesame Industry Hall",
+      "desc": "The Anding Farmers' Association's sesame industry showroom."
+    },
+    "d1001122-0": {
+      "name": "Shanshang Garden Waterworks Museum",
+      "desc": "A museum converted from the water treatment facilities of the former Tainan Waterworks."
+    },
+    "d1001122-1": {
+      "name": "Shanshang Tianhou Temple",
+      "desc": "The Mazu temple of Shanshang town."
+    },
+    "d1001122-2": {
+      "name": "Yufeng Weir",
+      "desc": "A weir on the Zengwen River and the intake of the Tainan Waterworks; good for sunsets."
+    },
+    "d1001120-0": {
+      "name": "Tree Valley Life Science Museum",
+      "desc": "A science museum focused on dinosaur fossils and science exhibits."
+    },
+    "d1001120-1": {
+      "name": "Xinshi Yong'an Temple",
+      "desc": "Center of faith for the town of Xinshi."
+    },
+    "d1001120-2": {
+      "name": "Sinckan Community Local Culture Hall",
+      "desc": "A history and culture hall of the Siraya Sinckan community; Sinshih is where the community was located."
+    },
+    "d1002106-0": {
+      "name": "Luermen Tianhou Temple",
+      "desc": "A Mazu temple at Koxinga's landing site."
+    },
+    "d1002106-1": {
+      "name": "Orthodox Luermen Shengmu Temple",
+      "desc": "A Mazu temple of grand scale, famous for its fireworks events."
+    },
+    "d1002106-2": {
+      "name": "Sicao Dazhong Temple",
+      "desc": "An ancient temple next to the Sicao Green Tunnel."
+    },
+    "d1001126-0": {
+      "name": "Zuojhen Fossil Park",
+      "desc": "A museum complex themed on the fossils of the Cailiao River."
+    },
+    "d1001126-1": {
+      "name": "Erliao Sunrise Pavilion",
+      "desc": "A viewpoint for seas of clouds and sunrise."
+    },
+    "d1001126-2": {
+      "name": "Caoshan Moon World",
+      "desc": "A mudstone badlands landscape."
+    },
+    "d1001126-3": {
+      "name": "Ganglin Church",
+      "desc": "A century-old Presbyterian church in Ganglin, Zuojhen."
+    },
+    "d1001125-0": {
+      "name": "Nanhua Reservoir",
+      "desc": "A reservoir supplying water to greater Tainan."
+    },
+    "d1001125-1": {
+      "name": "Yushan Baoguang Holy Hall",
+      "desc": "A large I-Kuan Tao hall in the mountains."
+    },
+    "d1001125-2": {
+      "name": "Wushan Formosan Macaque Reserve",
+      "desc": "A Formosan macaque habitat in the Wushan hills, with hiking trails."
+    },
+    "d1001125-3": {
+      "name": "Dadi Valley",
+      "desc": "A gorge upstream of Nanhua Reservoir, accessible only in the dry season."
+    },
+    "d1001118-0": {
+      "name": "Sinhua Old Street",
+      "desc": "The Zhongzheng Road old street, with well-preserved Baroque-style shophouses."
+    },
+    "d1001118-1": {
+      "name": "Sinhua Butokuden",
+      "desc": "A Japanese-era martial arts hall, restored and open to the public."
+    },
+    "d1001118-2": {
+      "name": "Yang Kui Literary Memorial Museum",
+      "desc": "A literary museum commemorating the writer Yang Kui."
+    },
+    "d1001118-3": {
+      "name": "Sinhua National Botanical Garden",
+      "desc": "The former Zhongxing Forest Station, with forest trails and an ecological park."
+    },
+    "d1001131-0": {
+      "name": "Tainan Public Library Main Branch",
+      "desc": "The new main library opened in 2021, with a distinctive architectural form."
+    },
+    "d1001131-1": {
+      "name": "Tainan University of Technology",
+      "desc": "A comprehensive university in Yongkang."
+    },
+    "d1001131-2": {
+      "name": "Yanhang Yudi Temple",
+      "desc": "Center of faith for the Yanhang area."
+    },
+    "d1002104-0": {
+      "name": "Tainan Park",
+      "desc": "A century-old city park opened in the Japanese era."
+    },
+    "d1002104-1": {
+      "name": "Kaiyuan Temple",
+      "desc": "An ancient temple converted from Zheng Jing's Beiyuan villa."
+    },
+    "d1002104-2": {
+      "name": "Da Guanyin Pavilion and Xingji Temple",
+      "desc": "An adjacent Guanyin pavilion and Baosheng Dadi temple."
+    },
+    "d1002102-0": {
+      "name": "Tainan Art Museum Building 2",
+      "desc": "A modern art museum with a white fractal roof."
+    },
+    "d1002102-1": {
+      "name": "National Museum of Taiwan Literature",
+      "desc": "The former Tainan Prefecture Hall, Taiwan's national institution for literature."
+    },
+    "d1002102-2": {
+      "name": "Sacrificial Rites Martial Temple",
+      "desc": "The officially sanctioned Guan Yu temple, a national monument."
+    },
+    "d1002102-3": {
+      "name": "Grand Matsu Temple",
+      "desc": "A Mazu temple converted from the mansion of the Ming Prince of Ningjing."
+    },
+    "d1002102-4": {
+      "name": "Kailong Temple",
+      "desc": "Dedicated to the Seven Maidens (Qiniangma), the main temple of Tainan's 'Turning Sixteen' coming-of-age rite."
+    },
+    "d1002107-0": {
+      "name": "Anping Kaitai Tianhou Temple",
+      "desc": "Anping's earliest Mazu temple."
+    },
+    "d1002107-1": {
+      "name": "Anping Old Street",
+      "desc": "The old street and snacks around Yanping Street."
+    },
+    "d1002107-2": {
+      "name": "Te-Yang Destroyer Museum Park",
+      "desc": "A warship museum converted from a decommissioned destroyer."
+    },
+    "d1002107-3": {
+      "name": "Sio House (Xiyou Chuzhangsuo)",
+      "desc": "A salt-themed shop converted from a Japanese-era salt administration office."
+    },
+    "d1002101-0": {
+      "name": "National Cheng Kung University",
+      "desc": "Tainan's largest comprehensive university.",
+      "facts": [
+        "Public university",
+        "1 University Rd., East District"
+      ]
+    },
+    "d1002101-1": {
+      "name": "Tainan Cultural Center",
+      "desc": "A cultural center with a performance hall and exhibition halls."
+    },
+    "d1002101-2": {
+      "name": "Barclay Memorial Park",
+      "desc": "An ecological park commemorating Rev. Thomas Barclay."
+    },
+    "d1002101-3": {
+      "name": "Great East Gate",
+      "desc": "Yingchun Gate, the east gate of the Qing-era prefectural city."
+    },
+    "d1001129-0": {
+      "name": "Shanxi Temple",
+      "desc": "Guanmiao's Guan Yu temple."
+    },
+    "d1001129-1": {
+      "name": "Guanmiao Market",
+      "desc": "A market famous for Guanmiao noodles and pineapples."
+    },
+    "d1001129-2": {
+      "name": "Xinguang Painted Village",
+      "desc": "A community of painted murals in Xinguang Village, Guanmiao."
+    },
+    "d1002103-0": {
+      "name": "Tainan Airport",
+      "desc": "Tainan Airport, used jointly by military and civil aviation."
+    },
+    "d1002103-1": {
+      "name": "Shuijiaoshe Cultural Park",
+      "desc": "A cultural park converted from a military dependents' village."
+    },
+    "d1002103-2": {
+      "name": "Golden Coast",
+      "desc": "Tainan city's coastline, with the Ark landmark."
+    },
+    "d1002103-3": {
+      "name": "Zhuxi Temple",
+      "desc": "One of Tainan's earliest Buddhist temples."
+    },
+    "d1001130-0": {
+      "name": "Bamboo Charcoal Story House",
+      "desc": "An exhibition hall on Longci's bamboo charcoal industry."
+    },
+    "d1001130-1": {
+      "name": "Niupu Mudstone Soil and Water Conservation Park",
+      "desc": "An education park on mudstone badlands and soil and water conservation."
+    },
+    "d1001130-2": {
+      "name": "Huxing Mountain Park",
+      "desc": "A hill park in Longci."
+    },
+    "d1001130-3": {
+      "name": "Longci Wenheng Temple",
+      "desc": "Longci's Guan Yu temple, famous for its statues of Iron Man and other figures."
+    },
+    "d1001128-0": {
+      "name": "Renshou Temple",
+      "desc": "Guiren's center of faith, dedicated to Baosheng Dadi."
+    },
+    "d1001128-1": {
+      "name": "Guiren Aesthetics Hall",
+      "desc": "An arts and performance space in the Shalun area."
+    },
+    "d1001128-2": {
+      "name": "NCKU Guiren Campus",
+      "desc": "National Cheng Kung University's aerospace and research campus."
+    },
+    "d1001128-3": {
+      "name": "Datanpi Pineapple Park",
+      "desc": "A pond park themed on pineapples."
+    },
+    "d1001127-0": {
+      "name": "Tainan Metropolitan Park",
+      "desc": "A large metropolitan park that is home to the Chimei Museum."
+    },
+    "d1001127-1": {
+      "name": "Chimei Food Happiness Factory",
+      "desc": "A food tourism factory open to visitors."
+    },
+    "d1001127-2": {
+      "name": "Tainan Furniture Manufacturing Eco-Museum",
+      "desc": "A museum introducing Tainan's furniture craftsmanship."
+    },
+    "d1001105-3": {
+      "name": "Jindexing Pharmacy",
+      "desc": "A well-preserved Qing-era wooden pharmacy shophouse on Jingliao Old Street, with fine carvings; a municipal historic site."
+    },
+    "d1001105-4": {
+      "name": "Taiwan Orchid Plantation",
+      "desc": "An orchid industry park in Wushulin whose greenhouses grow all kinds of orchids; it hosts the Taiwan International Orchid Show every year."
+    },
+    "d1001103-3": {
+      "name": "Guanziling Water-Fire Cave",
+      "desc": "A natural wonder where spring water and natural gas seep from the same cliff crevice, so flames burn on the water's surface."
+    },
+    "d1001103-4": {
+      "name": "Linchupi Kapok Avenue",
+      "desc": "A country lane lined with kapok trees that bloom in spring; once selected as one of the most beautiful flower roads in the world."
+    },
+    "d1001103-5": {
+      "name": "Guanziling Old Street",
+      "desc": "A hillside old street in the Guanziling hot spring area, lined with mud hot spring inns and clay-pot chicken restaurants."
+    },
+    "d1001101-4": {
+      "name": "Swan Lake Park",
+      "desc": "A lakeside park converted from an old pond, with boardwalks and night lighting; a favourite strolling spot for Xinying residents."
+    },
+    "d1001101-5": {
+      "name": "Xinying Cultural Center",
+      "desc": "The main performing arts venue of northern Tainan, with a performance hall and exhibition rooms."
+    },
+    "d1001102-4": {
+      "name": "Yongcheng Theater",
+      "desc": "A wooden theater built at the end of the Japanese era, restored as an arts and performance space in Yanshui."
+    },
+    "d1001102-5": {
+      "name": "Yanshui Hubi Temple",
+      "desc": "A major Mazu temple in Yanshui, known locally as the Mazu Temple and a long-standing center of faith in the old Yuejin port town."
+    },
+    "d1001102-6": {
+      "name": "Annei Sugar Factory Film Studio Park",
+      "desc": "A film and television base converted from the former Annei sugar factory, with period street sets built on the grounds."
+    },
+    "d1001117-4": {
+      "name": "Beimen Crystal Church",
+      "desc": "A white steel church-shaped landmark beside the Beimen Visitor Center, reflected in the water and popular for wedding photos."
+    },
+    "d1001117-5": {
+      "name": "Taiwan Blackfoot Disease Memorial Hall",
+      "desc": "A memorial museum in the former clinic of Dr. Wang Jin-he, recording the history of blackfoot disease treatment in Beimen."
+    },
+    "d1001117-6": {
+      "name": "Luzhugou Fishing Harbor",
+      "desc": "A small fishing harbor on the Beimen lagoon, known for oyster farming and lovely sunsets."
+    },
+    "d1001104-4": {
+      "name": "Wu Jin-huai Music Memorial Hall",
+      "desc": "The restored former home of Taiwanese folk-song composer Wu Jin-huai, exhibiting his works and life."
+    },
+    "d1001104-5": {
+      "name": "Liuying Daitian Temple",
+      "desc": "A major Liuying temple dedicated to the Wangye deities, and the center of local faith."
+    },
+    "d1001104-6": {
+      "name": "Balaoye Station Dairy Cow Home",
+      "desc": "A dairy-cow theme farm beside the Balaoye sugar railway station, where visitors feed calves and ride the narrow-gauge train to Xinying."
+    },
+    "d1001106-4": {
+      "name": "Xianhu Farm",
+      "desc": "A leisure farm in the Dongshan hills growing longan and coffee, with views of the sea of clouds from the hilltop."
+    },
+    "d1001106-5": {
+      "name": "Dadong Mountain Trail",
+      "desc": "A hiking trail up Dadong Mountain, Tainan's highest peak at over 1,200 meters and one of Taiwan's Minor 100 Peaks."
+    },
+    "d1001113-4": {
+      "name": "Guanghua Hollyhock Fields",
+      "desc": "Community flower fields where hollyhocks taller than a person bloom every spring, drawing crowds of visitors."
+    },
+    "d1001113-5": {
+      "name": "Touqianliao Shangbaijiao Memorial",
+      "desc": "The riverside site on the Jiangjun River where Xuejia Ciji Temple holds the annual Shangbaijiao rite honoring its ancestral temple in Fujian."
+    },
+    "d1001108-4": {
+      "name": "Yen Shui-long Memorial Park",
+      "desc": "A park honoring Xiaying-born painter Yen Shui-long, featuring mosaic murals and sculptures."
+    },
+    "d1001108-5": {
+      "name": "Winnie the Pooh Mural Village",
+      "desc": "A Xiaying community whose walls are painted with Winnie the Pooh and other cartoon characters."
+    },
+    "d1001109-4": {
+      "name": "Linfengying Station Wooden Building",
+      "desc": "A Japanese-era wooden railway station on the TRA main line that still survives today; a municipal historic site."
+    },
+    "d1001116-4": {
+      "name": "Qingkunshen Fan-shaped Salt Fields",
+      "desc": "Salt pans laid out in a radiating fan pattern, a landmark of the Jiangjun coast when seen from the air."
+    },
+    "d1001116-5": {
+      "name": "Jiangjun River Estuary Wetland",
+      "desc": "A wetland at the mouth of the Jiangjun River with mangroves and rich migratory birdlife."
+    },
+    "d1001110-3": {
+      "name": "Longtian ChaCha Cultural Heritage Park",
+      "desc": "A park converted from the warehouses of the Longtian distillery, with interactive exhibits on the Chianan Canal and archaeology."
+    },
+    "d1001110-4": {
+      "name": "Hulupi Nature Park",
+      "desc": "A pond park in Guantian with a lovers' suspension bridge across the water; also a habitat of the pheasant-tailed jacana."
+    },
+    "d1001124-4": {
+      "name": "Yongxing Suspension Bridge",
+      "desc": "A long suspension bridge across the Zengwen River with views of the valley and mountains; one of Nanxi's landmarks."
+    },
+    "d1001124-5": {
+      "name": "Guidan Hot Spring",
+      "desc": "A sodium bicarbonate hot spring in the Nanxi hills with foot baths and a hot spring experience area."
+    },
+    "d1001107-4": {
+      "name": "Dianji Theater",
+      "desc": "A Japanese-era theater in Madou, now closed, whose Western-style facade still stands on the street."
+    },
+    "d1001107-5": {
+      "name": "Madou Huji Temple",
+      "desc": "A Mazu temple in the Madou town center, preserving exquisite cut-and-paste ceramic and painted decorations."
+    },
+    "d1001107-6": {
+      "name": "Shuikutou Archaeological Park",
+      "desc": "The remains of the Qing-era Madou port wharf, preserving relics of the Daofeng Inland Sea period and the legend of the dragon's throat."
+    },
+    "d1001112-3": {
+      "name": "Zilongmiao Yongchang Temple",
+      "desc": "One of the few temples in Taiwan dedicated to the general Zhao Zilong; the surrounding village is named after it."
+    },
+    "d1001112-4": {
+      "name": "Jiali Zhongshan Park",
+      "desc": "A green park in the Jiali town center shaded by old trees, where residents stroll and exercise."
+    },
+    "d1001119-3": {
+      "name": "Shanhua Brewery",
+      "desc": "A Taiwan Tobacco and Liquor Corporation brewery where visitors can tour the production line and taste fresh beer."
+    },
+    "d1001119-4": {
+      "name": "Hucuoliao Mural Village",
+      "desc": "A mural village that began with a daughter painting for her mother; its walls are covered with fairy-tale and animal scenes."
+    },
+    "d1001119-5": {
+      "name": "Qieba Tianhou Temple",
+      "desc": "A historic Mazu temple in Qieba, Shanhua, and the center of local faith."
+    },
+    "d1001114-4": {
+      "name": "Xigang Granary Restaurant",
+      "desc": "A restaurant converted from the Xigang Farmers' Association's old granary, retaining the granary's exterior and interior space."
+    },
+    "d1001111-4": {
+      "name": "Toushe Kuwa Shrine",
+      "desc": "The ritual house of the Siraya community of Toushe, where a night ceremony honoring the ancestral spirits is held in the tenth lunar month each year."
+    },
+    "d1001111-5": {
+      "name": "Danei Bridge",
+      "desc": "A large bridge across the Zengwen River, the main gateway into the Danei town center."
+    },
+    "d1001115-4": {
+      "name": "Guoshenggang Lighthouse",
+      "desc": "A black-and-white steel-frame lighthouse on the sandbar at the westernmost point of Taiwan's main island."
+    },
+    "d1001115-5": {
+      "name": "Liukong Pier",
+      "desc": "A boat pier on the Qigu Lagoon where visitors board rafts to cruise the lagoon and see oyster racks and sandbars."
+    },
+    "d1001115-6": {
+      "name": "Dingshan Birdwatching Pavilion",
+      "desc": "A birdwatching pavilion in Dingshan, Qigu, for observing black-faced spoonbills and migratory birds in the abandoned salt-pan wetlands."
+    },
+    "d1001123-4": {
+      "name": "White Church (Yintian Shanfang)",
+      "desc": "A pure-white Japanese-style chapel inside the Yintian Shanfang garden, a popular wedding-photo spot in Yujing."
+    },
+    "d1001123-5": {
+      "name": "Yujing Mango Ice Street",
+      "desc": "The streets around Yujing Market, lined with mango shaved-ice shops and busiest in the summer mango season."
+    },
+    "d1001121-3": {
+      "name": "Sucuo Zhenhu Temple",
+      "desc": "A Wangye temple in Sucuo that, like Changxing Temple, holds a royal-boat festival every three years."
+    },
+    "d1001122-3": {
+      "name": "Taiwan Orchid Plantation",
+      "desc": "An ecological park themed on Taiwan's native orchids, with orchid greenhouses and landscaped trails."
+    },
+    "d1001120-3": {
+      "name": "Yingxi Lake, Southern Taiwan Science Park",
+      "desc": "An artificial lake inside the science park; the lakeside path and large art installation are the park's leisure landmark."
+    },
+    "d1001120-4": {
+      "name": "Tree Valley Farm",
+      "desc": "A family leisure farm in Tree Valley Park where visitors can feed goats, rabbits and other small animals up close."
+    },
+    "d1002106-3": {
+      "name": "Taijiang National Park Visitor Center",
+      "desc": "A visitor center shaped like a cluster of white stilt houses; the buildings mirrored in the water are a Sicao landmark."
+    },
+    "d1002106-4": {
+      "name": "Koxinga Landing Monument at Luermen",
+      "desc": "A monument at the mouth of Luermen Creek marking the spot where Koxinga's army landed in Taiwan."
+    },
+    "d1002106-5": {
+      "name": "Anshun Salt Field",
+      "desc": "Salt pans opened in the Japanese era, now the Salt Field Eco-Culture Village, preserving tile-paved and fan-shaped salt pans."
+    },
+    "d1001125-4": {
+      "name": "Beiliao Old Street",
+      "desc": "A mountain-village old street near Nanhua Reservoir that keeps its old houses and simple hill-settlement character."
+    },
+    "d1001126-4": {
+      "name": "308 Highland Lookout",
+      "desc": "A lookout on a hill about 308 m high, overlooking the Moon World badlands, sunrise and seas of clouds."
+    },
+    "d1001118-4": {
+      "name": "Damujiang Cultural Park",
+      "desc": "Xinhua was once called Damujiang; the park restores Japanese-era dormitories next to the Butokuden."
+    },
+    "d1001118-5": {
+      "name": "Xinhua Chaotian Temple",
+      "desc": "A Mazu temple beside Xinhua Old Street and the center of faith for the Xinhua town area."
+    },
+    "d1001118-6": {
+      "name": "Guaguayuan Sweet Potato Story House",
+      "desc": "A sweet-potato-themed tourist factory introducing Taiwan's sweet potato industry and processing."
+    },
+    "d1001131-3": {
+      "name": "Yongkang Erwang Temple",
+      "desc": "The main temple of Erwang Village in Yongkang, dedicated to the Second Prince deity and a center of local faith."
+    },
+    "d1001131-4": {
+      "name": "Yongkang Adventure Education Park",
+      "desc": "A park known for its adventure play equipment, with large slides and climbing structures."
+    },
+    "d1002104-3": {
+      "name": "Sanshan Guowang Temple",
+      "desc": "Built by Hakka settlers from eastern Guangdong in the Qing era, a rare Chaozhou-style temple and national monument."
+    },
+    "d1002104-4": {
+      "name": "Xihua Hall",
+      "desc": "A Qing-era vegetarian hall of the Jinchuang sect of Zhaijiao, a rare surviving hall of its kind in the city."
+    },
+    "d1002102-5": {
+      "name": "Koxinga Shrine",
+      "desc": "A shrine to Koxinga, formerly the Kaishan King Temple, rebuilt as a shrine in the late Qing at Shen Baozhen's petition."
+    },
+    "d1002102-6": {
+      "name": "Temple of the Five Concubines",
+      "desc": "A temple and tomb honoring the five concubines of Ming Prince Ningjing, a national monument."
+    },
+    "d1002102-7": {
+      "name": "Judicial Museum (Former Tainan District Court)",
+      "desc": "The Japanese-era Tainan District Court, a Baroque-style building by Moriyama Matsunosuke and a national monument."
+    },
+    "d1002102-8": {
+      "name": "Heyue Plaza (The Spring)",
+      "desc": "A sunken water plaza built where the China Town mall was demolished, at the canal end of Zhongzheng Road."
+    },
+    "d1002102-9": {
+      "name": "Shuixian Temple",
+      "desc": "An old temple to the Water Immortals, once the meeting hall of Tainan's three merchant guilds, now inside Yongle Market."
+    },
+    "d1002102-10": {
+      "name": "Beiji Temple",
+      "desc": "A Ming-Zheng-era temple to Xuantian Shangdi with a plaque inscribed by Prince Ningjing, a national monument."
+    },
+    "d1002102-11": {
+      "name": "Wind God Temple",
+      "desc": "Taiwan's only temple dedicated to the Wind God, with a Qing-era stone archway of the official reception pavilion in front."
+    },
+    "d1002102-12": {
+      "name": "Wu Garden",
+      "desc": "A garden built by Qing-era merchant Wu Shangxin, one of Taiwan's four famous gardens, next to the Public Hall."
+    },
+    "d1002107-4": {
+      "name": "Yuguang Island",
+      "desc": "A sandbar island off Anping; the Crescent Bay beach and windbreak forest are a favorite sunset spot."
+    },
+    "d1002107-5": {
+      "name": "Blessing of the Big Fish",
+      "desc": "A large whale-shaped public artwork in Harbor History Park; visitors can walk inside to view the canal."
+    },
+    "d1002107-6": {
+      "name": "Haishan Hall",
+      "desc": "The Qing-era guild hall of the Haishan naval battalion, a Fujian-style house now serving as Anping's folk culture exhibition hall."
+    },
+    "d1002107-7": {
+      "name": "Anping Dingqing Pier",
+      "desc": "A waterfront pier park on Anping Harbor beside the Te Yang destroyer, a place to watch the harbor and sunset."
+    },
+    "d1002101-4": {
+      "name": "Magistrate's Residence",
+      "desc": "The Japanese-era residence of the Tainan prefectural governor, a red-brick mansion that once hosted Japanese royalty."
+    },
+    "d1002101-5": {
+      "name": "Tainan Station Historic Building",
+      "desc": "The Japanese-era station building, a national monument whose second floor once housed the Railway Hotel."
+    },
+    "d1001129-3": {
+      "name": "Qianfoshan Puti Temple",
+      "desc": "A large Buddhist monastery in the Guanmiao hills, founded by Master Baiyun."
+    },
+    "d1001129-4": {
+      "name": "Guanmiao Transfer Station",
+      "desc": "A Greater Tainan bus transfer station, the hub for routes to Longqi, Xinhua and downtown."
+    },
+    "d1002103-4": {
+      "name": "Xishu Old Street",
+      "desc": "An old coastal settlement in South District, known in recent years for community art and restored old houses."
+    },
+    "d1002103-5": {
+      "name": "Wanli Wannian Temple",
+      "desc": "The Wangye temple of Wanli, which keeps a royal boat inside and serves as the area's center of faith."
+    },
+    "d1002103-6": {
+      "name": "Shuipingwen Park",
+      "desc": "A large green park in the city with lawns, a pond and sports facilities."
+    },
+    "d1001127-3": {
+      "name": "Erkong New Village Military Dependents' Culture Park",
+      "desc": "An air force dependents' village in Rende, part of which has been preserved and turned into a culture park."
+    },
+    "d1001128-4": {
+      "name": "Asia-Pacific International Baseball Training Center",
+      "desc": "A national-level baseball training base in Shalun with a main stadium plus youth and little-league fields."
+    },
+    "d1001128-5": {
+      "name": "Dunyuan Confucius Temple",
+      "desc": "Guiren's Confucius temple, built by local gentry, which holds a Confucius memorial ceremony every year."
+    },
+    "d1001128-6": {
+      "name": "Qijia Flower Park",
+      "desc": "A flower-growing zone in Qijia, Guiren, mainly orchid and potted-plant nurseries open for visits and purchases."
+    },
+    "d1001128-7": {
+      "name": "Shalun Green Energy Science City",
+      "desc": "A green-energy R&D cluster next to THSR Tainan Station, home to a green technology demonstration site."
+    },
+    "d1001103-6": {
+      "name": "Baihe Reservoir",
+      "desc": "A multipurpose reservoir opened in 1965 at the foot of Guanziling, long troubled by heavy siltation.",
+      "facts": [
+        "Opened 1965 for irrigation, flood control and water supply",
+        "Concrete-core rolled earthfill dam, 42.5 m high",
+        "Severe siltation; ongoing dredging to restore capacity"
+      ]
+    },
+    "d1001125-5": {
+      "name": "Jingmian Reservoir",
+      "desc": "A small reservoir in Nanhua District, completed in 1980 and now a backup source for Nanhua Reservoir.",
+      "facts": [
+        "Smallest of the seven reservoirs in Siraya National Scenic Area",
+        "Concrete gravity dam, 36 m high",
+        "Built for mango-orchard irrigation, later used for public water supply"
+      ]
+    },
+    "d1002102-13": {
+      "name": "National University of Tainan",
+      "desc": "Traces its history to the 1899 Tainan Normal School and became a comprehensive university in 2004; the Red House is a Japanese-era school building.",
+      "facts": [
+        "Public university",
+        "33 Shulin St. Sec. 2, West Central District"
+      ]
+    },
+    "d1001128-8": {
+      "name": "Chang Jung Christian University",
+      "desc": "Founded in 1993 as Chang Jung College of Management and upgraded to a university in 2002; Presbyterian-affiliated.",
+      "facts": [
+        "Private university",
+        "1 Changda Rd., Guiren District"
+      ]
+    },
+    "d1001131-5": {
+      "name": "Southern Taiwan University of Science and Technology",
+      "desc": "A private university of science and technology in Yongkang District; motto 'Faith, Righteousness, Sincerity, Honesty'.",
+      "facts": [
+        "Private university of science and technology",
+        "1 Nantai St., Yongkang District"
+      ]
+    },
+    "d1001131-6": {
+      "name": "Kun Shan University",
+      "desc": "Founded as Kun Shan Junior College of Technology in 1964 and upgraded in 2000; four colleges.",
+      "facts": [
+        "Private university of science and technology",
+        "195 Kunda Rd., Yongkang District"
+      ]
+    },
+    "d1001127-4": {
+      "name": "Chia Nan University of Pharmacy and Science",
+      "desc": "Founded in 1966 as Chia Nan Junior College of Pharmacy; one of nine institutions in Taiwan with a pharmacy department.",
+      "facts": [
+        "Private university of science and technology",
+        "60 Erren Rd. Sec. 1, Rende District"
+      ]
+    },
+    "d1001127-5": {
+      "name": "Chung Hwa University of Medical Technology",
+      "desc": "Founded in 1968 and renamed in 2007; focuses on medical professions.",
+      "facts": [
+        "Private university of science and technology",
+        "89 Wenhua 1st St., Rende District"
+      ]
+    },
+    "d1001120-5": {
+      "name": "CTBC University of Technology",
+      "desc": "Formerly Far East University; renamed in August 2024 after funding from CTBC Bank.",
+      "facts": [
+        "Private university of science and technology",
+        "49 Zhonghua Rd., Xinshi District"
+      ]
+    },
+    "d1002106-6": {
+      "name": "CTBC Business School",
+      "desc": "Founded in 2000 as Hsing Kuo University of Management; renamed in 2015 after funding from CTBC Financial Holding.",
+      "facts": [
+        "Private college",
+        "600 Taijiang Blvd. Sec. 3, Annan District"
+      ]
+    },
+    "d1002101-6": {
+      "name": "Tainan Theological College and Seminary",
+      "desc": "A Presbyterian Church in Taiwan seminary tracing back to an 1869 preacher-training class (not in the MOE higher-education list).",
+      "facts": [
+        "Presbyterian seminary",
+        "117 Dongmen Rd. Sec. 1, East District"
+      ]
+    }
+  },
+  "pois": {
+    "chihkan": {
+      "name": "Chihkan Tower",
+      "desc": "The site of Fort Provintia, built by the Dutch in 1652; one of Tainan's most representative monuments, lit in yellow at night."
+    },
+    "anping-fort": {
+      "name": "Anping Old Fort",
+      "desc": "Fort Zeelandia, built from 1624, the hub of Dutch rule over Taiwan; a national monument."
+    },
+    "anping-treehouse": {
+      "name": "Anping Tree House",
+      "desc": "A former Tait & Co. warehouse overgrown by banyan trees, next to Anping Old Fort."
+    },
+    "eternal-fort": {
+      "name": "Eternal Golden Castle",
+      "desc": "A Western-style fort planned by Shen Baozhen in 1874, Taiwan's first modern gun battery."
+    },
+    "confucius": {
+      "name": "Tainan Confucius Temple",
+      "desc": "Founded in 1665 as Taiwan's first academy, the island's first Confucius temple."
+    },
+    "hayashi": {
+      "name": "Hayashi Department Store",
+      "desc": "A Japanese-era department store opened in 1932, preserving its cage elevator and rooftop shrine."
+    },
+    "shennong": {
+      "name": "Shennong Street",
+      "desc": "An old street of the Qing-era Five Canals district, preserving long narrow shophouses and lantern-lit nights."
+    },
+    "blueprint": {
+      "name": "Blueprint Culture and Creative Park",
+      "desc": "A creative park converted from former judicial dormitories, famous for its 3D blueprint in blue and white lines."
+    },
+    "chimei": {
+      "name": "Chimei Museum",
+      "desc": "A white museum designed by Shigeru Ban, housing Western art, musical instruments and arms."
+    },
+    "tendrum": {
+      "name": "Ten Drum Rende Sugar Factory Cultural Park",
+      "desc": "A drum-arts creative park converted from the Rende Sugar Factory, keeping its chimney and workshops."
+    },
+    "nmth": {
+      "name": "National Museum of Taiwan History",
+      "desc": "A national museum themed on four hundred years of Taiwan's history."
+    },
+    "sicao": {
+      "name": "Sicao Green Tunnel",
+      "desc": "A mangrove waterway in Taijiang National Park, traversed by bamboo raft."
+    },
+    "qigu-salt": {
+      "name": "Qigu Salt Mountain",
+      "desc": "A white mountain of piled sun-dried salt that you can climb, with salty popsicles and salt sculpture activities."
+    },
+    "jingzaijiao": {
+      "name": "Jingzaijiao Tile-paved Salt Fields",
+      "desc": "Taiwan's oldest surviving tile-paved salt fields, famous for their sunset reflections."
+    },
+    "nankunshen": {
+      "name": "Nankunshen Daitian Temple",
+      "desc": "The head temple of Wangye worship in Taiwan, a national monument."
+    },
+    "madou-temple": {
+      "name": "Madou Daitian Temple",
+      "desc": "A Five Wangye temple famous for its giant dragon with heaven and hell scenes."
+    },
+    "soulangh": {
+      "name": "Soulangh Cultural Park",
+      "desc": "An arts park converted from the Jiali Sugar Factory, with a children's art museum and exhibitions."
+    },
+    "wushantou": {
+      "name": "Wushantou Reservoir",
+      "desc": "The water source of the Chianan Irrigation Canal designed by Yoichi Hatta; the Coral Lake scenic area."
+    },
+    "guanziling": {
+      "name": "Guanziling Hot Spring",
+      "desc": "A rare mud hot spring, one of Taiwan's four great hot springs."
+    },
+    "hutoupi": {
+      "name": "Hutoupi Scenic Area",
+      "desc": "Taiwan's first reservoir, with a lakeside trail and suspension bridge."
+    },
+    "qingan": {
+      "name": "Xigang Qing'an Temple",
+      "desc": "Dedicated to the Qiansui Wangye; the triennial 'Xigang Pilgrimage' has been run by Qing'an Temple since 1823, covering nearly a hundred villages, and is a nationally important folk custom."
+    },
+    "zizhu": {
+      "name": "Nanhua Zizhu Temple",
+      "desc": "A Guanyin temple in the Nanhua hills facing the Chianan Plain with mountain views; the farm produce collection yard at its entrance makes it a gathering place for hikers."
+    },
+    "jintang": {
+      "name": "Jiali Jintang Temple",
+      "desc": "Dedicated to the Zhu, Lei and Yin Qiansui; the triennial 'Soulangh Pilgrimage' is one of Tainan's five great pilgrimages, famous for its Centipede Formation."
+    },
+    "nm-garden": {
+      "name": "Garden Night Market",
+      "desc": "One of Tainan's three big night markets, open Thursday, Saturday and Sunday."
+    },
+    "nm-dadong": {
+      "name": "Dadong Night Market",
+      "desc": "Open Monday, Tuesday and Friday; since 2023 split into two adjacent sections, Dadong and Dadong East."
+    },
+    "nm-wusheng": {
+      "name": "Wusheng Night Market",
+      "desc": "Open Wednesday and Saturday (single source, worth re-checking)."
+    },
+    "nm-xiaobei": {
+      "name": "Xiaobei Chenggong Night Market",
+      "desc": "Section 4, Ximen Road, North District; Tuesday and Friday, 17:00 to 00:00."
+    },
+    "nm-fuguo": {
+      "name": "Yongkang Fuguo Night Market",
+      "desc": "Fuguo 1st Road, Yongkang District; recorded as open Tuesday and Friday, to be confirmed."
+    },
+    "nm-xinying": {
+      "name": "Xinying Night Market",
+      "desc": "The largest night market north of the Zengwen River; recorded as open Monday and Thursday, to be confirmed."
+    },
+    "stsp-admin": {
+      "name": "STSP Administration Bureau",
+      "desc": "The Tainan Science Park of the Southern Taiwan Science Park sits at the junction of Sinshih, Shanhua and Anding; phases 1 and 2 cover about 1,043 hectares."
+    },
+    "stsp-fab": {
+      "name": "Wafer Fab Area (TSMC)",
+      "desc": "TSMC is the park's main tenant; in 2017 it announced fabs for its advanced 5 nm and 3 nm processes in the Tainan park."
+    },
+    "stsp-rd": {
+      "name": "R&D and Incubation Area",
+      "desc": "Research institutions and start-up incubation space on the park's east side; phase 3 expands onto Taiwan Sugar land in Sinshih District."
+    },
+    "stsp-life": {
+      "name": "Park Living Area",
+      "desc": "The residential and amenity area around the staff dormitories, shopping mall and Tree Valley Park."
+    }
+  },
+  "events": {
+    "beehive": {
+      "name": "Yanshui Beehive Fireworks",
+      "when": "Lantern Festival, the 15th day of the 1st lunar month, every year",
+      "desc": "Originating from a late-Qing plague custom of inviting Guan Yu on procession while setting off firecrackers along the way; now famous for fireworks 'castles' launching hundreds of thousands of rockets at once, one of Taiwan's most iconic Lantern Festival events."
+    },
+    "wangchuan": {
+      "name": "Xigang Pilgrimage · Burning of the Royal Boat",
+      "when": "Once every three years (Ox, Dragon, Goat and Dog years), 4th lunar month",
+      "desc": "The Xigang Pilgrimage has been run by Qing'an Temple since 1823; its procession covers nearly a hundred villages and is a nationally important folk custom. On the final day the royal boat is burned to send off the Qiansui Wangye and the boat, symbolically carrying the plague away."
+    },
+    "centipede": {
+      "name": "Soulangh Pilgrimage · Centipede Formation",
+      "when": "Once every three years; 2026 is a pilgrimage year",
+      "desc": "The Soulangh Pilgrimage of Jiali Jintang Temple is one of Tainan's five great pilgrimages. In the Centipede Formation, children dressed as deity generals ride a long row of platforms through the procession; in 2026 its 108 sections were certified by Guinness World Records."
+    },
+    "yuejin": {
+      "name": "Yuejin Lantern Festival",
+      "when": "About a month around Lunar New Year each year (centered on the Lantern Festival)",
+      "desc": "A light-art festival on the water of Yuejin Harbor in Yanshui, in its 15th year in 2025 and extended to Xinying since 2024."
+    },
+    "dongshan": {
+      "name": "Dongshan Welcoming the Buddha",
+      "when": "Escorted to Biyun Temple on the 23rd day of the 12th lunar month, and back to Bixuan Temple on the 10th day of the 1st lunar month",
+      "desc": "A round-trip procession of the Guanyin Buddha between Bixuan Temple in Dongshan and Biyun Temple in Baihe, a nationally important folk custom; devotees escort the palanquin on foot over mountain roads.",
+      "labels": [
+        "Outbound",
+        "Return"
+      ]
+    },
+    "xuejia": {
+      "name": "Xuejia Shang Baijiao Pilgrimage",
+      "when": "Around the 11th day of the 3rd lunar month",
+      "desc": "The ancestral rite of Xuejia Ciji Temple, paying homage from afar to the ancestral temple in Baijiao, Fujian, with a Centipede Formation and procession troupes."
+    },
+    "longqi": {
+      "name": "Longci Light Festival · Empty Mountain Festival",
+      "when": "About a month around Lunar New Year",
+      "desc": "A forest lantern festival in Huxing Mountain Park, hailed as the most beautiful mountain lantern festival in the country."
+    },
+    "kapok": {
+      "name": "Baihe Kapok Blossom Season",
+      "when": "March every year",
+      "desc": "The kapok avenue at Linchupi comes into full bloom, painting the whole of Baihe orange-red."
+    },
+    "jiangjun": {
+      "name": "Jiangjun Roar Music Festival",
+      "when": "Every summer (around the first weekend of July)",
+      "desc": "A beach music festival on Mashagou beach, with stage lights and crowds at night."
+    },
+    "anping-ny": {
+      "name": "Anping New Year's Eve Fireworks and Spring Welcome",
+      "when": "New Year's Eve on 31 December, and the 1st day of the 1st lunar month",
+      "desc": "New Year's Eve fireworks and Lunar New Year celebrations in front of Anping Kaitai Tianhou Temple.",
+      "labels": [
+        "New Year's Eve",
+        "Spring Welcome"
+      ]
+    },
+    "luermen": {
+      "name": "Luermen Shengmu Temple Spring Fireworks",
+      "when": "Around the 1st day of the 1st lunar month",
+      "desc": "The Orthodox Luermen Shengmu Temple is famous for welcoming the new year with high-altitude fireworks, the largest display in Tainan."
+    },
+    "lotus": {
+      "name": "Baihe Lotus Festival",
+      "when": "June to August every year",
+      "desc": "Baihe's lotus fields in full bloom; the Lotus Park and lotus-viewing trails are the main spots."
+    },
+    "cypress": {
+      "name": "Liujia Bald Cypress Season",
+      "when": "December to January every year",
+      "desc": "The bald cypresses along Jingpupi turn orange-red, giving all of Liujia its autumn colors."
+    },
+    "plum": {
+      "name": "Meiling Plum Blossom Viewing",
+      "when": "January every year",
+      "desc": "Meiling's plum trees bloom in January, turning the Nanxi hills into a sea of white blossoms."
+    },
+    "firefly": {
+      "name": "Meiling Firefly Season",
+      "when": "Mid-April to mid-May every year",
+      "desc": "Swarms of fireflies at night along the Meiling trails, Tainan's best-known firefly-watching spot."
+    },
+    "spoonbill": {
+      "name": "Black-faced Spoonbill Season",
+      "when": "October to March every year",
+      "desc": "Black-faced spoonbills winter in Qigu Lagoon and the Zengwen River estuary, the world's most important wintering site."
+    },
+    "caltrop": {
+      "name": "Guantian Water Caltrop Season",
+      "when": "September to October every year",
+      "desc": "Harvest season for Guantian's water caltrops; the caltrop fields are breeding habitat for the pheasant-tailed jacana."
+    },
+    "madou": {
+      "name": "Madou Pilgrimage (Five Wangye Pilgrimage)",
+      "when": "Once every three years (same year as the Xigang Pilgrimage), 3rd lunar month",
+      "desc": "The pilgrimage procession of the Five Wangye of Madou Daitian Temple, one of Nanying's five great pilgrimages."
+    },
+    "tucheng": {
+      "name": "Tucheng Pilgrimage",
+      "when": "Once every three years (Ox, Dragon, Goat and Dog years), 3rd lunar month",
+      "desc": "The pilgrimage procession of the Orthodox Luermen Shengmu Temple, one of Nanying's five great pilgrimages, with a Centipede Formation and procession troupes."
+    },
+    "shibayao": {
+      "name": "Sinhua Shibayao",
+      "when": "18th day of the 1st lunar month",
+      "desc": "A night procession of Sinhua Wu'an Temple after the Lantern Festival, said to drive away a spider demon, with firecrackers going off all along the streets."
+    },
+    "sixteen": {
+      "name": "Tainan Turning Sixteen",
+      "when": "Qixi (7th day of the 7th lunar month)",
+      "desc": "A coming-of-age rite on the Seven Maidens' birthday at Kailong Temple, where sixteen-year-olds crawl under the Qiniangma pavilion; a custom unique to Tainan."
+    },
+    "orchid": {
+      "name": "Taiwan International Orchid Show",
+      "when": "Early March every year",
+      "desc": "The international orchid show at Wushulin in Houbi, one of the world's three great orchid shows."
+    },
+    "hotspringfair": {
+      "name": "Guanziling Hot Spring Food Festival",
+      "when": "Late September to October every year",
+      "desc": "A food market and hot-spring experience opening the Guanziling mud hot spring season."
+    },
+    "siraya": {
+      "name": "Toushe Siraya Night Ceremony",
+      "desc": "The Siraya people of Toushe in Danei honour their ancestral spirit Alid at night: a bonfire is lit before the kuwa shrine, offerings are made and the hand-in-hand round dance and songs go on until dawn. A registered folk-culture asset of Tainan City.",
+      "when": "Nights of the 14th and 15th days of the 10th lunar month"
+    },
+    "confucius": {
+      "name": "Confucius Temple Ceremony",
+      "when": "Early morning of September 28 (Teachers' Day) every year",
+      "desc": "The autumn sacrificial rite at Tainan Confucius Temple, Taiwan's first school. Officiants perform the three offerings in ancient form, students in period robes perform the Eight-Row Dance, and afterwards people pluck the ox's \"wisdom hairs\"."
+    },
+    "mazu": {
+      "name": "Grand Matsu Temple: Mazu's Birthday",
+      "when": "Around Mazu's birthday on the 23rd day of the 3rd lunar month",
+      "desc": "The Grand Matsu Temple was Taiwan's first state-built Mazu temple. Around her birthday there are celebration rites and a pilgrimage, with devotees walking from the old city to Anping."
+    },
+    "dragonboat": {
+      "name": "Tainan International Dragon Boat Championships",
+      "when": "About five days around the Dragon Boat Festival, on the Tainan Canal between Anyi and Chengtian bridges",
+      "desc": "Every Dragon Boat Festival, international and local teams race on the Tainan Canal while crowds cheer from the banks. It ran May 27–31 in 2025 and June 17–21 in 2026."
+    },
+    "mango": {
+      "name": "Tainan International Mango Festival (Yujing)",
+      "when": "Late June to July every year (based on past years; check the official announcement)",
+      "desc": "A harvest festival for mango season, with markets, tastings and mango shaved ice rotating through Yujing, Nanxi, Nanhua and Zuozhen. Yujing is the home of Taiwan's Irwin mangoes."
+    },
+    "pomelo": {
+      "name": "Madou Pomelo Festival",
+      "when": "About a month before Mid-Autumn Festival (pomelo harvest; dates based on past years, unverified)",
+      "desc": "Madou wentan pomelos are harvested around White Dew, and markets and promotions are held in the growing area before Mid-Autumn Festival."
+    },
+    "pineapple": {
+      "name": "Tainan Pineapple and Bamboo Shoot Season (Guanmiao)",
+      "when": "May to June, during pineapple and bamboo shoot season (dates based on past years, unverified)",
+      "desc": "A promotion for Guanmiao's pineapples and bamboo shoots, once held at Shanxi Temple with games, crafts and a cooking contest."
+    },
+    "rice": {
+      "name": "Tainan Good Rice Festival (Jingliao, Houbi)",
+      "when": "October every year (from October 9 in 2026); the painted rice field is planted in August",
+      "desc": "A rice festival run by the Houbi farmers' association. The Jingliao fields grow a painted rice field, and the autumn harvest brings rice-cutting, rice dishes and an old-street market. Houbi is the setting of the documentary Let It Be."
+    },
+    "coffee": {
+      "name": "Dongshan Coffee Festival",
+      "when": "From around October to November (based on past years; check the official announcement)",
+      "desc": "Dongshan's coffee harvest season. Tainan has held a specialty coffee competition since 2013, followed each autumn by a coffee festival along the Dongshan Coffee Road."
+    },
+    "flametree": {
+      "name": "Flame Tree Season",
+      "when": "Mid-May to late June (graduation season)",
+      "desc": "Tainan is called the Phoenix City; the flame trees on the NCKU campus and across the city burst into red blossoms during graduation season."
+    }
+  },
+  "stations": {
+    "houbi": {
+      "name": "Houbi"
+    },
+    "xinying": {
+      "name": "Xinying"
+    },
+    "liuying": {
+      "name": "Liuying"
+    },
+    "linfengying": {
+      "name": "Linfengying"
+    },
+    "longtian": {
+      "name": "Longtian"
+    },
+    "balin": {
+      "name": "Balin"
+    },
+    "shanhua": {
+      "name": "Shanhua"
+    },
+    "nanke": {
+      "name": "Nanke"
+    },
+    "xinshi": {
+      "name": "Xinshi"
+    },
+    "yongkang": {
+      "name": "Yongkang"
+    },
+    "daqiao": {
+      "name": "Daqiao"
+    },
+    "tainan": {
+      "name": "Tainan"
+    },
+    "rende": {
+      "name": "Rende"
+    },
+    "baoan": {
+      "name": "Bao'an"
+    },
+    "zhongzhou": {
+      "name": "Zhongzhou"
+    },
+    "changrong": {
+      "name": "Chang Jung Christian University"
+    },
+    "shalun": {
+      "name": "Shalun / HSR Tainan"
+    }
+  },
+  "lines": {
+    "main": {
+      "name": "TRA Western Trunk Line"
+    },
+    "shalun": {
+      "name": "TRA Shalun Line"
+    },
+    "hsr-0": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-1": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-2": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-3": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-4": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-5": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-6": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-7": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-8": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-9": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-10": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-11": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-12": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-13": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-14": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-15": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-16": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-17": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-18": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-19": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-20": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "hsr-21": {
+      "name": "Taiwan High Speed Rail"
+    },
+    "houbi-shalun": {
+      "name": "Houbi–Shalun through service"
+    }
+  },
+  "roles": {
+    "student": "Student",
+    "commuter": "Office worker",
+    "nurse": "Caregiver",
+    "researcher": "Researcher",
+    "artist": "Artist",
+    "elder": "Senior",
+    "family": "Parent",
+    "child": "Child"
+  },
+  "roleDescriptions": {
+    "student": "Takes the shuttle bus between the transit hub and campus every day, and often stays at the library or gym after school.",
+    "commuter": "Lives in social housing, a ten-minute walk from the transit hub, and likes to stroll along the waterfront at lunch.",
+    "nurse": "Works shifts between the community clinic and the day-care center, and makes regular home visits to seniors.",
+    "researcher": "Works in the open lab, regularly runs science camps on campus, and often visits the bookstore.",
+    "artist": "A resident member of the black-box theater, performing outdoors at the waterfront pavilion on weekends.",
+    "elder": "Spends the day at the day-care center and walks to the green island every day on the doctor's walking prescription.",
+    "family": "Drops the kids at the nursery in the morning; on weekends the whole family walks to the memory hall for exhibitions.",
+    "child": "Runs and plays at the inclusive playground and the plaza after school, and goes out and about with the family on holidays."
+  },
+  "dayCycle": [
+    {
+      "label": "Late night",
+      "note": "The city is resting; only night shifts and a few pedestrians remain."
+    },
+    {
+      "label": "Early morning",
+      "note": "The sky brightens; the fishing villages of Qigu and Beimen wake first."
+    },
+    {
+      "label": "Rush hour",
+      "note": "The flows from Yongkang and Rende into the city center are at their busiest."
+    },
+    {
+      "label": "Daytime",
+      "note": "Farms, the science park and campuses each go about their business."
+    },
+    {
+      "label": "Dusk",
+      "note": "Work and school let out; crowds head for residential areas and night markets."
+    },
+    {
+      "label": "Night",
+      "note": "Windows light up, and people are still strolling along the canal."
+    }
+  ],
+  "tours": {
+    "city": {
+      "name": "City Tour",
+      "blurb": "A minute or so around Tainan: stations, monuments, the science park, salt fields and hot springs.",
+      "captions": [
+        "Welcome to HEX CITY Tainan. The islands are the real outlines of the 37 districts; the next minute or so takes you around the city.",
+        "Tainan Station: the special-class station on the Western Trunk Line. Trains run from Houbi to Shalun, stopping at every station and turning back at the end.",
+        "Chihkan Tower: Fort Provintia, built by the Dutch in 1653, the starting point of Tainan's four hundred years of history.",
+        "Anping Old Fort: the site of Fort Zeelandia, Taiwan's earliest Western-style castle, facing the former Taijiang Inland Sea.",
+        "Southern Taiwan Science Park: the fence encloses the administration bureau, wafer fabs and R&D area; the daytime commuters all head here.",
+        "Yanshui Beehive Fireworks: on Lantern Festival night tens of thousands of rockets fire at once in front of Wu Temple, and the fireworks grow denser as night falls.",
+        "Qigu Salt Mountain: the salt fields and salt mountain of the west coast, at their best in the sunset glow.",
+        "Guanziling Hot Spring: a rare mud hot spring at the foot of the Baihe hills, with the morning mountain mist not yet lifted.",
+        "Shalun Station: the terminus of the Shalun Line and also HSR Tainan Station, where the trains turn back.",
+        "End of the tour. Click any district, building, station or pedestrian on the road to keep exploring Tainan."
+      ]
+    },
+    "temples": {
+      "name": "Temple Tour",
+      "blurb": "From the official temples of the old city to the Wangye temples by the sea: a map of Tainan's faith.",
+      "captions": [
+        "Tainan has the highest density of temples in Taiwan. This trip starts from the official temples of the old city and heads north to the Wangye temples by the sea.",
+        "Sacrificial Rites Martial Temple: the Guan Yu temple of official Qing-era worship and a national monument; its red wall along Yongfu Road is the most famous wall in the old city.",
+        "Grand Matsu Temple: a Mazu temple converted from the mansion of the Ming Prince of Ningjing, the first officially built Mazu temple in Taiwan.",
+        "Tainan Confucius Temple: Taiwan's first academy, built in 1665, with red walls, old trees and the Dacheng Hall.",
+        "Anping Kaitai Tianhou Temple: the Mazu temple of the people of Anping, with Anping Old Street right in front.",
+        "Orthodox Luermen Shengmu Temple: said to be the largest temple complex in Taiwan; the New Year spring fireworks are launched here.",
+        "Xigang Qing'an Temple: the triennial Xigang Pilgrimage sets out from here and ends with the burning of the royal boat to send off the gods.",
+        "Madou Daitian Temple: the great temple of the Five Wangye; the Eighteen Hells and giant dragon behind it are a childhood memory for many.",
+        "Xuejia Ciji Temple: a Baosheng Dadi temple; every year the Shang Baijiao rite returns to the bank of the Jiangjun River, where Koxinga landed, to honor the ancestral temple from afar.",
+        "Nankunshen Daitian Temple: the head temple of Wangye worship in Taiwan, with pilgrim groups arriving all year round.",
+        "Nanhua Zizhu Temple: a Guanyin sanctuary in the hills; we have come all the way from the coast into the mountains.",
+        "End of the temple tour. Open \"Events\" to see what temple festivals like the beehive fireworks, royal boat burning and Centipede Formation look like."
+      ]
+    },
+    "heritage": {
+      "name": "A Day of Monuments",
+      "blurb": "Dutch, Ming Zheng, Qing and Japanese eras: four hundred years in one day.",
+      "captions": [
+        "Tainan's four hundred years of history lie layered through the city. This trip goes in chronological order: Dutch, Ming Zheng, Qing, Japanese.",
+        "Anping Old Fort: Fort Zeelandia, built by the Dutch in 1624, the opening scene of Taiwan's history.",
+        "Chihkan Tower: Fort Provintia of 1653; after retaking Taiwan, Koxinga set up the Chengtian Prefecture here.",
+        "Jiali Yanping Junwang Temple: commemorates Koxinga; the Jiali area was an important base of Ming Zheng settlement.",
+        "Great East Gate: the east gate of the Qing-era Taiwan prefectural city; the walls are gone, but the gate still stands in the middle of the roundabout.",
+        "Eternal Golden Castle: a Western-style fort built in 1874 by Shen Baozhen with French engineers, in response to the Mudan Incident.",
+        "Hayashi Department Store: a Japanese-era department store opened in 1932, with the only elevator in southern Taiwan at the time.",
+        "National Museum of Taiwan Literature: the former Tainan Prefecture Hall, a government building with a Mansard roof completed in 1916.",
+        "Sinhua Butokuden: a Japanese-era martial arts hall, with the old street right next door.",
+        "Yoichi Hatta Memorial Park: the designer of Wushantou Reservoir and the Chianan Irrigation Canal; the dormitory cluster has been preserved.",
+        "Jingliao Holy Cross Church: a pyramid church designed in 1960 by Pritzker Prize winner Gottfried Böhm, modern architecture amid the rice paddies.",
+        "End of the day of monuments. Every building's card has a Google Maps link, so you can plan a route directly."
+      ]
+    },
+    "night": {
+      "name": "Night Market Night",
+      "blurb": "Follow the crowds after dark through six night markets and see which days they open.",
+      "captions": [
+        "Tainan's night markets are not open every day; locals remember it as 'Da-Da-Wu-Hua-Da-Wu-Hua'. This trip runs from dusk to late night.",
+        "Garden Night Market: open Thursday, Saturday and Sunday; the big night market of the North District, with crowds streaming in from all directions after dark.",
+        "Dadong Night Market: open Monday, Tuesday and Friday; in the East District near NCKU, with the most students.",
+        "Wusheng Night Market: open Wednesday and Saturday; a long-established night market in the West Central District.",
+        "Xiaobei Chenggong Night Market: open Tuesday and Friday; another option in the North District.",
+        "Yongkang Fuguo Night Market: the night market of Yongkang locals, not far from the city center.",
+        "Xinying Night Market: the largest night market north of the Zengwen River, a short walk from Xinying Station.",
+        "Shennong Street: after the night market, stroll the old street, where the Qing-era Five Canals left behind their shophouses.",
+        "End of night market night. Drag the timeline to the evening and the pedestrians will head on their own to whichever night market is open today."
+      ]
+    },
+    "mountainsea": {
+      "name": "Mountains and Sea",
+      "blurb": "From the lagoons and salt fields of the west coast to the reservoirs, Meiling and Moon World in the east.",
+      "captions": [
+        "West of Tainan are lagoons and salt fields; to the east, foothills and reservoirs. This trip goes from dawn at the coast to dusk in the mountains.",
+        "Qigu Lagoon: Taiwan's largest lagoon, with oyster racks and rafts; the fishermen head out first at dawn.",
+        "Jingzaijiao Tile-paved Salt Fields: the oldest surviving tile-paved salt fields, most famous for their sunset reflections.",
+        "Black-faced Spoonbill Ecology Exhibition Hall: from October to March each year, black-faced spoonbills come to the Zengwen River estuary to winter.",
+        "Sicao Green Tunnel: a waterway hemmed in by mangroves, with rafts drifting slowly through.",
+        "Wushantou Reservoir: completed in 1930; the name Coral Lake comes from the coral-like shoreline seen from the air.",
+        "Zengwen Reservoir: Taiwan's largest reservoir, supplying irrigation and domestic water to the Chianan Plain.",
+        "Meiling Scenic Area: plum blossoms in winter and fireflies in late spring, up in the Nanxi hills.",
+        "Caoshan Moon World: mudstone badlands, grey-white ridges where nothing grows.",
+        "Erliao Sunrise Pavilion: a famous low-altitude sunrise spot, where seas of clouds rise from the valleys of Moon World.",
+        "Guanziling Hot Spring: mud hot springs at dusk, where the mountains-and-sea day comes to a close.",
+        "End of the mountains and sea day. On the mountain trails and cycle paths you can also see riders going back and forth on the map."
+      ]
+    }
+  },
+  "crops": {
+    "rice": {
+      "name": "Rice",
+      "stages": [
+        "Fallow",
+        "1st crop transplanting",
+        "1st crop growing",
+        "1st crop harvest",
+        "2nd crop transplanting",
+        "2nd crop growing",
+        "2nd crop harvest",
+        "Fallow"
+      ]
+    },
+    "lotus": {
+      "name": "Lotus",
+      "stages": [
+        "Fallow",
+        "Leafing out",
+        "Flowering",
+        "Harvesting seeds and roots",
+        "Fallow"
+      ]
+    },
+    "waterChestnut": {
+      "name": "Water caltrop",
+      "stages": [
+        "Fallow",
+        "Rice–caltrop rotation (rice)",
+        "Flooding and field preparation",
+        "Caltrop leaves cover the field",
+        "Caltrop harvest",
+        "End of caltrop harvest",
+        "Fallow"
+      ]
+    },
+    "pomelo": {
+      "name": "Pomelo",
+      "stages": [
+        "Winter pruning",
+        "Flowering",
+        "Fruiting",
+        "Harvest",
+        "Post-harvest tree care"
+      ]
+    },
+    "mango": {
+      "name": "Mango",
+      "stages": [
+        "Flowering",
+        "Fruit set and bagging",
+        "Peak season",
+        "Post-harvest tree care"
+      ]
+    },
+    "sesame": {
+      "name": "Sesame",
+      "stages": [
+        "Fallow",
+        "Rice–sesame rotation (rice)",
+        "Land preparation",
+        "Sowing and emergence",
+        "Flowering and podding",
+        "Harvest and sun-drying"
+      ]
+    },
+    "sugarcane": {
+      "name": "Sugarcane",
+      "stages": [
+        "Harvest",
+        "New planting and sprouting",
+        "Stem elongation",
+        "Maturing"
+      ]
+    },
+    "fishpond": {
+      "name": "Fish pond",
+      "stages": [
+        "Winter pond drying",
+        "Farming",
+        "Harvest"
+      ]
+    },
+    "pineapple": {
+      "name": "Pineapple",
+      "stages": [
+        "Plant growth",
+        "Harvest",
+        "Plant growth"
+      ]
+    },
+    "longan": {
+      "name": "Longan",
+      "stages": [
+        "Dormant",
+        "Flowering",
+        "Fruiting",
+        "Harvest and drying",
+        "Post-harvest tree care"
+      ]
+    },
+    "coffee": {
+      "name": "Coffee",
+      "stages": [
+        "Harvest",
+        "Flowering and fruiting",
+        "Harvest"
+      ]
+    },
+    "avocado": {
+      "name": "Avocado",
+      "stages": [
+        "Fruiting",
+        "Harvest",
+        "Pre-flowering"
+      ]
+    }
+  },
+  "flows": {
+    "F1": "School run: students from Nanxi District go to class in Nanhua District.",
+    "F2": "Commute: office workers who live in Qigu District and work in Annan District.",
+    "F3": "Walking prescription: seniors from Baihe District walk to Dongshan District.",
+    "F4": "Collaboration: researchers from Yujing District run science camps in Zuojhen District.",
+    "F5": "Performance: artists from Guantian District perform in Danei District.",
+    "F6": "Family day: families from Liuying District visit the market in Liujia District.",
+    "F7": "Home care: caregivers from Sinhua District visit seniors in Longci District."
+  },
+  "specialties": {
+    "d1001105": [
+      "Rice",
+      "Orchids"
+    ],
+    "d1001103": [
+      "Lotus seeds",
+      "Lotus root",
+      "Oranges"
+    ],
+    "d1001101": [
+      "Rice",
+      "Sugarcane"
+    ],
+    "d1001102": [
+      "Yi noodles",
+      "Rice"
+    ],
+    "d1001117": [
+      "Milkfish",
+      "Oysters",
+      "Sea salt"
+    ],
+    "d1001104": [
+      "Fresh milk",
+      "Rice"
+    ],
+    "d1001106": [
+      "Longan",
+      "Coffee",
+      "Ponkan tangerines"
+    ],
+    "d1001113": [
+      "Milkfish",
+      "White shrimp"
+    ],
+    "d1001108": [
+      "Goose",
+      "Silk quilts"
+    ],
+    "d1001109": [
+      "Rice",
+      "Anthurium"
+    ],
+    "d1001116": [
+      "Carrots",
+      "Milkfish"
+    ],
+    "d1001110": [
+      "Water caltrop",
+      "Rice"
+    ],
+    "d1001124": [
+      "Mangoes",
+      "Star fruit",
+      "Plums"
+    ],
+    "d1001107": [
+      "Pomelo",
+      "White pomelo"
+    ],
+    "d1001112": [
+      "Burdock",
+      "Rice"
+    ],
+    "d1001119": [
+      "Sesame",
+      "Strawberries"
+    ],
+    "d1001114": [
+      "Sesame",
+      "Sesame oil"
+    ],
+    "d1001111": [
+      "Avocados",
+      "Mangoes"
+    ],
+    "d1001115": [
+      "Milkfish",
+      "Oysters",
+      "Clams",
+      "Sea salt"
+    ],
+    "d1001123": [
+      "Mangoes",
+      "Dried mango"
+    ],
+    "d1001121": [
+      "Sesame",
+      "Asparagus"
+    ],
+    "d1001122": [
+      "Pineapples",
+      "Papaya"
+    ],
+    "d1001120": [
+      "Edamame"
+    ],
+    "d1002106": [
+      "Milkfish",
+      "Clams"
+    ],
+    "d1001126": [
+      "Cordia fruit",
+      "Bamboo shoots"
+    ],
+    "d1001125": [
+      "Mangoes",
+      "Longan"
+    ],
+    "d1001118": [
+      "Sweet potatoes",
+      "Bamboo shoots"
+    ],
+    "d1001129": [
+      "Pineapples",
+      "Guanmiao noodles",
+      "Bamboo shoots"
+    ],
+    "d1001130": [
+      "Bamboo shoots",
+      "Bamboo charcoal"
+    ],
+    "d1001128": [
+      "Sugar apples"
+    ],
+    "d1001127": [
+      "Sugarcane"
+    ],
+    "d1002107": [
+      "Oysters"
+    ]
+  },
+  "foods": {
+    "dan-zai-noodles": {
+      "name": "Danzai Noodles",
+      "desc": "Tan-tsai noodles began around 1895 when fisherman Hong Yu-tou sold noodles from a shoulder pole outside Shuixian Temple during typhoon season."
+    },
+    "coffin-bread": {
+      "name": "Coffin Bread",
+      "desc": "Deep-fried thick toast hollowed out and filled with creamy chowder, created at a Sakariba (now Kangle Market) food stall in the Japanese era."
+    },
+    "shrimp-rice": {
+      "name": "Shrimp Rice",
+      "desc": "Local huoshao shrimp stir-fried with soy sauce and sugar, then steamed into rice with its sauce; several old shops line Hai'an Road."
+    },
+    "shrimp-roll": {
+      "name": "Shrimp Roll",
+      "desc": "Huoshao shrimp, minced pork, celery and fish paste wrapped in caul fat and deep-fried; a signature snack around Anping Old Street."
+    },
+    "anping-douhua": {
+      "name": "Anping Douhua",
+      "desc": "Silky tofu pudding in syrup with toppings like tapioca or red beans, a popular dessert near Anping Fort."
+    },
+    "milkfish-skin-soup": {
+      "name": "Milkfish Skin Soup",
+      "desc": "Milkfish shops on Kaiyuan Road prepare fish each dawn; skin or belly soup with braised-pork rice is a classic Tainan breakfast."
+    },
+    "xishu-flour-cake": {
+      "name": "Xishu Flour Pastry",
+      "desc": "A traditional Xishu pastry, named with Kunshen oyster fritters and Wanli lizardfish balls as the 'three crisps' of Kun-Xi-Wan."
+    },
+    "mango-shaved-ice": {
+      "name": "Mango Shaved Ice",
+      "desc": "Yujing is a key Irwin mango area; in summer old-street shops pile fresh mango on shaved ice, with district-run mango-ice tours."
+    },
+    "madou-wagui": {
+      "name": "Wa-guei Rice Pudding",
+      "desc": "Steamed rice-batter bowls with braised pork and egg yolk; Madou has third-generation shops dating back to Japanese-era peddlers."
+    },
+    "madou-pomelo": {
+      "name": "Madou Pomelo",
+      "desc": "Juicy, sweet-tart Madou pomelos were a Qing-era tribute fruit and are harvested around the White Dew solar term."
+    },
+    "water-caltrop-fritter": {
+      "name": "Water Caltrop Fritters",
+      "desc": "Guantian is called the home of red water caltrops; in autumn the nuts are battered and fried into a popular snack."
+    },
+    "yanshui-yi-mein": {
+      "name": "Yanshui Yi Noodles",
+      "desc": "Flat egg noodles kneaded with duck egg and sun-dried, tossed with meat sauce and sprouts; Yanshui's signature snack."
+    },
+    "xiaying-goose": {
+      "name": "Goose Meat",
+      "desc": "Xiaying is Tainan's goose-farming hometown; white goose is one of its three treasures with black beans and silk."
+    },
+    "shanhua-beef-soup": {
+      "name": "Beef Soup",
+      "desc": "Shanhua's large cattle slaughterhouse sends fresh beef to soup shops by dawn, underpinning Tainan's beef-soup culture."
+    },
+    "guanmiao-noodles": {
+      "name": "Guanmiao Noodles",
+      "desc": "Dating to the Japanese era, hand-folded noodles are sun-dried on bamboo trays for days and keep without preservatives."
+    },
+    "lotus-seed": {
+      "name": "Lotus Seeds",
+      "desc": "Baihe grows about two-thirds of Taiwan's lotus seeds; the lotus festival brings lotus-seed ice, cakes and lotus banquets."
+    },
+    "urn-roasted-chicken": {
+      "name": "Urn-Roasted Chicken",
+      "desc": "A Guanziling hot-spring specialty: whole chickens hung in clay urns and roasted over longan wood until golden and crisp."
+    },
+    "meiling-plum": {
+      "name": "Meiling Plums",
+      "desc": "Meiling has over 300 ha of plum trees; spring green plums become crisp pickled plums, shiso plums and plum chicken soup."
+    },
+    "dongshan-coffee": {
+      "name": "Dongshan Coffee",
+      "desc": "Coffee is grown along the hills of Route 175 in Dongshan, often shaded under longan trees."
+    },
+    "dried-longan": {
+      "name": "Wood-Smoked Dried Longan",
+      "desc": "Dongshan is Taiwan's main longan area; fruit is traditionally smoke-dried for days in wood-fired earthen kilns."
+    },
+    "milkfish-congee": {
+      "name": "Milkfish Congee",
+      "desc": "Xuejia is a milkfish-farming hub; its old congee shops use fish-bone broth with boneless milkfish."
+    },
+    "salt-baked-egg": {
+      "name": "Salt-Baked Egg",
+      "desc": "A snack around the Jingzaijiao tile-paved salt pans: eggs baked in local sea salt."
+    },
+    "dried-mango": {
+      "name": "Dried Mango",
+      "desc": "Nanhua grows Irwin mangoes; farmers hand-make lower-grade fruit into dried mango, now a local specialty."
+    },
+    "danei-avocado": {
+      "name": "Avocado",
+      "desc": "Danei is Taiwan's largest avocado-growing area; the season runs June to February, peaking in July and August."
+    },
+    "green-bamboo-shoot": {
+      "name": "Green Bamboo Shoots",
+      "desc": "Longqi is a main green bamboo shoot area; its sandy soil yields sweet shoots, often eaten chilled in summer."
+    },
+    "xinhua-sweet-potato": {
+      "name": "Sweet Potato",
+      "desc": "Sweet potato is Xinhua's specialty; it was once Taiwan's top sweet-potato starch producer and is credited with chilled roast sweet potatoes."
+    },
+    "jingliao-rice": {
+      "name": "Jingliao Rice",
+      "desc": "Houbi rice is nationally known; the documentary 'Let It Be' follows Jingliao farmers, and the old street serves champion rice."
+    },
+    "liuying-milk": {
+      "name": "Liuying Fresh Milk",
+      "desc": "Liuying is one of Taiwan's four major dairy zones, farming dairy cattle since around 1970."
+    },
+    "sesame-oil-chicken": {
+      "name": "Sesame Oil Chicken",
+      "desc": "Xigang is a main sesame-growing area; chicken cooked with local sesame oil and ginger is served dry or as soup."
+    },
+    "anding-sesame-oil": {
+      "name": "Sesame Oil",
+      "desc": "Anding, with Xigang and Shanhua, forms Tainan's sesame belt; the local farmers' association cold-presses sesame oil."
+    },
+    "qigu-oyster": {
+      "name": "Grilled Oysters",
+      "desc": "Oyster racks fill Qigu Lagoon; lagoon boat tours often include freshly grilled plump oysters."
+    },
+    "jiangjun-carrot": {
+      "name": "Carrots",
+      "desc": "Jiangjun's sandy coastal soil grows sweet carrots; with Jiali it supplies about 70% of Taiwan's crop, harvested March to April."
+    },
+    "xinshi-edamame": {
+      "name": "Edamame",
+      "desc": "Xinshi is known as the home of edamame, grown under contract in spring and autumn and mostly exported to Japan."
+    },
+    "douchai-noodles": {
+      "name": "Bean Sprout Noodles",
+      "desc": "An old-style noodle dish of the Chiayi–Tainan border: noodles with bean sprouts and sauce, sold from dawn in Liujia."
+    },
+    "cordia-pickle": {
+      "name": "Pickled Cordia",
+      "desc": "On Zuozhen's poor chalky soil, drought-hardy cordia thrives; picked in July, it is boiled and preserved in brine."
+    }
+  }
+}

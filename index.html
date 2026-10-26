@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#3e7c8c">
+<title>HEX CITY 台南</title>
+<meta name="description" content="台南 37 個行政區的互動城市示範：真實行政區輪廓、一百多棟建築、七條跨區動線。">
+<link rel="stylesheet" href="./style.css">
+<link rel="stylesheet" href="./calendar-panel.css">
+<link rel="stylesheet" href="./weather.css">
+<link rel="stylesheet" href="./stamps.css">
+<link rel="stylesheet" href="./talk.css">
+<link rel="stylesheet" href="./trip.css">
+<script type="importmap">{"imports":{"three":"./vendor/three/build/three.module.js","three/addons/":"./vendor/three/examples/jsm/"}}</script>
+</head>
+<body>
+<main id="app">
+  <div id="stage" role="img" aria-label="台南 37 個行政區組成的互動城市；完整文字內容請用右側清單" data-i18n-aria="stage.aria"></div>
+
+  <header class="brand"><h1>HEX CITY 台南</h1><p data-i18n="brand.sub">37 區</p></header>
+
+  <nav class="toolbar" aria-label="地圖操作" data-i18n-aria="toolbar.aria">
+    <button id="home" title="回到全景" data-i18n-title="btn.home.title" data-i18n="btn.home">⌂ 全景</button>
+    <button id="calendar-toggle" title="開啟或關閉活動月曆" data-i18n-title="btn.calendar.title" aria-controls="calendar" aria-expanded="false" data-i18n="btn.calendar">📅 月曆</button>
+    <button id="tour-start" title="主題導覽：選一條路線，依序飛到景點（Esc 離開）" data-i18n-title="btn.tour.title" aria-pressed="false" aria-haspopup="menu" aria-expanded="false" aria-controls="tour-menu" data-i18n="btn.tour">▶ 導覽</button>
+    <div id="tour-menu" class="tour-menu" role="menu" aria-label="導覽路線" data-i18n-aria="tour.menu.aria" hidden></div>
+    <button id="sidebar-toggle" class="mob-only" title="開啟或關閉清單" data-i18n-title="btn.sidebar.title" aria-controls="sidebar" aria-expanded="false" data-i18n="btn.sidebar">☰ 清單</button>
+  </nav>
+
+  <aside id="sidebar" class="sidebar" aria-label="島與建築清單" data-i18n-aria="sidebar.aria">
+    <div class="side-head">
+      <button class="close mob-only" id="sidebar-close" aria-label="關閉清單" data-i18n-aria="sidebar.close" title="關閉清單">×</button>
+      <div class="eyebrow">CITY INDEX</div>
+      <h2 data-i18n="sidebar.heading">三十七個區，一座城。</h2>
+      <p data-i18n="sidebar.intro">點一個區或一棟建築，看看它和其他區之間的關係。</p>
+      <input id="search" class="search" type="search" aria-label="搜尋島或建築" data-i18n-aria="search.aria" placeholder="搜尋行政區、建築、關鍵字…" data-i18n-placeholder="search.placeholder">
+    </div>
+    <div id="tree" class="tree"></div>
+  </aside>
+
+  <aside id="calendar" hidden aria-label="活動月曆" data-i18n-aria="calendar.aria"></aside>
+  <article id="card" class="card" hidden aria-label="選取項目詳細資料" data-i18n-aria="card.aria">
+    <button class="close" id="card-close" aria-label="關閉（Esc）" data-i18n-aria="card.close" title="關閉（Esc）" aria-keyshortcuts="Escape">×</button>
+    <div id="card-content"></div>
+  </article>
+
+  <div class="hud" aria-label="顯示選項" data-i18n-aria="hud.aria">
+    <div class="seg" role="group" aria-label="時段" data-i18n-aria="hud.time.aria">
+      <button data-time="390" title="切到清晨 06:30" data-i18n-title="time.dawn.title" data-i18n="time.dawn">清晨</button><button data-time="720" title="切到中午 12:00" data-i18n-title="time.day.title" data-i18n="time.day">白天</button><button data-time="1080" title="切到黃昏 18:00" data-i18n-title="time.dusk.title" data-i18n="time.dusk">黃昏</button><button data-time="1260" title="切到夜晚 21:00" data-i18n-title="time.night.title" data-i18n="time.night">夜晚</button>
+    </div>
+    <div class="seg" role="group" aria-label="圖層" data-i18n-aria="hud.layers.aria">
+      <button class="tg" data-toggle="labels" aria-pressed="true" title="顯示或隱藏行政區、車站、景點、活動標籤" data-i18n-title="toggle.labels.title" data-i18n="toggle.labels">標籤</button>
+      <button class="tg" data-toggle="names" aria-pressed="false" title="顯示動線行人的名牌" data-i18n-title="toggle.names.title" data-i18n="toggle.names">名牌</button>
+      <button class="tg" data-toggle="flows" aria-pressed="false" title="顯示全部七條跨區動線" data-i18n-title="toggle.flows.title" data-i18n="toggle.flows">動線</button>
+      <button class="tg" data-toggle="pause" aria-pressed="false" title="暫停行人、火車與活動效果" data-i18n-title="toggle.pause.title" data-i18n="toggle.pause">暫停</button>
+      <button class="tg" data-toggle="sound" aria-pressed="false" title="環境音與活動音效（全部即時合成，預設靜音）" data-i18n-title="toggle.sound.title" data-i18n="toggle.sound">聲音</button>
+      <button id="bird" title="從正上方俯瞰目前位置（一次性動作）" data-i18n-title="btn.bird.title" data-i18n="btn.bird">鳥瞰</button>
+      <button class="tg" data-toggle="events" aria-pressed="true" title="民俗活動效果" data-i18n-title="toggle.events.title" data-i18n="toggle.events">活動</button>
+      <button class="tg" data-toggle="bnames" aria-pressed="true" title="顯示或隱藏每棟建築的名稱（拉近才顯示）" data-i18n-title="toggle.bnames.title" data-i18n="toggle.bnames">建築名</button>
+      <button class="tg" data-toggle="speech" aria-pressed="false" title="朗讀卡片內容與導覽字幕（瀏覽器內建語音）" data-i18n-title="toggle.speech.title" data-i18n="toggle.speech">朗讀</button>
+      <button class="tg" data-toggle="heat" aria-pressed="false" title="人流熱度圖：每格 2 公里見方，顏色越深人越多" data-i18n-title="toggle.heat.title" data-i18n="toggle.heat">熱度</button>
+      <button class="tg" data-toggle="season" aria-pressed="false" title="在各區上空顯示這個月當季的農特產" data-i18n-title="toggle.season.title" data-i18n="toggle.season">當季</button>
+    </div>
+  </div>
+
+  <section class="controls" aria-label="一天的時間" data-i18n-aria="controls.aria">
+    <div class="day-row">
+      <button id="day-play" class="play" aria-label="播放一天" data-i18n-aria="day.play.aria">▶</button>
+      <output id="clock" for="day">08:00</output>
+      <input id="day" type="range" min="0" max="1439" value="480" aria-label="一天的時間，分鐘" data-i18n-aria="day.slider.aria">
+    </div>
+    <div class="ticks"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+    <p class="note" id="day-note"></p>
+    <div class="date-row"><button id="year-play" class="play small" title="播放一年（每秒兩天）" data-i18n-title="year.play.title" aria-label="播放一年" data-i18n-aria="year.play.aria">▶</button><button id="date-today" title="回到今天" data-i18n-title="btn.today.title" data-i18n="btn.today">今天</button><output id="date-label"></output><input id="doy" type="range" min="0" max="364" value="0" aria-label="一年中的日期" data-i18n-aria="doy.slider.aria"></div>
+  </section>
+
+  <div id="today-events" class="today-events" hidden aria-live="polite"></div>
+  <div id="ride" class="ride" hidden role="status" aria-live="polite"><span id="ride-text"></span><button id="ride-prev" title="上一班" data-i18n-title="ride.prev">‹</button><button id="ride-next" title="下一班" data-i18n-title="ride.next_btn">›</button><button id="ride-exit" data-i18n="ride.exit">下車</button></div>
+  <div id="tour" class="tour" hidden role="region" aria-label="導覽" data-i18n-aria="tour.aria" aria-live="polite">
+    <p id="tour-caption" class="tour-caption"></p>
+    <div class="tour-bar">
+      <span id="tour-count" class="tour-count">1 / 1</span>
+      <button id="tour-prev" title="上一段" data-i18n-title="tour.prev.title" data-i18n="tour.prev">‹ 上一段</button>
+      <button id="tour-pause" title="暫停或繼續自動播放" data-i18n-title="tour.pause.title" aria-pressed="false" data-i18n="toggle.pause">暫停</button>
+      <button id="tour-next" title="下一段" data-i18n-title="tour.next.title" data-i18n="tour.next">下一段 ›</button>
+      <button id="tour-exit" title="離開導覽（Esc）" data-i18n-title="tour.exit.title" data-i18n="tour.exit">離開</button>
+    </div>
+    <div class="tour-progress"><i id="tour-progress"></i></div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="loading" class="loading" role="status"><h2>HEX CITY</h2><p data-i18n="loading.text">正在組合台南…</p></div>
+</main>
+<script type="module" src="./app.js"></script>
+</body>
+</html>

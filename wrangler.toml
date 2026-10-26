@@ -1,0 +1,21 @@
+# Cloudflare Workers 靜態資產部署：npx wrangler deploy
+name = "hex-city-tainan"
+main = "worker.js" # /api/reservoir 代理水利署水庫水情、/api/bus 代理 TDX 公車即時位置，其餘路徑交給 ASSETS
+compatibility_date = "2026-10-01"
+workers_dev = true # 設了 routes 之後 workers.dev 預設會關掉，備用網址要明確打開
+
+# 自訂網域（Cloudflare 會自動建立 DNS 與憑證）；要放在 [assets] 之前，否則 TOML 會把它算成 assets 的欄位
+routes = [
+  { pattern = "hexcity.ericlin.io", custom_domain = true }
+]
+
+# /api/bus 的邊緣快取秒數。TDX 免費方案每月額度很少，調大可以省額度（公車位置就比較舊）。
+# TDX 金鑰不要寫在這裡：用 npx wrangler secret put TDX_CLIENT_ID 與 TDX_CLIENT_SECRET 設定。
+[vars]
+BUS_TTL = "60"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+html_handling = "auto-trailing-slash"
+not_found_handling = "none"

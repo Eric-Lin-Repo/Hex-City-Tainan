@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HEX CITY 資料校對</title>
+<style>
+  :root { --ink: #211d1d; --muted: #78685e; --line: #e3d6cb; --cream: #fff8f4; --accent: #db6a41; --ok: #3e7c8c; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.55 -apple-system, "PingFang TC", "Noto Sans TC", sans-serif; color: var(--ink); background: var(--cream); }
+  header { position: sticky; top: 0; z-index: 2; background: #fff; border-bottom: 1px solid var(--line); padding: 12px 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  header h1 { font-size: 18px; margin: 0 12px 0 0; }
+  header .count { color: var(--muted); font-size: 13px; }
+  header button { margin-left: auto; }
+  button { font: inherit; border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 5px 12px; cursor: pointer; }
+  button.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+  main { max-width: 1100px; margin: 0 auto; padding: 16px 20px 80px; }
+  h2 { font-size: 16px; margin: 28px 0 4px; }
+  h2 + p { color: var(--muted); margin: 0 0 10px; font-size: 13px; }
+  .row { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; display: grid; grid-template-columns: 210px 1fr; gap: 6px 16px; }
+  .row.done { border-color: var(--ok); box-shadow: inset 4px 0 0 var(--ok); }
+  .row .name b { display: block; font-size: 15px; }
+  .row .name span { color: var(--muted); font-size: 12px; }
+  .row .flag { grid-column: 2; color: var(--accent); font-size: 12px; }
+  .row textarea { width: 100%; min-height: 44px; font: inherit; border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; resize: vertical; }
+  .row .ll { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .row input { font: inherit; border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px; width: 260px; }
+  .row a { font-size: 12px; color: var(--ok); }
+  .row label { font-size: 12px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+  .err { color: #b8412f; font-size: 12px; }
+  @media (max-width: 700px) { .row { grid-template-columns: 1fr; } .row .flag { grid-column: 1; } .row input { width: 100%; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>HEX CITY 資料校對</h1>
+  <span class="count" id="count"></span>
+  <button id="export" class="primary">匯出修改（review.json）</button>
+</header>
+<main>
+  <p>改好後按右上「匯出修改」，把下載的 <code>review.json</code> 交給 <code>python3 -I tools/apply_review.py ~/Downloads/review.json</code>，它會寫回資料、重跑產生器與測試。沒改的欄位不會動。進度會暫存在這個瀏覽器，重新整理不會消失。</p>
+  <section id="geo"></section>
+  <section id="desc"></section>
+  <section id="spec"></section>
+  <section id="season"></section>
+  <section id="food"></section>
+</main>
+<script type="module">
+const $ = (s) => document.querySelector(s);
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const get = (u) => fetch(u, { cache: "no-cache" }).then((r) => r.json());
+const [src, islands, flags, spec, city, seasons, foods] = await Promise.all([get("./buildings_source.json"), get("../data/islands.json"), get("./review_flags.json"), get("../data/specialties.json"), get("../data/city.json"), get("../data/spec_seasons.json"), get("../data/food.json")]);
+const KEY = "hexcity-review";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch {}
+state.geo ??= {}; state.desc ??= {}; state.spec ??= {}; state.season ??= {}; state.food ??= {};
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {} count(); };
+const gmaps = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+const descOf = (d, n) => (src[d] || []).find((x) => x[0] === n)?.[2] ?? "";
+const idOfDistrict = new Map(city.districts.map((d) => [d.name, d.id]));
+
+// 1. 沒查到座標的建築：從 islands.json 找 geocoded === false
+const ungeo = [];
+for (const isl of islands) for (const b of isl.buildings) if (!b.geocoded) ungeo.push({ d: isl.name, n: b.name });
+$("#geo").innerHTML = `<h2>沒查到真實座標的建築（${ungeo.length}）</h2><p>點「在 Google 地圖找」，在地圖上右鍵該地點、點第一列的經緯度即可複製，貼到欄位裡（格式：緯度, 經度）。留空表示維持區內示意位置。</p>` +
+  ungeo.map(({ d, n }) => { const k = `${d}|${n}`; return `<div class="row" data-k="${esc(k)}" data-kind="geo"><div class="name"><b>${esc(n)}</b><span>${esc(d)}</span></div>
+    <div class="ll"><input placeholder="23.0012, 120.2034" value="${esc(state.geo[k] || "")}"><a href="${gmaps(`${n} ${d} 台南市`)}" target="_blank" rel="noopener">在 Google 地圖找 ↗</a><span class="err"></span></div>
+    <div class="flag">${esc(descOf(d, n))}</div></div>`; }).join("");
+
+// 2. 介紹沒把握的地點
+$("#desc").innerHTML = `<h2>介紹待確認（${Object.keys(flags.desc).length}）</h2><p>紅字是寫介紹時沒把握的地方。直接改文字框；不需要改就保持原樣。</p>` +
+  Object.entries(flags.desc).map(([k, why]) => { const [d, n] = k.split("|"); const cur = state.desc[k] ?? descOf(d, n); return `<div class="row" data-k="${esc(k)}" data-kind="desc"><div class="name"><b>${esc(n)}</b><span>${esc(d)}</span><br><a href="${gmaps(`${n} ${d} 台南市`)}" target="_blank" rel="noopener">查資料 ↗</a></div>
+    <textarea>${esc(cur)}</textarea><div class="flag">⚠ ${esc(why)}</div></div>`; }).join("");
+
+// 3. 打「？」的農特產
+$("#spec").innerHTML = `<h2>農特產待確認（${Object.keys(flags.specialties).length}）</h2><p>可以保留、刪除或改名（改名只填中文名稱）。</p>` +
+  Object.entries(flags.specialties).map(([d, item]) => { const k = `${d}|${item}`, v = state.spec[k] ?? { keep: true, name: item }; return `<div class="row" data-k="${esc(k)}" data-kind="spec"><div class="name"><b>${esc(item)}</b><span>${esc(d)}・目前：${esc((spec.byDistrict[idOfDistrict.get(d)] || []).map((x) => x.name).join("、"))}</span></div>
+    <div class="ll"><label><input type="checkbox" ${v.keep ? "checked" : ""} style="width:auto"> 保留</label><input value="${esc(v.name)}" placeholder="改名（可留原名）"></div></div>`; }).join("");
+
+// 4. 產季沒把握的特產：改月份（逗號分隔，1–12），或勾「確認無誤」
+const unsure = Object.entries(seasons.byName).filter(([, s]) => s.unsure);
+$("#season").innerHTML = `<h2>產季待確認（${unsure.length}）</h2><p>月份用逗號分隔，例如 <code>6,7,8</code>；全年供應填 <code>1-12</code>，跨年可寫 <code>11-2</code>。月份沒問題就勾「確認無誤」。</p>` +
+  unsure.map(([n, s]) => { const v = state.season[n] ?? { months: s.months.join(","), ok: false }; return `<div class="row" data-k="${esc(n)}" data-kind="season"><div class="name"><b>${esc(n)}</b><span>目前：${esc(s.months.join(","))} 月</span><br><a href="${gmaps(`台南 ${n} 產季`).replace("maps/search/?api=1&query=", "search?q=")}" target="_blank" rel="noopener">查產季 ↗</a></div>
+    <div class="ll"><input value="${esc(v.months)}" placeholder="6,7,8"><label><input type="checkbox" ${v.ok ? "checked" : ""} style="width:auto"> 確認無誤</label><span class="err"></span></div></div>`; }).join("");
+// 5. 依據薄弱的小吃（吃遍台南）：可以改介紹或刪除
+const unsureFood = foods.items.filter((it) => it.unsure);
+$("#food").innerHTML = `<h2>小吃待確認（${unsureFood.length}）</h2><p>這幾樣找到的出處很少。確認是該區代表小吃就勾「確認無誤」；不是就取消「保留」。介紹可以直接改。</p>` +
+  unsureFood.map((it) => { const v = state.food[it.id] ?? { keep: true, ok: false, desc: it.desc }; return `<div class="row" data-k="${esc(it.id)}" data-kind="food"><div class="name"><b>${esc(it.icon)} ${esc(it.name)}</b><span>${esc(it.district)}</span><br><a href="${esc(it.source)}" target="_blank" rel="noopener">目前出處 ↗</a></div>
+    <textarea>${esc(v.desc)}</textarea><div class="ll"><label><input type="checkbox" data-f="keep" ${v.keep ? "checked" : ""} style="width:auto"> 保留</label><label><input type="checkbox" data-f="ok" ${v.ok ? "checked" : ""} style="width:auto"> 確認無誤</label></div></div>`; }).join("");
+// "6,7,8"、"11-2"、"1-12" → [月份]；格式不對回 null
+function parseMonths(s) {
+  const out = new Set();
+  for (const part of String(s).split(/[,，\s]+/).filter(Boolean)) {
+    const m = part.match(/^(\d{1,2})(?:-(\d{1,2}))?$/);
+    if (!m) return null;
+    const a = +m[1], b = m[2] ? +m[2] : a;
+    if (a < 1 || a > 12 || b < 1 || b > 12) return null;
+    for (let x = a; ; x = (x % 12) + 1) { out.add(x); if (x === b) break; }
+  }
+  return out.size ? [...out] : null;
+}
+function parseLL(s) {
+  const m = String(s).trim().match(/^(-?\d+(?:\.\d+)?)\s*[,，\s]\s*(-?\d+(?:\.\d+)?)$/);
+  if (!m) return null;
+  const lat = +m[1], lon = +m[2];
+  return lat > 22.8 && lat < 23.5 && lon > 119.9 && lon < 120.8 ? [lat, lon] : null; // 台南範圍
+}
+function mark(row) {
+  const k = row.dataset.k, kind = row.dataset.kind;
+  if (kind === "geo") { const v = row.querySelector("input").value.trim(), ok = parseLL(v); row.querySelector(".err").textContent = v && !ok ? "格式要是「緯度, 經度」且在台南範圍內" : ""; if (ok) state.geo[k] = v; else delete state.geo[k]; row.classList.toggle("done", !!ok); }
+  if (kind === "desc") { const [d, n] = k.split("|"), v = row.querySelector("textarea").value.trim(); if (v && v !== descOf(d, n)) state.desc[k] = v; else delete state.desc[k]; row.classList.toggle("done", k in state.desc); }
+  if (kind === "season") {
+    const s = seasons.byName[k], txt = row.querySelector("input:not([type=checkbox])").value.trim(), ok = row.querySelector("input[type=checkbox]").checked, ms = parseMonths(txt);
+    row.querySelector(".err").textContent = txt && !ms ? "格式要是 6,7,8 或 11-2" : "";
+    const changed = ms && ms.slice().sort((a, b) => a - b).join() !== s.months.slice().sort((a, b) => a - b).join();
+    if (ms && (changed || ok)) state.season[k] = { months: txt, ok }; else delete state.season[k];
+    row.classList.toggle("done", k in state.season);
+  }
+  if (kind === "food") {
+    const it = foods.items.find((x) => x.id === k), desc = row.querySelector("textarea").value.trim(), keep = row.querySelector("[data-f=keep]").checked, ok = row.querySelector("[data-f=ok]").checked;
+    if (!keep || ok || (desc && desc !== it.desc)) state.food[k] = { keep, ok, desc }; else delete state.food[k];
+    row.classList.toggle("done", k in state.food);
+  }
+  if (kind === "spec") { const [, item] = k.split("|"), keep = row.querySelector("input[type=checkbox]").checked, name = row.querySelector("input:not([type])").value.trim() || item; if (keep && name === item) delete state.spec[k]; else state.spec[k] = { keep, name }; row.classList.toggle("done", k in state.spec); }
+}
+document.addEventListener("input", (e) => { const row = e.target.closest(".row"); if (row) { mark(row); save(); } });
+document.querySelectorAll(".row").forEach(mark);
+function count() { $("#count").textContent = `已填 ${Object.keys(state.geo).length} 個座標 · 改 ${Object.keys(state.desc).length} 段介紹 · 改 ${Object.keys(state.spec).length} 項特產 · 確認 ${Object.keys(state.season).length} 項產季 · ${Object.keys(state.food).length} 項小吃`; }
+count();
+$("#export").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify({ geo: Object.fromEntries(Object.entries(state.geo).map(([k, v]) => [k, parseLL(v)])), desc: state.desc, spec: state.spec, food: state.food, season: Object.fromEntries(Object.entries(state.season).map(([k, v]) => [k, parseMonths(v.months)])) }, null, 2)], { type: "application/json" });
+  const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: "review.json" });
+  a.click();
+});
+</script>
+</body>
+</html>

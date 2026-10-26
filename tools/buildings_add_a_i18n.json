@@ -1,0 +1,174 @@
+{
+  "金德興藥鋪": {
+    "en": { "name": "Jindexing Pharmacy", "desc": "A well-preserved Qing-era wooden pharmacy shophouse on Jingliao Old Street, with fine carvings; a municipal historic site." },
+    "ja": { "name": "金徳興薬舗", "desc": "菁寮老街に残る清代の木造薬舗で、精緻な彫刻が施された市指定古跡です。" }
+  },
+  "台灣蘭花生物科技園區": {
+    "en": { "name": "Taiwan Orchid Plantation", "desc": "An orchid industry park in Wushulin whose greenhouses grow all kinds of orchids; it hosts the Taiwan International Orchid Show every year." },
+    "ja": { "name": "台湾蘭花バイオテクノロジー園区", "desc": "烏樹林にある蘭の産業園区で、温室でさまざまな蘭を育て、毎年台湾国際蘭展が開かれます。" }
+  },
+  "關子嶺水火同源": {
+    "en": { "name": "Guanziling Water-Fire Cave", "desc": "A natural wonder where spring water and natural gas seep from the same cliff crevice, so flames burn on the water's surface." },
+    "ja": { "name": "関子嶺 水火同源", "desc": "崖の岩の割れ目から泉水と天然ガスが同時に湧き出し、水面の上で炎が燃える珍しい景観です。" }
+  },
+  "林初埤木棉道": {
+    "en": { "name": "Linchupi Kapok Avenue", "desc": "A country lane lined with kapok trees that bloom in spring; once selected as one of the most beautiful flower roads in the world." },
+    "ja": { "name": "林初埤木棉道", "desc": "春になると木棉（キワタ）の花が沿道に咲き誇る田舎道で、世界で最も美しい花の道の一つに選ばれたことがあります。" }
+  },
+  "關子嶺老街": {
+    "en": { "name": "Guanziling Old Street", "desc": "A hillside old street in the Guanziling hot spring area, lined with mud hot spring inns and clay-pot chicken restaurants." },
+    "ja": { "name": "関子嶺老街", "desc": "関子嶺温泉街の坂道に続く古い通りで、泥温泉の旅館や甕仔鶏（壺焼きチキン）の店が並びます。" }
+  },
+  "天鵝湖公園": {
+    "en": { "name": "Swan Lake Park", "desc": "A lakeside park converted from an old pond, with boardwalks and night lighting; a favourite strolling spot for Xinying residents." },
+    "ja": { "name": "天鵝湖公園", "desc": "ため池を整備した湖畔の公園で、木道や夜間照明があり、新営の人々の散歩コースです。" }
+  },
+  "新營文化中心": {
+    "en": { "name": "Xinying Cultural Center", "desc": "The main performing arts venue of northern Tainan, with a performance hall and exhibition rooms." },
+    "ja": { "name": "新営文化センター", "desc": "台南北部（渓北）地域の主要な文化施設で、演芸ホールと展示室を備えています。" }
+  },
+  "永成戲院": {
+    "en": { "name": "Yongcheng Theater", "desc": "A wooden theater built at the end of the Japanese era, restored as an arts and performance space in Yanshui." },
+    "ja": { "name": "永成劇場", "desc": "日本統治時代末期に建てられた木造の劇場で、修復後は塩水の芸術文化の催し会場として使われています。" }
+  },
+  "鹽水護庇宮": {
+    "en": { "name": "Yanshui Hubi Temple", "desc": "A major Mazu temple in Yanshui, known locally as the Mazu Temple and a long-standing center of faith in the old Yuejin port town." },
+    "ja": { "name": "塩水護庇宮", "desc": "媽祖を主神とする塩水の大廟で、地元では「媽祖宮」と呼ばれ、月津港地区の古くからの信仰の中心です。" }
+  },
+  "岸內糖廠影視園區": {
+    "en": { "name": "Annei Sugar Factory Film Studio Park", "desc": "A film and television base converted from the former Annei sugar factory, with period street sets built on the grounds." },
+    "ja": { "name": "岸内製糖工場 映像園区", "desc": "旧岸内製糖工場を改装した映画・ドラマの撮影基地で、園内には昔の街並みのセットが組まれています。" }
+  },
+  "北門水晶教堂": {
+    "en": { "name": "Beimen Crystal Church", "desc": "A white steel church-shaped landmark beside the Beimen Visitor Center, reflected in the water and popular for wedding photos." },
+    "ja": { "name": "北門水晶教会", "desc": "北門ビジターセンターの横に立つ白い鉄骨の教会型モニュメントで、水面に映る姿がウェディング写真の人気スポットです。" }
+  },
+  "台灣烏腳病醫療紀念館": {
+    "en": { "name": "Taiwan Blackfoot Disease Memorial Hall", "desc": "A memorial museum in the former clinic of Dr. Wang Jin-he, recording the history of blackfoot disease treatment in Beimen." },
+    "ja": { "name": "台湾烏脚病医療記念館", "desc": "王金河医師の旧診療所を利用した記念館で、北門における烏脚病（黒足病）治療の歴史を伝えています。" }
+  },
+  "蘆竹溝漁港": {
+    "en": { "name": "Luzhugou Fishing Harbor", "desc": "A small fishing harbor on the Beimen lagoon, known for oyster farming and lovely sunsets." },
+    "ja": { "name": "蘆竹溝漁港", "desc": "北門のラグーンに面した小さな漁港で、カキの養殖と美しい夕日で知られています。" }
+  },
+  "吳晉淮音樂紀念館": {
+    "en": { "name": "Wu Jin-huai Music Memorial Hall", "desc": "The restored former home of Taiwanese folk-song composer Wu Jin-huai, exhibiting his works and life." },
+    "ja": { "name": "呉晋淮音楽記念館", "desc": "台湾語歌謡の作曲家・呉晋淮の旧居を修復した記念館で、作品と生涯を展示しています。" }
+  },
+  "柳營代天院": {
+    "en": { "name": "Liuying Daitian Temple", "desc": "A major Liuying temple dedicated to the Wangye deities, and the center of local faith." },
+    "ja": { "name": "柳営代天院", "desc": "代天巡狩の王爺を主神とする柳営の大廟で、地元の信仰の中心です。" }
+  },
+  "八老爺車站乳牛的家": {
+    "en": { "name": "Balaoye Station Dairy Cow Home", "desc": "A dairy-cow theme farm beside the Balaoye sugar railway station, where visitors feed calves and ride the narrow-gauge train to Xinying." },
+    "ja": { "name": "八老爺駅 乳牛の家", "desc": "台糖の八老爺駅のそばにある乳牛テーマの牧場で、子牛への餌やりや新営までの五分車乗車が楽しめます。" }
+  },
+  "仙湖農場": {
+    "en": { "name": "Xianhu Farm", "desc": "A leisure farm in the Dongshan hills growing longan and coffee, with views of the sea of clouds from the hilltop." },
+    "ja": { "name": "仙湖農場", "desc": "東山の山あいにある観光農場で、龍眼とコーヒーを栽培し、山頂からは雲海を望めます。" }
+  },
+  "大凍山步道": {
+    "en": { "name": "Dadong Mountain Trail", "desc": "A hiking trail up Dadong Mountain, Tainan's highest peak at over 1,200 meters and one of Taiwan's Minor 100 Peaks." },
+    "ja": { "name": "大凍山歩道", "desc": "台南市の最高峰・大凍山へ登る山道で、標高は1,200メートルを超え、台湾の小百岳に数えられます。" }
+  },
+  "光華社區蜀葵花田": {
+    "en": { "name": "Guanghua Hollyhock Fields", "desc": "Community flower fields where hollyhocks taller than a person bloom every spring, drawing crowds of visitors." },
+    "ja": { "name": "光華コミュニティ タチアオイ畑", "desc": "毎年春に背丈より高いタチアオイが咲き誇るコミュニティの花畑で、多くの観光客が訪れます。" }
+  },
+  "頭前寮上白礁紀念碑": {
+    "en": { "name": "Touqianliao Shangbaijiao Memorial", "desc": "The riverside site on the Jiangjun River where Xuejia Ciji Temple holds the annual Shangbaijiao rite honoring its ancestral temple in Fujian." },
+    "ja": { "name": "頭前寮 上白礁記念碑", "desc": "将軍渓のほとりにある上白礁祭典の会場で、学甲慈済宮が毎年ここから福建の白礁祖廟を遥拝します。" }
+  },
+  "顏水龍紀念公園": {
+    "en": { "name": "Yen Shui-long Memorial Park", "desc": "A park honoring Xiaying-born painter Yen Shui-long, featuring mosaic murals and sculptures." },
+    "ja": { "name": "顔水龍記念公園", "desc": "下営出身の画家・顔水龍を記念する公園で、モザイク壁画や彫刻が設置されています。" }
+  },
+  "小熊維尼彩繪村": {
+    "en": { "name": "Winnie the Pooh Mural Village", "desc": "A Xiaying community whose walls are painted with Winnie the Pooh and other cartoon characters." },
+    "ja": { "name": "くまのプーさん壁画村", "desc": "壁一面にくまのプーさんなどのキャラクターが描かれた下営の壁画集落です。" }
+  },
+  "林鳳營車站木造站房": {
+    "en": { "name": "Linfengying Station Wooden Building", "desc": "A Japanese-era wooden railway station on the TRA main line that still survives today; a municipal historic site." },
+    "ja": { "name": "林鳳営駅 木造駅舎", "desc": "台湾鉄道の縦貫線に今も残る日本統治時代の木造駅舎で、市指定古跡です。" }
+  },
+  "青鯤鯓扇形鹽田": {
+    "en": { "name": "Qingkunshen Fan-shaped Salt Fields", "desc": "Salt pans laid out in a radiating fan pattern, a landmark of the Jiangjun coast when seen from the air." },
+    "ja": { "name": "青鯤鯓扇形塩田", "desc": "放射状の扇形に区画された塩田で、空撮で見る将軍海岸のランドマークです。" }
+  },
+  "將軍溪口濕地": {
+    "en": { "name": "Jiangjun River Estuary Wetland", "desc": "A wetland at the mouth of the Jiangjun River with mangroves and rich migratory birdlife." },
+    "ja": { "name": "将軍渓河口湿地", "desc": "将軍渓の河口に広がる湿地で、マングローブと豊かな渡り鳥の生態が見られます。" }
+  },
+  "隆田ChaCha文化資產教育園區": {
+    "en": { "name": "Longtian ChaCha Cultural Heritage Park", "desc": "A park converted from the warehouses of the Longtian distillery, with interactive exhibits on the Chianan Canal and archaeology." },
+    "ja": { "name": "隆田ChaCha文化資産教育園区", "desc": "隆田酒造工場の倉庫を改装した園区で、嘉南大圳と考古学をテーマにした体験型展示があります。" }
+  },
+  "葫蘆埤自然公園": {
+    "en": { "name": "Hulupi Nature Park", "desc": "A pond park in Guantian with a lovers' suspension bridge across the water; also a habitat of the pheasant-tailed jacana." },
+    "ja": { "name": "葫蘆埤自然公園", "desc": "官田のため池公園で、水面に恋人吊橋が架かり、レンカク（水雉）の生息地でもあります。" }
+  },
+  "永興吊橋": {
+    "en": { "name": "Yongxing Suspension Bridge", "desc": "A long suspension bridge across the Zengwen River with views of the valley and mountains; one of Nanxi's landmarks." },
+    "ja": { "name": "永興吊橋", "desc": "曽文渓に架かる長い吊り橋で、渓谷と山並みを一望でき、楠西のランドマークの一つです。" }
+  },
+  "龜丹溫泉": {
+    "en": { "name": "Guidan Hot Spring", "desc": "A sodium bicarbonate hot spring in the Nanxi hills with foot baths and a hot spring experience area." },
+    "ja": { "name": "亀丹温泉", "desc": "楠西の山あいにある炭酸水素ナトリウム泉で、足湯や温泉体験エリアが整備されています。" }
+  },
+  "電姬戲院": {
+    "en": { "name": "Dianji Theater", "desc": "A Japanese-era theater in Madou, now closed, whose Western-style facade still stands on the street." },
+    "ja": { "name": "電姫劇場", "desc": "日本統治時代に建てられた麻豆の劇場で、閉館後も洋風のファサードが通りに残っています。" }
+  },
+  "麻豆護濟宮": {
+    "en": { "name": "Madou Huji Temple", "desc": "A Mazu temple in the Madou town center, preserving exquisite cut-and-paste ceramic and painted decorations." },
+    "ja": { "name": "麻豆護済宮", "desc": "麻豆の街中にある媽祖廟で、精巧な剪黏（陶片細工）や彩色装飾が保存されています。" }
+  },
+  "水堀頭遺址公園": {
+    "en": { "name": "Shuikutou Archaeological Park", "desc": "The remains of the Qing-era Madou port wharf, preserving relics of the Daofeng Inland Sea period and the legend of the dragon's throat." },
+    "ja": { "name": "水堀頭遺跡公園", "desc": "清代の麻豆港の埠頭跡で、倒風内海時代の港の遺構と「龍喉」の伝説が残されています。" }
+  },
+  "子龍廟永昌宮": {
+    "en": { "name": "Zilongmiao Yongchang Temple", "desc": "One of the few temples in Taiwan dedicated to the general Zhao Zilong; the surrounding village is named after it." },
+    "ja": { "name": "子龍廟永昌宮", "desc": "台湾では珍しく趙子龍を主神とする廟で、周辺の集落もこの廟にちなんで「子龍廟」と呼ばれます。" }
+  },
+  "佳里中山公園": {
+    "en": { "name": "Jiali Zhongshan Park", "desc": "A green park in the Jiali town center shaded by old trees, where residents stroll and exercise." },
+    "ja": { "name": "佳里中山公園", "desc": "佳里の街中にある緑の公園で、古木が木陰をつくり、住民の散歩や運動の場になっています。" }
+  },
+  "善化啤酒廠": {
+    "en": { "name": "Shanhua Brewery", "desc": "A Taiwan Tobacco and Liquor Corporation brewery where visitors can tour the production line and taste fresh beer." },
+    "ja": { "name": "善化ビール工場", "desc": "台湾菸酒公司のビール工場で、生産ラインの見学と出来たてビールの試飲ができます。" }
+  },
+  "胡厝寮彩繪村": {
+    "en": { "name": "Hucuoliao Mural Village", "desc": "A mural village that began with a daughter painting for her mother; its walls are covered with fairy-tale and animal scenes." },
+    "ja": { "name": "胡厝寮壁画村", "desc": "娘が母親のために絵を描いたことから始まった壁画村で、壁一面に童話や動物の絵が描かれています。" }
+  },
+  "茄拔天后宮": {
+    "en": { "name": "Qieba Tianhou Temple", "desc": "A historic Mazu temple in Qieba, Shanhua, and the center of local faith." },
+    "ja": { "name": "茄抜天后宮", "desc": "善化の茄抜にある歴史ある媽祖廟で、地元の信仰の中心です。" }
+  },
+  "西港穀倉餐廳": {
+    "en": { "name": "Xigang Granary Restaurant", "desc": "A restaurant converted from the Xigang Farmers' Association's old granary, retaining the granary's exterior and interior space." },
+    "ja": { "name": "西港穀倉レストラン", "desc": "西港農会の旧穀物倉庫を改装したレストランで、倉庫の外観と空間をそのまま生かしています。" }
+  },
+  "頭社公廨": {
+    "en": { "name": "Toushe Kuwa Shrine", "desc": "The ritual house of the Siraya community of Toushe, where a night ceremony honoring the ancestral spirits is held in the tenth lunar month each year." },
+    "ja": { "name": "頭社公廨", "desc": "シラヤ族の頭社集落の祭祀場で、毎年旧暦10月に太祖を祀る夜祭が行われます。" }
+  },
+  "大內橋": {
+    "en": { "name": "Danei Bridge", "desc": "A large bridge across the Zengwen River, the main gateway into the Danei town center." },
+    "ja": { "name": "大内橋", "desc": "曽文渓に架かる大きな橋で、大内の中心部へ出入りする主要な玄関口です。" }
+  },
+  "國聖港燈塔": {
+    "en": { "name": "Guoshenggang Lighthouse", "desc": "A black-and-white steel-frame lighthouse on the sandbar at the westernmost point of Taiwan's main island." },
+    "ja": { "name": "国聖港灯台", "desc": "台湾本島の最西端にあたる砂州に立つ、白黒の鉄骨造りの灯台です。" }
+  },
+  "六孔碼頭": {
+    "en": { "name": "Liukong Pier", "desc": "A boat pier on the Qigu Lagoon where visitors board rafts to cruise the lagoon and see oyster racks and sandbars." },
+    "ja": { "name": "六孔埠頭", "desc": "七股ラグーンの遊覧船乗り場で、いかだ船に乗ってラグーンやカキ棚、砂州を見て回れます。" }
+  },
+  "頂山賞鳥亭": {
+    "en": { "name": "Dingshan Birdwatching Pavilion", "desc": "A birdwatching pavilion in Dingshan, Qigu, for observing black-faced spoonbills and migratory birds in the abandoned salt-pan wetlands." },
+    "ja": { "name": "頂山バードウォッチング亭", "desc": "七股の頂山にある野鳥観察亭で、廃塩田の湿地に集まるクロツラヘラサギや渡り鳥を観察できます。" }
+  }
+}

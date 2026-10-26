@@ -1,0 +1,524 @@
+{
+ "note": "吃遍台南：各區代表小吃，綁一個建築（[區, 建築名]）或景點 id；打開那個地點的卡片就算吃到。由子代理依網路資料整理並逐筆附來源；unsure: true 表示依據薄弱，列在 tools/review.html 待校對。",
+ "items": [
+  {
+   "id": "dan-zai-noodles",
+   "district": "中西區",
+   "name": "擔仔麵",
+   "icon": "🍜",
+   "at": {
+    "building": [
+     "中西區",
+     "水仙宮"
+    ]
+   },
+   "desc": "清末漁夫洪芋頭於颱風季在水仙宮前挑擔賣麵，以「度小月」為名，被視為台南擔仔麵的開端。",
+   "source": "https://noodle1895.com/%E8%B5%B0%E9%80%B2%E5%8F%B0%E5%8D%97%E6%B0%B4%E4%BB%99%E5%AE%AE%EF%BC%8C%E9%87%8D%E8%BF%941895%E7%9C%8B%E8%A6%8B%E5%BA%A6%E5%B0%8F%E6%9C%88%E7%99%BC%E5%B1%95%E4%B9%8B%E5%88%9D/",
+   "unsure": false
+  },
+  {
+   "id": "coffin-bread",
+   "district": "中西區",
+   "name": "棺材板",
+   "icon": "🍞",
+   "at": {
+    "building": [
+     "中西區",
+     "河樂廣場"
+    ]
+   },
+   "desc": "厚片吐司炸酥挖空填入奶油濃湯餡，源自日治時期沙卡里巴（今康樂市場）的小吃攤。",
+   "source": "https://zh.wikipedia.org/zh-tw/%E6%A3%BA%E6%9D%90%E6%9D%BF",
+   "unsure": false
+  },
+  {
+   "id": "shrimp-rice",
+   "district": "中西區",
+   "name": "蝦仁飯",
+   "icon": "🍤",
+   "at": {
+    "building": [
+     "中西區",
+     "河樂廣場"
+    ]
+   },
+   "desc": "以台南特有的火燒蝦加醬油、糖拌炒後連同醬汁燜入白飯，海安路一帶有多家老店。",
+   "source": "https://www.nownews.com/news/6647217",
+   "unsure": false
+  },
+  {
+   "id": "shrimp-roll",
+   "district": "安平區",
+   "name": "蝦捲",
+   "icon": "🦐",
+   "at": {
+    "building": [
+     "安平區",
+     "安平老街"
+    ]
+   },
+   "desc": "以豬網油包裹火燒蝦、絞肉、芹菜與魚漿油炸而成，是安平老街一帶的代表小吃。",
+   "source": "https://www.funtime.com.tw/blog/funtime/tainan-anping-food-map",
+   "unsure": false
+  },
+  {
+   "id": "anping-douhua",
+   "district": "安平區",
+   "name": "安平豆花",
+   "icon": "🍮",
+   "at": {
+    "building": [
+     "安平區",
+     "安平開臺天后宮"
+    ]
+   },
+   "desc": "口感綿密的豆花淋上糖水，可加粉圓、紅豆等配料，是安平古堡周邊的人氣甜品。",
+   "source": "https://www.funtime.com.tw/blog/funtime/tainan-anping-food-map",
+   "unsure": false
+  },
+  {
+   "id": "milkfish-skin-soup",
+   "district": "北區",
+   "name": "虱目魚皮湯",
+   "icon": "🐟",
+   "at": {
+    "building": [
+     "北區",
+     "開元寺"
+    ]
+   },
+   "desc": "開元路上的虱目魚老店清晨現處理魚貨，魚皮湯與魚肚湯配肉燥飯是府城常見早餐。",
+   "source": "https://guide.michelin.com/tw/zh_TW/tainan-region/tainan/restaurant/kaiyuan-road-no-name-milkfish",
+   "unsure": false
+  },
+  {
+   "id": "xishu-flour-cake",
+   "district": "南區",
+   "name": "喜樹麵粉酥",
+   "icon": "🥮",
+   "at": {
+    "building": [
+     "南區",
+     "喜樹老街"
+    ]
+   },
+   "desc": "喜樹傳統糕餅，與鯤鯓蚵仔酥、灣裡狗母魚丸酥並稱「鯤喜灣三酥」。",
+   "source": "https://www.storm.mg/article/183409",
+   "unsure": true
+  },
+  {
+   "id": "mango-shaved-ice",
+   "district": "玉井區",
+   "name": "芒果冰",
+   "icon": "🥭",
+   "at": {
+    "building": [
+     "玉井區",
+     "玉井芒果冰老街"
+    ]
+   },
+   "desc": "玉井是愛文芒果主要產地，夏季老街冰店以新鮮芒果堆疊剉冰，區公所也辦芒果冰主題遊程。",
+   "source": "https://news.ltn.com.tw/news/Tainan/breakingnews/3212861",
+   "unsure": false
+  },
+  {
+   "id": "madou-wagui",
+   "district": "麻豆區",
+   "name": "碗粿",
+   "icon": "🍚",
+   "at": {
+    "building": [
+     "麻豆區",
+     "麻豆老街"
+    ]
+   },
+   "desc": "以在來米漿加肉燥、蛋黃等蒸成，麻豆有傳承三代、日治時期挑擔叫賣起家的碗粿老店。",
+   "source": "https://smiletaiwan.cw.com.tw/article/559",
+   "unsure": false
+  },
+  {
+   "id": "madou-pomelo",
+   "district": "麻豆區",
+   "name": "麻豆文旦",
+   "icon": "🍈",
+   "at": {
+    "building": [
+     "麻豆區",
+     "麻豆文旦產業中心"
+    ]
+   },
+   "desc": "麻豆文旦果肉飽滿多汁、酸甜爽口，清代即為進貢佳品，白露前後為採收期。",
+   "source": "https://supertaste.tvbs.com.tw/triplecoupon/311077",
+   "unsure": false
+  },
+  {
+   "id": "water-caltrop-fritter",
+   "district": "官田區",
+   "name": "菱角酥",
+   "icon": "🌰",
+   "at": {
+    "building": [
+     "官田區",
+     "水雉生態教育園區"
+    ]
+   },
+   "desc": "官田有「紅菱之鄉」之稱，秋季菱角盛產，菱角裹粉油炸成的菱角酥是常見小吃。",
+   "source": "https://news.ltn.com.tw/amp/news/Tainan/breakingnews/3713332",
+   "unsure": false
+  },
+  {
+   "id": "yanshui-yi-mein",
+   "district": "鹽水區",
+   "name": "鹽水意麵",
+   "icon": "🍝",
+   "at": {
+    "building": [
+     "鹽水區",
+     "橋南老街"
+    ]
+   },
+   "desc": "以鴨蛋揉製、日曬風乾的扁麵，常拌肉燥並配豆芽或韭菜，是鹽水最具代表的小吃。",
+   "source": "https://supertaste.tvbs.com.tw/food/343044",
+   "unsure": false
+  },
+  {
+   "id": "xiaying-goose",
+   "district": "下營區",
+   "name": "鵝肉",
+   "icon": "🦢",
+   "at": {
+    "building": [
+     "下營區",
+     "北極殿玄天上帝廟"
+    ]
+   },
+   "desc": "下營是台南養鵝人家的故鄉，白鵝與黑豆、蠶桑並稱下營三寶，鵝肉料理遠近馳名。",
+   "source": "https://travel.yam.com/article/125686",
+   "unsure": false
+  },
+  {
+   "id": "shanhua-beef-soup",
+   "district": "善化區",
+   "name": "牛肉湯",
+   "icon": "🥩",
+   "at": {
+    "building": [
+     "善化區",
+     "善化牛墟"
+    ]
+   },
+   "desc": "善化有大型肉牛屠宰場，半夜現宰的溫體牛肉清晨即送進牛肉湯店，造就台南牛肉湯文化。",
+   "source": "https://supertaste.tvbs.com.tw/food/311575",
+   "unsure": false
+  },
+  {
+   "id": "guanmiao-noodles",
+   "district": "關廟區",
+   "name": "關廟麵",
+   "icon": "🍜",
+   "at": {
+    "building": [
+     "關廟區",
+     "關廟市場"
+    ]
+   },
+   "desc": "源自日治時期，麵條經手工折麵後在竹篩上日曬數日，不加防腐劑也能久存。",
+   "source": "https://guanmiao.tainan.gov.tw/News_Content.aspx?n=6701&s=70990",
+   "unsure": false
+  },
+  {
+   "id": "lotus-seed",
+   "district": "白河區",
+   "name": "蓮子",
+   "icon": "🪷",
+   "at": {
+    "building": [
+     "白河區",
+     "白河蓮花公園"
+    ]
+   },
+   "desc": "白河蓮子產量約占全台三分之二，蓮花季可品嚐蓮子冰、蓮子糕與蓮花餐等料理。",
+   "source": "https://n.yam.com/Article/20260324260116",
+   "unsure": false
+  },
+  {
+   "id": "urn-roasted-chicken",
+   "district": "白河區",
+   "name": "甕缸雞",
+   "icon": "🍗",
+   "at": {
+    "poi": "guanziling"
+   },
+   "desc": "關子嶺溫泉區名菜，將全雞吊入甕缸以龍眼木烘烤，外皮金黃酥脆、肉質多汁。",
+   "source": "https://supertaste.tvbs.com.tw/pack/358135",
+   "unsure": false
+  },
+  {
+   "id": "meiling-plum",
+   "district": "楠西區",
+   "name": "梅子",
+   "icon": "🫒",
+   "at": {
+    "building": [
+     "楠西區",
+     "梅嶺風景區"
+    ]
+   },
+   "desc": "梅嶺梅樹栽種逾300公頃，產量居全國前列，春季青梅可製成脆梅、紫蘇梅與梅子雞。",
+   "source": "https://www.cna.com.tw/news/aloc/201804030078.aspx",
+   "unsure": false
+  },
+  {
+   "id": "dongshan-coffee",
+   "district": "東山區",
+   "name": "東山咖啡",
+   "icon": "☕",
+   "at": {
+    "building": [
+     "東山區",
+     "東山咖啡公路休憩站"
+    ]
+   },
+   "desc": "東山淺山丘陵沿175線形成咖啡產區，咖啡常種在龍眼樹下，帶有在地風味。",
+   "source": "https://www.foodnext.net/life/placemaking/paper/5234735601",
+   "unsure": false
+  },
+  {
+   "id": "dried-longan",
+   "district": "東山區",
+   "name": "柴燒龍眼乾",
+   "icon": "🟤",
+   "at": {
+    "building": [
+     "東山區",
+     "仙湖農場"
+    ]
+   },
+   "desc": "東山是全台主要龍眼產區，傳統以土窯柴燒煙燻數日烘製龍眼乾，帶濃郁煙燻香。",
+   "source": "https://www.foodnext.net/issue/paper/5616841066",
+   "unsure": false
+  },
+  {
+   "id": "milkfish-congee",
+   "district": "學甲區",
+   "name": "虱目魚粥",
+   "icon": "🐟",
+   "at": {
+    "building": [
+     "學甲區",
+     "慈濟宮"
+    ]
+   },
+   "desc": "學甲魚塭遍布，是虱目魚養殖重鎮，鎮上多家虱目魚粥老店以魚骨熬湯、配無刺魚肉。",
+   "source": "https://journey.tw/xuejia-food/",
+   "unsure": false
+  },
+  {
+   "id": "salt-baked-egg",
+   "district": "北門區",
+   "name": "鹽焗蛋",
+   "icon": "🥚",
+   "at": {
+    "poi": "jingzaijiao"
+   },
+   "desc": "井仔腳瓦盤鹽田一帶的特色小食，以在地海鹽焗烤雞蛋，與北門豆花同為遊客常嚐點心。",
+   "source": "https://www.chinatimes.com/realtimenews/20220106001694-260405",
+   "unsure": false
+  },
+  {
+   "id": "dried-mango",
+   "district": "南化區",
+   "name": "芒果乾",
+   "icon": "🥭",
+   "at": {
+    "building": [
+     "南化區",
+     "北寮老街"
+    ]
+   },
+   "desc": "南化盛產愛文芒果，果農將次級芒果手工製成芒果乾，成為在地特產。",
+   "source": "https://news.tvbs.com.tw/local/138242",
+   "unsure": false
+  },
+  {
+   "id": "danei-avocado",
+   "district": "大內區",
+   "name": "酪梨",
+   "icon": "🥑",
+   "at": {
+    "building": [
+     "大內區",
+     "大內酪梨產銷中心"
+    ]
+   },
+   "desc": "大內是全台最大酪梨產區，產季約6月至隔年2月，盛產於7、8月。",
+   "source": "https://udn.com/news/story/7326/9650247",
+   "unsure": false
+  },
+  {
+   "id": "green-bamboo-shoot",
+   "district": "龍崎區",
+   "name": "綠竹筍",
+   "icon": "🎋",
+   "at": {
+    "building": [
+     "龍崎區",
+     "竹炭故事館"
+    ]
+   },
+   "desc": "龍崎為綠竹筍主產地之一，沙質土壤讓竹筍風味鮮甜，夏季盛產可做涼筍。",
+   "source": "https://www.moa.gov.tw/ws.php?id=20762",
+   "unsure": false
+  },
+  {
+   "id": "xinhua-sweet-potato",
+   "district": "新化區",
+   "name": "地瓜",
+   "icon": "🍠",
+   "at": {
+    "building": [
+     "新化區",
+     "瓜瓜園地瓜生態故事館"
+    ]
+   },
+   "desc": "新化特產為地瓜，曾是全台最大地瓜粉產地，冰烤地瓜亦被認為發源於此。",
+   "source": "https://www.businesstoday.com.tw/article/category/80408/post/201108110010/",
+   "unsure": false
+  },
+  {
+   "id": "jingliao-rice",
+   "district": "後壁區",
+   "name": "菁寮米",
+   "icon": "🌾",
+   "at": {
+    "building": [
+     "後壁區",
+     "菁寮老街"
+    ]
+   },
+   "desc": "後壁稻米全國知名，紀錄片《無米樂》記錄菁寮農民，老街可嚐冠軍米與割稻飯。",
+   "source": "https://www.chinatimes.com/realtimenews/20190927001475-260405",
+   "unsure": false
+  },
+  {
+   "id": "liuying-milk",
+   "district": "柳營區",
+   "name": "柳營鮮乳",
+   "icon": "🥛",
+   "at": {
+    "building": [
+     "柳營區",
+     "柳營酪農專區"
+    ]
+   },
+   "desc": "柳營為台灣四大酪農專區之一，1970年前後發展乳牛飼養，在地鮮乳風味清爽。",
+   "source": "https://www.twreporter.org/a/changes-in-taiwan-dairy-industry-1",
+   "unsure": false
+  },
+  {
+   "id": "sesame-oil-chicken",
+   "district": "西港區",
+   "name": "麻油雞",
+   "icon": "🍲",
+   "at": {
+    "building": [
+     "西港區",
+     "西港穀倉餐廳"
+    ]
+   },
+   "desc": "西港為胡麻主要產區，以在地胡麻油爆香老薑烹煮的麻油雞，可乾吃或做湯。",
+   "source": "https://n.yam.com/Article/20240515510779",
+   "unsure": false
+  },
+  {
+   "id": "anding-sesame-oil",
+   "district": "安定區",
+   "name": "胡麻油",
+   "icon": "🫙",
+   "at": {
+    "building": [
+     "安定區",
+     "安定胡麻產業館"
+    ]
+   },
+   "desc": "安定與西港、善化同屬台南胡麻產區，安定農會以冷壓製程生產胡麻油。",
+   "source": "https://www.ctee.com.tw/news/20260728701136-431401",
+   "unsure": false
+  },
+  {
+   "id": "qigu-oyster",
+   "district": "七股區",
+   "name": "烤鮮蚵",
+   "icon": "🦪",
+   "at": {
+    "building": [
+     "七股區",
+     "七股潟湖"
+    ]
+   },
+   "desc": "七股潟湖遍布蚵棚，搭乘漁筏遊潟湖的行程常附現烤鮮蚵，蚵仔肥美。",
+   "source": "https://smiletaiwan.cw.com.tw/article/4035",
+   "unsure": false
+  },
+  {
+   "id": "jiangjun-carrot",
+   "district": "將軍區",
+   "name": "紅蘿蔔",
+   "icon": "🥕",
+   "at": {
+    "building": [
+     "將軍區",
+     "苓仔寮保濟宮"
+    ]
+   },
+   "desc": "將軍濱海沙質土壤種出香甜紅蘿蔔，與佳里合計供應全台約七成，3至4月採收。",
+   "source": "https://smiletaiwan.cw.com.tw/article/1496",
+   "unsure": false
+  },
+  {
+   "id": "xinshi-edamame",
+   "district": "新市區",
+   "name": "毛豆",
+   "icon": "🫛",
+   "at": {
+    "building": [
+     "新市區",
+     "樹谷農場"
+    ]
+   },
+   "desc": "新市被稱為毛豆的故鄉，春秋兩季契作，九成外銷日本，也製成毛豆香腸。",
+   "source": "https://news.pts.org.tw/article/552417",
+   "unsure": false
+  },
+  {
+   "id": "douchai-noodles",
+   "district": "六甲區",
+   "name": "豆菜麵",
+   "icon": "🍜",
+   "at": {
+    "building": [
+     "六甲區",
+     "恆安宮"
+    ]
+   },
+   "desc": "嘉義與台南交界一帶特有的古早味麵食，以豆芽菜配麵、淋醬汁，六甲老店清晨即開賣。",
+   "source": "https://www.mirrormedia.mg/story/amp/20250911food001",
+   "unsure": false
+  },
+  {
+   "id": "cordia-pickle",
+   "district": "左鎮區",
+   "name": "破布子",
+   "icon": "🫘",
+   "at": {
+    "building": [
+     "左鎮區",
+     "左鎮化石園區"
+    ]
+   },
+   "desc": "左鎮白堊土貧瘠，耐旱的破布子成為代表農產，七月採收後煮製成醬漬破布子。",
+   "source": "https://news.pts.org.tw/article/720205",
+   "unsure": false
+  }
+ ]
+}
