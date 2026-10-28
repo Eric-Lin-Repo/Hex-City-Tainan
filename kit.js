@@ -29,7 +29,8 @@ export function createKit(THREE) {
     (items[kind] ||= []).push({ pos, size, color, rot });
     if (currentGroup) groups.get(currentGroup).push({ kind, idx: items[kind].length - 1, color });
   }
-  function beginGroup(id) { currentGroup = id; groups.set(id, []); }
+  // anchor：群組的基準點（建築的位置），setGroupScale 以它為中心縮放
+  function beginGroup(id, anchor = null) { currentGroup = id; const list = []; list.anchor = anchor; groups.set(id, list); }
   function endGroup() { currentGroup = null; }
   // 把群組裡的發光零件調暗或恢復
   const _c = new THREE.Color();
@@ -92,5 +93,23 @@ export function createKit(THREE) {
       m.instanceColor.needsUpdate = true;
     }
   }
-  return { part, build, setNight, composeRot, beginGroup, endGroup, setGroupDim, setGroupColor };
+  // 把整個群組以 anchor 為中心縮放（0 = 隱藏、1 = 原尺寸）：中西區次要建築拉近才「長」出來
+  const _d = new THREE.Object3D(), touched = new Set();
+  function setGroupScale(id, k) {
+    const list = groups.get(id), a = list?.anchor;
+    if (!list || !a) return;
+    touched.clear();
+    for (const e of list) {
+      const m = meshes[e.kind], p = items[e.kind][e.idx];
+      if (!m) continue;
+      _d.position.set(a.x + (p.pos[0] - a.x) * k, a.y + (p.pos[1] - a.y) * k, a.z + (p.pos[2] - a.z) * k);
+      _d.scale.set(p.size[0] * k || 1e-6, p.size[1] * k || 1e-6, p.size[2] * k || 1e-6);
+      if (p.rot) _d.rotation.set(...p.rot); else _d.rotation.set(0, 0, 0);
+      _d.updateMatrix();
+      m.setMatrixAt(e.idx, _d.matrix);
+      touched.add(m);
+    }
+    for (const m of touched) m.instanceMatrix.needsUpdate = true;
+  }
+  return { part, build, setNight, composeRot, beginGroup, endGroup, setGroupDim, setGroupColor, setGroupScale };
 }

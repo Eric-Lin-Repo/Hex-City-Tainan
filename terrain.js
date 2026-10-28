@@ -3,7 +3,9 @@
 const FLAT_DROP = 0.05; // 高度 0 的頂點放在 TOP 之下一點，讓平地的島面仍露出來、不閃爍
 const LOW = 0xd8ccb8, MID = 0x6f8f5e, HIGH = 0x8a7f6e; // 平地色 → 綠 → 灰褐
 
-export function createTerrain(THREE, scene, data, TOP) {
+// patches：月世界惡地這類要換顏色的範圍 [{x, z, r}]（世界座標），範圍內的山坡改成青灰泥岩色、深淺交錯像雨刷出的溝紋
+const BAD = 0xa7aeac, BAD_DARK = 0x7c8583;
+export function createTerrain(THREE, scene, data, TOP, { patches = [] } = {}) {
   const { x0, z0, dx, dz, nx, nz, heights } = data;
   const maxH = Math.max(data.maxH || 0, 1e-6);
   const H = (ix, iz) => heights[iz * nx + ix];
@@ -25,12 +27,20 @@ export function createTerrain(THREE, scene, data, TOP) {
   const pos = g.attributes.position;
   const color = new Float32Array(pos.count * 3);
   const cLow = new THREE.Color(LOW), cMid = new THREE.Color(MID), cHigh = new THREE.Color(HIGH), c = new THREE.Color();
+  const cBad = new THREE.Color(BAD), cBadDark = new THREE.Color(BAD_DARK), cb = new THREE.Color();
+  const badness = (x, z) => { let w = 0; for (const p of patches) { const d = Math.hypot(x - p.x, z - p.z) / p.r; if (d < 1) w = Math.max(w, 1 - d * d); } return w; };
   for (let i = 0; i < pos.count; i++) {
     const ix = i % nx, iz = Math.floor(i / nx), h = heights[i];
     pos.setXYZ(i, x0 + ix * dx, h > 0 ? TOP + h : TOP - FLAT_DROP, z0 + iz * dz);
     const t = h / maxH;
     if (t < 0.35) c.copy(cLow).lerp(cMid, t / 0.35);
     else c.copy(cMid).lerp(cHigh, (t - 0.35) / 0.65);
+    const w = patches.length ? badness(x0 + ix * dx, z0 + iz * dz) : 0;
+    if (w > 0) { // 溝紋：沿著斜向條紋深淺交錯，再加一點逐點雜訊
+      const k = 0.5 + 0.5 * Math.sin(ix * 1.7 + iz * 0.6) * Math.cos(iz * 1.3 - ix * 0.4);
+      cb.copy(cBad).lerp(cBadDark, k * 0.8 + ((ix * 73856093) ^ (iz * 19349663)) % 7 / 30);
+      c.lerp(cb, Math.min(1, w * 1.15));
+    }
     color[i * 3] = c.r; color[i * 3 + 1] = c.g; color[i * 3 + 2] = c.b;
   }
   g.setAttribute("color", new THREE.BufferAttribute(color, 3));

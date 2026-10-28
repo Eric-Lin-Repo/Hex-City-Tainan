@@ -611,6 +611,29 @@ export function createEvents(THREE, scene, world, events, rnd) {
     });
   }
 
+  // ── 龍崎光節：山坡上的竹編光雕（竹塔、拱廊、一圈光點），入夜才亮 ──
+  function lightFest(ev) {
+    const grp = addTo(ev);
+    const at = spotNear(ev, 1.2);
+    const ry = Math.atan2(ev.hub.x - at.x, ev.hub.z - at.z);
+    const b = new THREE.Group(); b.position.copy(at); b.rotation.y = ry; grp.add(b);
+    const bamboo = std(0xb9a26a), glows = [];
+    const glow = (pos, sc, color) => { const m = mesh("sphere", basic(color, { transparent: true, opacity: 0.9 }), pos, sc, b); m.castShadow = false; glows.push({ m, phase: glows.length * 0.7 }); return m; };
+    for (const [x, z, h] of [[-0.45, -0.2, 0.9], [0.45, -0.25, 0.75], [0, -0.45, 1.1]]) { // 竹塔：竹條圍成的圓錐，裡面有光
+      for (let k = 0; k < 8; k++) { const a = (k / 8) * Math.PI * 2; mesh("cyl", bamboo, [x + Math.cos(a) * 0.08, h / 2, z + Math.sin(a) * 0.08], [0.012, h, 0.012], b, [Math.sin(a) * 0.12, 0, -Math.cos(a) * 0.12]); }
+      glow([x, h * 0.45, z], [0.13, h * 0.5, 0.13], 0xffc76b);
+    }
+    for (let k = 0; k <= 6; k++) { // 竹拱廊
+      const a = (k / 6) * Math.PI, x = -0.35 + (k / 6) * 0.7;
+      mesh("cyl", bamboo, [x, 0.2, 0.25], [0.015, 0.4, 0.015], b);
+      glow([x, 0.42 + Math.sin(a) * 0.08, 0.25], [0.05, 0.05, 0.05], 0x9fe3ff);
+    }
+    for (let k = 0; k < 14; k++) { const a = (k / 14) * Math.PI * 2; glow([Math.cos(a) * 0.75, 0.05, Math.sin(a) * 0.55], [0.05, 0.05, 0.05], k % 2 ? 0xffe39a : 0xff9a5c); } // 地上一圈光點
+    let t = 0;
+    updaters.push((dt, night) => { if (!grp.visible) return; t += dt; glows.forEach((g) => { g.m.material.opacity = (0.15 + 0.85 * night) * (0.75 + 0.25 * Math.sin(t * 2 + g.phase)); g.m.visible = night > 0.2; }); });
+    world.addObstacle(ev.district, at.x, at.z, 1.0);
+  }
+
   const pickables = [], list = [];
   for (const ev of events) {
     const e = { ...ev, pos: new THREE.Vector3(ev.pos[0], world.groundY(ev.pos[0], ev.pos[1]), ev.pos[1]), hub: new THREE.Vector3(ev.hub[0], world.groundY(ev.hub[0], ev.hub[1]), ev.hub[1]) };
@@ -636,6 +659,7 @@ export function createEvents(THREE, scene, world, events, rnd) {
     else if (e.effect === "ceremony") ceremony(e);
     else if (e.effect === "dragonboats") dragonBoats(e);
     else if (e.effect === "market") market(e);
+    else if (e.effect === "lightfest") lightFest(e);
     const hb = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.2, 2.6), new THREE.MeshBasicMaterial());
     hb.position.set(e.pos.x, e.pos.y + 0.6, e.pos.z);
     hb.visible = false;

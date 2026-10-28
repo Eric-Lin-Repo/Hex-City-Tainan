@@ -64,7 +64,7 @@ const boundaryDist = (poly, x, z) => {
 export function buildWorld(THREE, scene, D, kit, buildModel, tree) {
   const T = D.city;
   const islandsById = new Map(D.islands.map((i) => [i.id, i]));
-  const centers = new Map(), adjacency = new Map(), buildingPos = new Map(), pickables = [];
+  const centers = new Map(), adjacency = new Map(), buildingPos = new Map(), pickables = [], buildingHit = new Map();
   const polys = new Map(), slotsOf = new Map(), areaOf = new Map(), ports = new Map();
   const cream = 0xfff8f4, ink = new THREE.Color(0x211d1d), creamC = new THREE.Color(cream), sand = new THREE.Color(0xd9c4a3);
   const hiddenMat = new THREE.MeshBasicMaterial();
@@ -134,13 +134,16 @@ export function buildWorld(THREE, scene, D, kit, buildModel, tree) {
       const small = dist.area < SMALL_AREA; // 市區四區（中西、北、東、安平）建築多、面積小：模型縮成 0.58（間距見 build_city.py 的 SMALL_GAP）
       const sc = small ? fitScale(b.model, p.x, p.z, 0.58) : 0.75;
       modelScale.set("building:" + b.id, sc);
+      kit.beginGroup("building:" + b.id, p); // 群組：中西區的次要建築要能整棟縮放（kit.setGroupScale）
       buildModel(kit, b.model, p, sc, isl.color, face);
+      kit.endGroup();
       const hb = new THREE.Mesh(new THREE.BoxGeometry(small ? 0.75 : 0.85, small ? 1.0 : 1.2, small ? 0.75 : 0.85), hiddenMat);
       hb.position.set(p.x, p.y + 0.6, p.z);
       hb.visible = false;
       hb.userData = { type: "building", id: b.id, island: dist.id };
       scene.add(hb);
       pickables.push(hb);
+      buildingHit.set(b.id, hb);
     });
     slotsOf.set(dist.id, slots);
     kit.beginGroup("trees:" + dist.id);
@@ -202,7 +205,7 @@ export function buildWorld(THREE, scene, D, kit, buildModel, tree) {
     const smallPoi = (areaOf.get(p.district) || 99) < SMALL_AREA;
     const psc = p.type === "sciencepark" ? 0.9 : smallPoi ? fitScale(p.model, p.pos.x, p.pos.z, 0.62) : 0.8;
     modelScale.set("poi:" + p.id, psc);
-    buildModel(kit, p.model, p.pos, psc, isl ? isl.color : 0x3e7c8c, ry);
+    if (p.model !== "none") buildModel(kit, p.model, p.pos, psc, isl ? isl.color : 0x3e7c8c, ry); // model "none"：模型由別處畫（例如四草綠色隧道由 scenery.js 畫在景點位置）
     kit.endGroup();
     const hb = new THREE.Mesh(new THREE.BoxGeometry(smallPoi ? 0.9 : 1.4, smallPoi ? 0.7 : 1.0, smallPoi ? 0.7 : 1.1), hiddenMat);
     hb.position.set(p.pos.x, p.pos.y + 0.5, p.pos.z);
@@ -333,5 +336,9 @@ export function buildWorld(THREE, scene, D, kit, buildModel, tree) {
   const toLonLat = (x, z) => (P ? [x / (P.km_x * P.k) + P.lon_c, -z / (P.km_z * P.k) + P.lat_c] : null);
   const areaKm2 = (id) => (P ? (areaOf.get(id) || 0) / (P.k * P.k) : null);
 
-  return { centers, adjacency, buildingPos, pickables, pathBetween, route, randomPoint, randomPointNear, segmentClear, radiusOf, districtAt, isCore: (id) => smallIds.has(id), scaleOf: (key) => modelScale.get(key), zoneScale: (id) => zoneScale.get(id) ?? 1, toLonLat, areaKm2, bounds: T.bounds, registerStations, heightAt, groundY, pois, poiById, poisIn, setToday, eventsIn, setEventActive, setTreeColor, addObstacle, onLand: isLand };
+  return { centers, adjacency, buildingPos, pickables, pathBetween, route, randomPoint, randomPointNear, segmentClear, radiusOf, districtAt, isCore: (id) => smallIds.has(id), scaleOf: (key) => modelScale.get(key), zoneScale: (id) => zoneScale.get(id) ?? 1, toLonLat, areaKm2, bounds: T.bounds, registerStations, heightAt, groundY, pois, poiById, poisIn, setToday, eventsIn, setEventActive, setTreeColor, addObstacle, onLand: isLand,
+    // 整棟建築縮放（0 隱藏、1 原尺寸）；縮到一半以下就不能點
+    // 附近 r 以內有沒有建築（任何區）：放大型景觀時避開建築用
+    nearBuilding: (x, z, r) => { for (const slots of slotsOf.values()) for (const [sx, sz] of slots) if (Math.hypot(x - sx, z - sz) < r) return true; return false; },
+    setBuildingScale: (id, k) => { kit.setGroupScale("building:" + id, k); const hb = buildingHit.get(id); if (hb) hb.userData.hidden = k < 0.5; }, isClear: (x, z, margin = 0.6) => { const id = districtAt(x, z); return !!id && clear(id, x, z, margin); }, inLake };
 }

@@ -114,7 +114,7 @@
     {
       "id": "sicao",
       "type": "attraction",
-      "model": "nature",
+      "model": "none",
       "name": "四草綠色隧道",
       "lat": 23.0218,
       "lon": 120.1424,

@@ -20,6 +20,8 @@ import { createBuses } from "./bus.js";
 import { createTrails } from "./trails.js";
 import { createSugarRail } from "./sugar.js";
 import { createReservoirs, levelClass, ANCHORS } from "./reservoir.js";
+import { createScenery, badlandPatches } from "./scenery.js";
+import { createMonkeys } from "./monkeys.js";
 import { createHeatmap } from "./heatmap.js";
 import { createFields } from "./fields.js";
 import { createI18n, detectLang } from "./i18n.js";
@@ -45,12 +47,12 @@ try {
       if (!r.ok) throw Error(`${url} ${r.status}`);
       return r.json();
     });
-  const [islandData, flowData, settings, roles, city, rail, poi, eventData, water, terrainData, mapLinks, toursData, busData, trailData, sugarData, agesData, cropsData, specData, stampsData, talkData, hsrData, seasonsData, foodData] = await Promise.all(
-    ["./data/islands.json", "./data/flows.json", "./data/settings.json", "./data/roles.json", "./data/city.json", "./data/rail.json", "./data/poi.json", "./data/events.json", "./data/water_mrt.json", "./data/terrain.json", "./data/maplinks.json", "./data/tours.json", "./data/bus.json", "./data/trails.json", "./data/sugar.json", "./data/ages.json", "./data/crops.json", "./data/specialties.json", "./data/stamps.json", "./data/talk.json", "./data/hsr.json", "./data/spec_seasons.json", "./data/food.json"].map(loadJson),
+  const [islandData, flowData, settings, roles, city, rail, poi, eventData, water, terrainData, mapLinks, toursData, busData, trailData, sugarData, agesData, cropsData, specData, stampsData, talkData, hsrData, seasonsData, foodData, sceneryData] = await Promise.all(
+    ["./data/islands.json", "./data/flows.json", "./data/settings.json", "./data/roles.json", "./data/city.json", "./data/rail.json", "./data/poi.json", "./data/events.json", "./data/water_mrt.json", "./data/terrain.json", "./data/maplinks.json", "./data/tours.json", "./data/bus.json", "./data/trails.json", "./data/sugar.json", "./data/ages.json", "./data/crops.json", "./data/specialties.json", "./data/stamps.json", "./data/talk.json", "./data/hsr.json", "./data/spec_seasons.json", "./data/food.json", "./data/scenery.json"].map(loadJson),
   );
   // 多語言：翻譯直接覆蓋進資料，之後所有卡片與清單都不用改；原文留在 *_zh（Google 地圖查詢用）
   const i18n = await createI18n(detectLang(params), loadJson);
-  i18n.applyData({ islands: islandData, poi, events: eventData, rail, roles, settings, tours: toursData, crops: cropsData, flows: flowData, specialties: specData, foods: foodData });
+  i18n.applyData({ islands: islandData, poi, events: eventData, rail, roles, settings, tours: toursData, crops: cropsData, flows: flowData, specialties: specData, foods: foodData, scenery: sceneryData });
   const specOf = (id) => specData.byDistrict[id] || []; // 各區農特產
   // 特產標籤可以點：點了亮出全部產地（specs.js）；當季的加一個小點。specMonth 由 setDate 更新
   let specMonth = new Date().getMonth() + 1;
@@ -69,6 +71,14 @@ try {
   const roleLabel = (r) => roles.roles[r]?.label || r;
   const islands = new Map(D.islands.map((i) => [i.id, i]));
   const buildings = new Map(D.islands.flatMap((i) => i.buildings.map((b) => [b.id, { ...b, island: i.id }])));
+  // 擠的市區（中西區）的次要建築：拉近才從地面長出來（settings.json 的 minorBuildings，用建築原名比對）
+  const MINOR_SHOW = 6, MINOR_GROW = 0.3; // 鏡頭離焦點小於這個距離才出現（點選中西區時約 10，要再拉近到街區）；長出來花幾秒
+  const minorIds = new Map(); // 建築 id → 目前的縮放 0～1
+  for (const [dn, names] of Object.entries(settings.minorBuildings || {})) {
+    if (dn.startsWith("_")) continue;
+    const isl = D.islands.find((x) => (x.name_zh ?? x.name) === dn);
+    for (const b of isl?.buildings || []) if (names.includes(b.name_zh ?? b.name)) minorIds.set(b.id, 1);
+  }
   const flows = new Map(D.flows.map((f) => [f.id, f]));
   const flowsOf = (islandId) => D.flows.filter((f) => f.from === islandId || f.to === islandId);
 
@@ -104,7 +114,7 @@ try {
   const env = createEnvironment(THREE, scene);
   env.setExtent(EXT);
   const kit = createKit(THREE);
-  const terrain = createTerrain(THREE, scene, terrainData, TOP); // 地形先建，世界裡的東西才能放在坡面上
+  const terrain = createTerrain(THREE, scene, terrainData, TOP, { patches: badlandPatches(sceneryData, city.projection) }); // 地形先建，世界裡的東西才能放在坡面上；左鎮、龍崎的惡地改成青灰色
   D.heightAt = terrain.heightAt;
   const world = buildWorld(THREE, scene, D, kit, buildModel, tree);
   const infra = buildInfrastructure(THREE, scene, world, kit, D, buildModel); // 一定在 kit.build 之前
@@ -146,6 +156,12 @@ try {
       if (selected?.type === "reservoir") cardContent.innerHTML = reservoirCard(selected.id);
       for (const el of $$("#card [data-rsv-section]")) el.outerHTML = reservoirSection(el.dataset.rsvSection); // 建築卡片裡的蓄水段落
     } });
+  // 山海景觀（scenery.js）：雲海、惡地、溫泉煙、山頂、星空、果園、魚塭、潟湖、綠色隧道、曬麵、菱角田、乳牛。anchor 是附近的地標（用原文比對）
+  const buildingIdOf = ([dn, bn]) => { const isl = D.islands.find((x) => (x.name_zh ?? x.name) === dn); return isl?.buildings.find((x) => (x.name_zh ?? x.name) === bn)?.id ?? null; };
+  const sceneryAnchor = (a) => (!a ? null : a.poi ? (world.poiById.has(a.poi) ? { type: "poi", id: a.poi } : null) : (buildingIdOf(a.building) ? { type: "building", id: buildingIdOf(a.building) } : null));
+  const scenery = createScenery(THREE, scene, world, sceneryData, { projection: city.projection, quality,
+    anchorPos: (a) => { const k = sceneryAnchor(a); return !k ? null : k.type === "poi" ? world.poiById.get(k.id).pos : world.buildingPos.get(k.id); },
+    fields: city.districts.flatMap((d) => d.fields || []), fieldsApi: fields, tracks: [...rail.lines.map((l) => l.points), hsrData.points], lakes: D.water.lakes, rivers: D.water.rivers || [], districts: city.districts.map((d) => ({ id: d.id, name: d.name, hub: d.hub, polygon: d.polygon })), loadBusBranches: () => loadJson("./data/bus_branches.json") });
   // 集章：37 區各一個代表地標，集滿放 10 秒煙火
   const stamps = createStamps({ t, data: stampsData, islands, esc, toast: (m) => toast(m), onPickDistrict: (id) => select({ type: "island", id }), onComplete: () => celebrate() });
   // 「🎮 玩」選單：工具列只留一顆鈕，集章、猜產地、找阿明、美食圖鑑、拍照都收進下拉選單（手機工具列放不下）
@@ -189,6 +205,10 @@ try {
     onGiveUp: (p) => flyTo(p.clone().add(new THREE.Vector3(0.8, 1.6, 2.2)), p.clone().setY(p.y + 0.3)),
     onFound: () => guide.say(t("guide.ming_found", "找到阿明了！他明天會換一區躲，記得回來。"), { force: true }) });
   ming.button(gameMenu);
+  // 找獼猴：山區 10 群台灣獼猴，點到就收集
+  const monkeys = createMonkeys({ THREE, scene, world, data: sceneryData.monkeys, projection: city.projection, t, esc, islands, toast: (m) => toast(m),
+    onComplete: () => celebrate(t("monkey.complete", "10 群台灣獼猴全部找到了！🎆")) });
+  monkeys.button(gameMenu);
   // 拍照模式：收起介面，濾鏡＋相框＋浮水印，下載 PNG
   const photo = createPhoto({ t, esc, canvas: renderer.domElement, renderNow: () => renderer.render(scene, camera), toast: (m) => toast(m),
     placeName: () => { const tg = controls.target, id = world.districtAt(tg.x, tg.z); return selectedName() || (id ? islands.get(id)?.name : ""); },
@@ -236,7 +256,7 @@ try {
   const weather = createWeather(THREE, scene, env, { bounds: B, onChange: (w) => people.setRain?.(w.rain), translate: (zh) => t(WEATHER_KEY[zh] || zh, zh) }); // 即時天氣：雲量壓暗陽光、下雨飄雨絲、行人撐傘
   let activeKinds = []; // 目前可見的活動效果種類，給聲音層
   const stations = new Map(infra.stations.map((s) => [s.id, s]));
-  window.hexcity = { select: (u) => select(u), walker: (i) => people.info(i), ming: () => ming, quality: () => quality, fps: () => fpsNow, trains, hsr, buses, trails, sugar, terrain, stations: infra.stations.map((s) => ({ id: s.id, x: +s.pos.x.toFixed(2), z: +s.pos.z.toFixed(2) })) }; // 除錯用
+  window.hexcity = { look: (x, z, d = 3) => { const p = new THREE.Vector3(x, world.groundY(x, z), z); flyTo(p.clone().add(new THREE.Vector3(d * 0.4, d * 0.8, d)), p); }, minor: () => Object.fromEntries([...minorIds].map(([id, k]) => [buildings.get(id)?.name, +k.toFixed(2)])), select: (u) => select(u), walker: (i) => people.info(i), ming: () => ming, quality: () => quality, fps: () => fpsNow, trains, hsr, buses, trails, sugar, terrain, stations: infra.stations.map((s) => ({ id: s.id, x: +s.pos.x.toFixed(2), z: +s.pos.z.toFixed(2) })) }; // 除錯用
   const lineOf = (id) => infra.lines.filter((l) => l.stations.includes(id)).map((l) => l.name).join(t("list.separator", "、"));
   const pois = new Map(world.pois.map((p) => [p.id, p]));
   const POI_TYPE = { attraction: [t("poi.type.attraction", "景點"), "🏯"], nightmarket: [t("poi.type.nightmarket", "夜市"), "🏮"], sciencepark: [t("poi.type.sciencepark", "科學園區"), "🏭"] };
@@ -439,7 +459,7 @@ try {
     const r = renderer.domElement.getBoundingClientRect();
     ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ndc, camera);
-    const hit = ray.intersectObjects([...(ming.visible ? ming.pickables : []), ...people.pickables, ...fx.pickables, ...buses.pickables, ...trails.pickables, ...sugar.pickables, ...reservoirs.pickables, ...fields.pickables, ...myPins.pickables(), ...world.pickables], false)[0];
+    const hit = ray.intersectObjects([...(ming.visible ? ming.pickables : []), ...monkeys.pickables, ...scenery.pickables, ...people.pickables, ...fx.pickables, ...buses.pickables, ...trails.pickables, ...sugar.pickables, ...reservoirs.pickables, ...fields.pickables, ...myPins.pickables(), ...world.pickables.filter((o) => !o.userData.hidden)], false)[0];
     if (!hit) select(null);
     else if (hit.object.userData.type === "ming") ming.found();
     else if (hit.object.userData.type === "walkerMesh") select(people.walkerAt(hit.object, hit.instanceId));
@@ -448,7 +468,8 @@ try {
     else if (hit.object.userData.type === "trail") select({ ...hit.object.userData, x: hit.point.x, z: hit.point.z }); // 步道：帶點到的位置飛過去
     else if (hit.object.userData.type === "sugar") select({ ...hit.object.userData, id: hit.object.userData.line });
     else if (hit.object.userData.type === "reservoir") select({ ...hit.object.userData, id: hit.object.userData.name, x: hit.point.x, z: hit.point.z });
-    else if (hit.object.userData.type === "bus" || hit.object.userData.type === "busstop") select(buses.pick(hit)); // 公車與站牌是 InstancedMesh，用 instanceId 查回是哪一台／哪一站
+    else if (hit.object.userData.type === "bus" || hit.object.userData.type === "busstop") select(buses.pick(hit));
+    else if (hit.object.userData.type === "monkey") { monkeys.found(hit.object.userData.id); select({ type: "monkey", id: hit.object.userData.id }); } // 公車與站牌是 InstancedMesh，用 instanceId 查回是哪一台／哪一站
     else select(hit.object.userData);
   });
   // 雙擊：直接拉到近景（建築、景點、車站、地面任一點）
@@ -456,7 +477,7 @@ try {
     const r = renderer.domElement.getBoundingClientRect();
     ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ndc, camera);
-    const hit = ray.intersectObjects([...fx.pickables, ...world.pickables], false)[0];
+    const hit = ray.intersectObjects([...fx.pickables, ...world.pickables.filter((o) => !o.userData.hidden)], false)[0];
     if (!hit) return;
     const p = hit.point.clone();
     flyTo(p.clone().add(new THREE.Vector3(0.6, 1.6, 2.2)), p.clone().setY(p.y + 0.3));
@@ -556,6 +577,12 @@ try {
   let liveKey = "", liveAt = 0;
   function refreshWalkerCard(now) {
     if (card.hidden || now - liveAt < 0.5) return;
+    if (selected?.type === "scenery") { // 景觀卡片：今天有沒有雲海、是不是產季……跟著時間更新
+      liveAt = now;
+      const it = scenery.info(selected.id), st = it ? sceneryStatus(it) : "", el = $("#card h2 small");
+      if (st && el && el.textContent !== st) el.textContent = st;
+      return;
+    }
     if (selected?.type === "bus") { // 公車卡片：方向與下一站即時更新
       liveAt = now;
       const b = buses.info(selected.id), key = b ? `${b.heading}|${b.nextStop}|${b.visible}|${b.live?.gps}` : "";
@@ -585,7 +612,8 @@ try {
   }
   function eventCard(e) {
     const occ = activeOccurrence(e.schedule, calDate), on = !!occ, nx = nextOccurrence(e.schedule, calDate);
-    const thisYear = occurrencesIn(e.schedule, calDate.getUTCFullYear());
+    const y = calDate.getUTCFullYear(); // 跨年的活動（例如 12/24–2/16）去年開始的那段也算今年
+    const thisYear = [...occurrencesIn(e.schedule, y - 1).filter((o) => o.end.getUTCFullYear() >= y), ...occurrencesIn(e.schedule, y)];
     const status = on ? `<b class='open'>${occ.label ? t("event.status.on_label", "進行中・{label}", { label: esc(occ.label) }) : esc(t("event.status.on", "進行中"))}</b>` : `<b class='open'>${esc(t("event.status.preview", "預覽中"))}</b><span class='muted'>${esc(nx ? t("event.status.next", "（當天沒有，下次 {date}）", { date: fmtDate(nx) }) : t("event.status.none", "（當天沒有）"))}</span>`;
     const dates = thisYear.length ? `<dt>${esc(t("event.this_year", "今年日期"))}</dt><dd>${thisYear.map((o) => esc(fmtRangeT(o))).join("<br>")}</dd>` : `<dt>${esc(t("event.this_year", "今年日期"))}</dt><dd><span class='muted'>${esc(t("event.not_this_year", "今年不舉辦"))}</span></dd>`;
     return `<div class="eyebrow">${esc(t("event.eyebrow", "民俗活動"))}</div><h2>${esc(e.name)}</h2><p>${esc(e.desc)}</p>
@@ -624,6 +652,54 @@ try {
       <h3>${esc(t("bus.patterns", "行駛路線與站牌"))}</h3>${pats}
       <p class="muted">${esc(t("bus.route_note", "地上的實線虛線是正線（往返程各靠右）；細點線是繞駛、延駛。拉近畫面可以看到站牌。"))}</p>`;
   }
+  // 山海景觀卡片：說明、即時狀態（今天有沒有雲海、是不是產季……）、重點、附近地標、出處
+  const monthName = (m) => new Date(Date.UTC(2000, m - 1, 15)).toLocaleString(i18n.locale, { month: "short", timeZone: "UTC" });
+  const monthsText = (list) => (list?.length ? list.map(monthName).join(sep) : "");
+  function sceneryStatus(it) {
+    const st = it.state || {};
+    switch (it.kind) {
+      case "clouds": return (st.today ? t("scenery.clouds.yes", "今天清晨有雲海") : t("scenery.clouds.no", "今天清晨沒有雲海")) + (st.live ? t("scenery.clouds.live", "（依現在的濕度與昨天雨量）") : t("scenery.clouds.guess", "（依月份推估）"));
+      case "orchard": return st.flower ? t("scenery.orchard.flower", "花期中") : st.fruit ? t("scenery.orchard.fruit", "產季中，樹上結果了") : t("scenery.orchard.off", "現在不是產季");
+      case "noodles": return st.drying ? t("scenery.noodles.on", "正在曬麵") : t("scenery.noodles.off", "現在沒有曬麵（下雨或不是白天）");
+      case "caltrop": return (st.harvest ? t("scenery.caltrop.harvest", "採收中") : st.growing ? t("scenery.caltrop.grow", "菱角生長中") : t("scenery.caltrop.off", "休耕期")) + (st.jacanas ? t("scenery.caltrop.jacana", "，水雉在田裡") : "");
+      case "harvest": return st.harvest ? t("scenery.harvest.on", "收割中") : t("scenery.harvest.off", "現在不是收割期");
+      case "sugar": return st.milling ? t("scenery.sugar.on", "製糖期，煙囪冒煙中") : t("scenery.sugar.off", "現在不是製糖期");
+      case "kilns": return st.baking ? t("scenery.kilns.on", "焙灶中") : t("scenery.kilns.off", "現在不是焙灶期");
+      case "lotus": return fields.stageNow("lotus") || "";
+      case "boat": return st.sailing ? t("scenery.boat.on", "遊艇出航中") : t("scenery.boat.off", "停在碼頭（假日 10:00、15:00，每天 13:30 出航）");
+      case "trail": return st.hiking ? t("scenery.trail.on", "有人在健行") : t("scenery.trail.off", "天黑或下雨，步道上沒人");
+      case "beehives": return st.flowering ? t("scenery.beehives.on", "龍眼花期，蜜蜂採蜜中") : t("scenery.beehives.off", "現在不是龍眼花期");
+      case "wetland": return st.birds ? t("scenery.wetland.on", "黑面琵鷺在這裡度冬") : t("scenery.wetland.off", "黑面琵鷺已北返（10 月再來）");
+      case "peak": return t("scenery.peak.elevation", "海拔 {m} 公尺", { m: it.elevation.toLocaleString(i18n.locale) });
+      case "stars": return st.visible ? t("scenery.stars.on", "現在看得到星星") : t("scenery.stars.off", "入夜、天氣晴朗時才看得到");
+      default: return "";
+    }
+  }
+  function sceneryCard(id) {
+    const it = scenery.info(id);
+    if (!it) return `<p class='muted'>${esc(t("scenery.not_found", "找不到這個景觀"))}</p>`;
+    const a = sceneryAnchor(it.anchor), status = sceneryStatus(it);
+    const anchorBtn = !a ? "" : a.type === "poi" ? `<button class="chip" data-poi="${esc(a.id)}">${esc(pois.get(a.id)?.name || "")}</button>` : `<button class="chip" data-building="${esc(a.id)}">${esc(buildings.get(a.id)?.name || "")}</button>`;
+    const monthsKey = { sugar: ["scenery.sugar_months", "製糖期 {m}"], wetland: ["scenery.winter_months", "度冬 {m}"] }[it.kind] ?? ["scenery.best_months", "最佳 {m}"];
+    const season = it.fruitMonths || it.months || it.harvestMonths ? `<dt>${esc(t("scenery.season", "季節"))}</dt><dd>${esc([it.flowerMonths ? t("scenery.flower_months", "花期 {m}", { m: monthsText(it.flowerMonths) }) : "", it.fruitMonths ? t("scenery.fruit_months", "果期 {m}", { m: monthsText(it.fruitMonths) }) : "", it.months ? t(monthsKey[0], monthsKey[1], { m: monthsText(it.months) }) : "", it.harvestMonths ? t("scenery.harvest_months", "採收 {m}", { m: monthsText(it.harvestMonths) }) : ""].filter(Boolean).join(sep))}</dd>` : "";
+    const src = (it.source || []).map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(t("scenery.source_n", "出處 {n}", { n: i + 1 }))}</a>`).join(" ");
+    return `<div class="eyebrow">${esc(t("scenery.eyebrow", "山海景觀"))}</div><h2>${esc(it.icon)} ${esc(it.name)}${status ? `<small>${esc(status)}</small>` : ""}</h2><p>${esc(it.desc)}</p>
+      <ul class="facts">${(it.facts || []).map((f) => `<li>${esc(f)}</li>`).join("")}</ul>
+      <dl class="meta">${season}${anchorBtn ? `<dt>${esc(t("scenery.near", "附近地標"))}</dt><dd>${anchorBtn}</dd>` : ""}</dl>
+      ${it.note ? `<p class="muted">${esc(it.note)}</p>` : ""}<p class="muted">${src}</p>`;
+  }
+  function monkeyCard(id) {
+    const m = monkeys.info(id), d = sceneryData.monkeys;
+    if (!m) return `<p class='muted'>${esc(t("scenery.not_found", "找不到這個景觀"))}</p>`;
+    return `<div class="eyebrow">${esc(t("monkey.eyebrow", "找獼猴"))}</div><h2>🐒 ${esc(d.name)}<small>${esc(m.found ? t("monkey.got", "已找到") : t("monkey.not_yet", "還沒找到"))}</small></h2><p>${esc(d.desc)}</p>
+      <dl class="meta"><dt>${esc(t("poi.district", "所在區"))}</dt><dd>${m.district ? islandBtn(m.district) : "—"}</dd></dl>
+      <p class="muted">${esc(m.verified ? t("monkey.verified", "這群在南化烏山獼猴區，是查證過的棲地。") : t("monkey.sketch", "位置是依山區分布示意，不是實際觀察紀錄。"))} ${(d.source || []).map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(t("scenery.source_n", "出處 {n}", { n: i + 1 }))}</a>`).join(" ")}</p>
+      <p>${esc(t("monkey.progress", "已找到 {n}/{total} 群，從「🎮 玩」→「找獼猴」看各區還剩幾群。", { n: monkeys.count, total: monkeys.total }))}</p>`;
+  }
+  const sceneryChips = (u) => {
+    const list = scenery.anchoredTo(u.type, u.id, (pair) => buildingIdOf(pair));
+    return list.length ? `<h3>${esc(t("scenery.nearby", "附近景觀"))}</h3><p>${list.map((it) => `<button class="chip" data-scenery="${esc(it.id)}">${esc(it.icon)} ${esc(it.name)}</button>`).join(" ")}</p>` : "";
+  };
   function busStopCard(i) {
     const s = buses.stopInfo(i);
     if (!s) return `<p class='muted'>${esc(t("bus.stop_not_found", "找不到這個站牌"))}</p>`;
@@ -768,6 +844,7 @@ try {
       flyTo(pos.clone().add(new THREE.Vector3(1.2, 2.2, 3.0)), pos.clone().setY(pos.y + 0.3));
       cardContent.innerHTML = myPinCard(p);
     } else if (u.type === "spot") {
+      if (!Number.isFinite(u.x) || !Number.isFinite(u.z)) { select(islands.has(u.id) ? { type: "island", id: u.id } : null, { silent }); return; } // 沒有座標的圖釘：改開那一區
       placePin(u.x, u.z);
       cardContent.innerHTML = pinCard(u);
     } else if (u.type === "event") {
@@ -825,6 +902,14 @@ try {
       if (u.x == null) { const r = reservoirs.places().find((x) => x.name === u.id); if (r) { u.x = r.x; u.z = r.z; } }
       if (u.x != null) { const p = new THREE.Vector3(u.x, world.groundY(u.x, u.z) + 0.2, u.z); flyTo(p.clone().add(new THREE.Vector3(2.5, 4.0, 5.0)), p); }
       cardContent.innerHTML = reservoirCard(u.id);
+    } else if (u.type === "scenery") {
+      const c = scenery.center(u.id);
+      if (c) flyTo(c.clone().add(new THREE.Vector3(1.6, 2.6, 3.4)), c.clone().setY(c.y + 0.1));
+      cardContent.innerHTML = sceneryCard(u.id);
+    } else if (u.type === "monkey") {
+      const m = monkeys.info(u.id);
+      if (m) flyTo(m.pos.clone().add(new THREE.Vector3(0.6, 1.0, 1.5)), m.pos.clone().setY(m.pos.y + 0.2));
+      cardContent.innerHTML = monkeyCard(u.id);
     } else if (u.type === "field") {
       const f = fields.fieldAt(+u.id);
       if (!f) { select(null); return; }
@@ -832,7 +917,7 @@ try {
       flyTo(p.clone().add(new THREE.Vector3(1.2, 2.2, 3.0)), p.clone().setY(p.y + 0.2));
       cardContent.innerHTML = fieldCard(f);
     }
-    if (u.type === "building" || u.type === "poi") { cardContent.insertAdjacentHTML("beforeend", food.cardHtml(u)); if (!silent) food.visit(u); } // 這裡可以吃到…
+    if (u.type === "building" || u.type === "poi") { cardContent.insertAdjacentHTML("beforeend", food.cardHtml(u) + sceneryChips(u)); if (!silent) food.visit(u); } // 這裡可以吃到…、附近景觀
     card.hidden = false;
     card.scrollTop = 0;
     if (toggles.speech) speech.speakCard(cardContent);
@@ -875,6 +960,8 @@ try {
     }
     if (u.type === "building") { const b = buildings.get(u.id); return b ? t("guide.building", "「{b}」在{d}。拉近一點可以看到它的模型細節。", { b: b.name, d: islands.get(b.island)?.name || "" }) : ""; }
     if (u.type === "spec") { const s = specs.info(u.id); return s ? t("guide.spec", "{s}的產季是{m}，發光的區就是產地。", { s: s.name, m: specs.monthsText(u.id) }) : ""; }
+    if (u.type === "scenery") { const it = scenery.info(u.id); return it ? [sceneryStatus(it), it.desc.split(/(?<=[。.!?])\s*/)[0]].filter(Boolean).join(" ") : ""; }
+    if (u.type === "monkey") return monkeys.info(u.id)?.found ? t("guide.monkey", "台灣獼猴是台灣特有種，群居在低海拔山區。") : "";
     if (u.type === "reservoir") { const lv = reservoirs.levels()[u.id]; return lv?.percent != null ? t("guide.reservoir", "{r}現在蓄水 {p}%。", { r: u.id, p: Math.round(lv.percent) }) : ""; }
     return "";
   }
@@ -917,6 +1004,8 @@ try {
     if (rd) { startRide(rd.dataset.ride, +(rd.dataset.rideIndex || 0)); return; }
     const fw = e.target.closest("[data-follow-walker],[data-follow-train],[data-follow-bus],[data-follow-hsr]");
     if (fw) { if (fw.dataset.followWalker != null) startFollow("walker", +fw.dataset.followWalker); else if (fw.dataset.followHsr != null) { if (hsrPos(+fw.dataset.followHsr)) startFollow("hsr", +fw.dataset.followHsr); else toast(t("hsr.away_toast", "這班高鐵目前開出台南了，稍等折返再試")); } else if (fw.dataset.followBus != null) startFollow("bus", +fw.dataset.followBus); else startFollow("train", +fw.dataset.followTrain); return; }
+    const scn = e.target.closest("[data-scenery]");
+    if (scn) { select({ type: "scenery", id: scn.dataset.scenery }); if (innerWidth <= 800 && scn.closest("#sidebar")) setSidebar(false); return; }
     const bc = e.target.closest("[data-bus-color]");
     if (bc) { const c = bc.dataset.busColor; bc.disabled = true; buses.setColor(c, !buses.colorOn()[c]).finally(() => (bc.disabled = false)); return; }
     if (e.target.closest("[data-bus-now]")) { goLiveClock(); return; }
@@ -981,7 +1070,8 @@ try {
   function syncUrl() {
     const q = new URLSearchParams(location.search);
     for (const k of ["sel", "t", "d", "day", "flows", "names", "labels", "events"]) q.delete(k);
-    if (selected && selected.type !== "walker" && selected.type !== "bus") q.set("sel", `${selected.type}:${selected.id}`); // 行人與公車每次載入都不一樣，不寫進網址
+    if (selected && selected.type !== "walker" && selected.type !== "bus") // 行人與公車每次載入都不一樣，不寫進網址
+      q.set("sel", selected.type === "spot" && Number.isFinite(selected.x) ? `spot:${selected.id}@${selected.x.toFixed(2)},${selected.z.toFixed(2)}` : `${selected.type}:${selected.id}`); // 圖釘要連座標一起記
     q.set("d", fmtDate(calDate));
     q.set("t", String(Math.round(minute)));
     for (const k of ["flows", "names", "events", "labels"]) if (toggles[k] !== (k === "events" || k === "labels")) q.set(k, toggles[k] ? "1" : "0");
@@ -1022,6 +1112,10 @@ try {
       $("#tree").innerHTML += `<section class="isl"><div class="isl-head"><i style="--c:#2f6f9f"></i><b>🚆</b>${esc(t("tree.trains", "跟車"))}</div>
         <ul>${hsr.state().map((tr, i) => `<li class="pair"><button data-follow-hsr="${i}">${esc(t("tree.hsr_n", "高鐵 {n}", { n: i + 1 }))}<span class="sub">${esc(!tr.visible ? t("hsr.away", "台南以外") : tr.dir > 0 ? t("hsr.to_south", "往左營") : t("hsr.to_north", "往台北"))}</span></button><button class="mini" data-ride="hsr" data-ride-index="${i}" title="${esc(t("ride.board", "上車"))}">🚄 ${esc(t("ride.board", "上車"))}</button></li>`).join("")}${trains.state().map((tr, i) => `<li class="pair"><button data-follow-train="${i}">${esc(t("tree.train_n", "列車 {n}", { n: i + 1 }))}<span class="sub">${esc(tr.dir > 0 ? t("tree.train_to_shalun", "往沙崙") : t("tree.train_to_houbi", "往後壁"))}</span></button><button class="mini" data-ride="train" data-ride-index="${i}" title="${esc(t("ride.board", "上車"))}">🚆 ${esc(t("ride.board", "上車"))}</button></li>`).join("")}</ul></section>`;
     $("#tree").innerHTML += busSection(ql);
+    const scs = [...scenery.items.values()].filter((it) => !it.background).filter((it) => !ql || it.name.toLowerCase().includes(ql) || t("tree.search.scenery", "景觀 山 海 雲海 果園 魚塭").includes(ql));
+    if (scs.length)
+      $("#tree").innerHTML += `<section class="isl"><div class="isl-head"><i style="--c:#5f8f5e"></i><b>🏞️</b>${esc(t("tree.scenery", "山海景觀"))}</div>
+        <ul>${scs.map((it) => { const c = scenery.center(it.id), d = c ? world.districtAt(c.x, c.z) : null; return `<li><button data-scenery="${esc(it.id)}">${esc(it.icon)} ${esc(it.name)}<span class="sub">${esc(d ? islands.get(d)?.name || "" : "")}</span></button></li>`; }).join("")}</ul></section>`;
     const mp = myPins.list().filter((p) => !ql || (p.note || "").toLowerCase().includes(ql) || t("tree.search.mypins", "圖釘 筆記").includes(ql));
     if (mp.length)
       $("#tree").innerHTML = `<section class="isl"><div class="isl-head"><i style="--c:#3e7c8c"></i><b>📍</b>${esc(t("mypin.eyebrow", "我的圖釘"))}</div>
@@ -1212,7 +1306,7 @@ try {
 
   // ── 一天的時間 ──
   const dayInput = $("#day"), clock = $("#clock"), note = $("#day-note"), playBtn = $("#day-play");
-  let minute = 480, playing = false, period = null, nightNow = 0, liveAcc = 0;
+  let minute = 480, playing = false, period = null, nightNow = 0, liveAcc = 0, clockLive = false;
   // 播放時 1 秒 = 90 分鐘，一天 16 秒、營運 19 小時約 12.7 秒；全線單程（含停站）原本約 50 秒，乘 4 倍後約 12.4 秒剛好跑完
   const TRAIN_PLAY_SCALE = 4.5;
   function setMinute(m) {
@@ -1243,7 +1337,17 @@ try {
   setDate(calDate);
   for (const k of ["flows", "names", "events", "labels", "heat", "bnames", "season"]) if (params.has(k)) { const v = params.get(k) === "1"; if (v !== toggles[k]) $(`[data-toggle="${k}"]`).click(); }
   $$(".tg").forEach((b) => b.setAttribute("aria-pressed", String(!!toggles[b.dataset.toggle]))); // HTML 預設與 toggles 若不一致，以 toggles 為準
-  if (params.has("sel")) { const [type, ...rest] = params.get("sel").split(":"); select({ type, id: rest.join(":") }, { silent: true }); }
+  if (params.has("sel")) { // 還原網址裡的選取；出錯就略過，不讓整頁載入失敗
+    try {
+      const [type, ...rest] = params.get("sel").split(":");
+      let u = { type, id: rest.join(":") };
+      if (type === "spot") { // spot:<區>@x,z；舊網址沒有座標就改開那一區
+        const [id, xz] = u.id.split("@"), [x, z] = (xz || "").split(",").map(Number);
+        u = Number.isFinite(x) && Number.isFinite(z) ? { type, id, x, z } : { type: "island", id };
+      }
+      select(u, { silent: true });
+    } catch (e) { console.warn("[hex-city] 網址的 sel 無法還原，略過", params.get("sel"), e); select(null, { silent: true }); }
+  }
   dayInput.addEventListener("change", syncUrl);
 
   // ── 導覽：依序飛到幾個地點並切換時段，字幕在下方；用 performance.now() 計時，暫停時凍結剩餘秒數 ──
@@ -1358,7 +1462,7 @@ try {
     const tg = controls.target, R = Math.min(14, camDist * 1.2), MAX = quality === "low" ? 20 : 40;
     const cand = [];
     for (const o of buildingLabels) {
-      if (!show) { o.visible = false; continue; }
+      if (!show || (minorIds.get(o.element.dataset.building) ?? 1) < 0.5) { o.visible = false; continue; } // 還沒長出來的次要建築不顯示名牌
       const d = Math.hypot(o.position.x - tg.x, o.position.z - tg.z);
       if (d < R) cand.push([d, o]); else o.visible = false;
     }
@@ -1412,6 +1516,7 @@ try {
     quality = q;
     renderer.setPixelRatio(Math.min(devicePixelRatio, QUALITY[q].ratio));
     renderer.shadowMap.enabled = QUALITY[q].shadows;
+    scenery.setQuality(q);
     scene.traverse((o) => { if (o.material) [].concat(o.material).forEach((m) => (m.needsUpdate = true)); });
     resize();
   }
@@ -1459,11 +1564,22 @@ try {
       }
     }
     buses.setView(camera.position.distanceTo(controls.target)); // 拉近才顯示公車站牌
+    if (minorIds.size) { // 次要建築：拉近、或被選取時長出來；拉遠縮回地面
+      const near = camera.position.distanceTo(controls.target) < MINOR_SHOW;
+      for (const [id, k] of minorIds) {
+        const want = near || (selected?.type === "building" && selected.id === id) ? 1 : 0;
+        if (k === want) continue;
+        const nk = want > k ? Math.min(1, k + dt / MINOR_GROW) : Math.max(0, k - dt / MINOR_GROW);
+        minorIds.set(id, nk);
+        const e = nk * nk * (3 - 2 * nk); // smoothstep，長出來時有加減速
+        world.setBuildingScale(id, e);
+      }
+    }
     if ((liveAcc += dt) > 1) { // 時鐘在「現在」（今天、沒在播放、跟真實時間差 10 分鐘內）時，公車改用 TDX 即時位置，時鐘也跟著走
       liveAcc = 0;
       const n = new Date(), nowMin = n.getHours() * 60 + n.getMinutes();
       const live = !playing && !tour.on && calDate.getTime() === todayUTC().getTime() && Math.abs(minute - nowMin) <= 10;
-      buses.setLive(live);
+      buses.setLive(live); clockLive = live;
       if (live && Math.abs(minute - nowMin) >= 1) setMinute(nowMin);
     }
     animateCamera();
@@ -1472,6 +1588,8 @@ try {
     trip.update(dt);
     specs.update(dt);
     ming.update(dt, toggles.pause);
+    scenery.update(toggles.pause ? 0 : dt, { minute, night: nightNow, month: calDate.getUTCMonth() + 1, weekday: calDate.getUTCDay(), dateKey: fmtDate(calDate), weather: weather.current(), live: clockLive, camera, target: controls.target, speedMul: period?.speed ?? 1 }); // 星空跟著相機，暫停時也要更新位置
+    if (!toggles.pause) monkeys.update(dt, { minute });
     guideTick(dt);
     updateTour();
     refreshWalkerCard(clockT.elapsedTime);

@@ -158,7 +158,7 @@
     {
       "id": "sicao",
       "type": "attraction",
-      "model": "nature",
+      "model": "none",
       "name": "四草綠色隧道",
       "desc": "台江國家公園內的紅樹林水道，搭竹筏穿越綠色隧道。",
       "source": "https://roo.cash/blog/travel-tainan-attraction-article",

@@ -141,6 +141,16 @@ class BuildCityTest(unittest.TestCase):
             x, z = (pin["lon"] - P["lon_c"]) * P["km_x"] * P["k"], -(pin["lat"] - P["lat_c"]) * P["km_z"] * P["k"]
             self.assertLess(math.hypot(slot[key][0] - x, slot[key][1] - z), 1.0, f"{key} 離真實座標太遠")
 
+    def test_minor_buildings(self):
+        """settings.json 的 minorBuildings（拉近才出現的次要建築）每一棟都要存在，而且不是該區唯一的建築。"""
+        settings = json.load(open(os.path.join(ROOT, "data", "settings.json"), encoding="utf-8"))
+        by = {i["name"]: {b["name"] for b in i["buildings"]} for i in self.islands}
+        for dn, names in settings.get("minorBuildings", {}).items():
+            if dn.startswith("_"): continue
+            self.assertIn(dn, by)
+            for n in names: self.assertIn(n, by[dn], f"{dn} 沒有 {n}")
+            self.assertLess(len(names), len(by[dn]), f"{dn} 不能整區都是次要建築")
+
 
 if __name__ == "__main__":
     unittest.main()

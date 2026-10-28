@@ -1,0 +1,1256 @@
+{
+  "_note": "山海景觀（scenery.js）與找獼猴（monkeys.js）的資料。座標為 WGS84，執行時依 city.json 的投影換成世界座標並貼回陸地；anchor 是附近的地標（建築 [區, 名] 或景點 id），卡片會連過去。months 是 1–12 月。2026-10 查證，來源見 source；「待查證」與「示意」會在卡片上標出。",
+  "items": [
+    {
+      "id": "clouds",
+      "kind": "clouds",
+      "icon": "🌫️",
+      "name": "山谷雲海",
+      "anchor": {
+        "building": [
+          "左鎮區",
+          "二寮觀日亭"
+        ]
+      },
+      "spots": [
+        [
+          22.9928,
+          120.4097
+        ],
+        [
+          22.9642,
+          120.4367
+        ],
+        [
+          23.2662,
+          120.5046
+        ],
+        [
+          23.079,
+          120.4908
+        ],
+        [
+          23.1785,
+          120.566
+        ]
+      ],
+      "months": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "hours": [
+        300,
+        480
+      ],
+      "desc": "清晨日出前後，山谷裡鋪著一層雲霧。左鎮二寮是全台海拔最低的雲海景點，前一晚下過大雨的清晨最有機會看到。",
+      "facts": [
+        "最佳季節 6–9 月（梅雨後到中秋前）",
+        "日出約 05:12–06:41",
+        "冬季是否常見待查證"
+      ],
+      "note": "地圖上的雲海：時鐘在現在時看真實濕度與前一天雨量；其他日期依月份換算機率。",
+      "source": [
+        "https://zh.wikipedia.org/wiki/二寮",
+        "https://www.storm.mg/article/199003",
+        "https://supertaste.tvbs.com.tw/travel/319935"
+      ]
+    },
+    {
+      "id": "badlands",
+      "kind": "badlands",
+      "icon": "🌑",
+      "name": "月世界惡地",
+      "anchor": {
+        "building": [
+          "左鎮區",
+          "草山月世界"
+        ]
+      },
+      "spots": [
+        [
+          23.006,
+          120.4313
+        ],
+        [
+          22.9642,
+          120.4367
+        ],
+        [
+          22.976,
+          120.4422
+        ],
+        [
+          22.9271,
+          120.4077
+        ],
+        [
+          22.9969,
+          120.4133
+        ]
+      ],
+      "desc": "左鎮與龍崎的青灰色泥岩惡地，雨水在光禿的山坡刷出一道道溝紋，寸草難生，像月球表面。",
+      "facts": [
+        "範圍約在左鎮草山、二寮到龍崎牛埔",
+        "龍崎牛埔有泥岩水土保持教學園區"
+      ],
+      "source": [
+        "https://www.openstreetmap.org/search?query=草山月世界",
+        "https://www.openstreetmap.org/search?query=牛埔泥岩水土保持教學園區"
+      ]
+    },
+    {
+      "id": "hotspring",
+      "kind": "steam",
+      "icon": "♨️",
+      "name": "關子嶺溫泉煙",
+      "anchor": {
+        "poi": "guanziling"
+      },
+      "spots": [
+        [
+          23.3401,
+          120.5042
+        ],
+        [
+          23.3369,
+          120.5044
+        ]
+      ],
+      "desc": "關子嶺是少見的泥漿溫泉，溫泉街的湯屋冒著白煙，天氣越冷、入夜越明顯。",
+      "facts": [
+        "溫泉區在白河區關嶺里，市道 175 一帶",
+        "附近的水火同源是水與火從同一個岩縫冒出"
+      ],
+      "source": [
+        "https://www.openstreetmap.org/search?query=關子嶺溫泉"
+      ]
+    },
+    {
+      "id": "dadongshan",
+      "kind": "peak",
+      "icon": "⛰️",
+      "name": "大凍山",
+      "elevation": 1236.6,
+      "anchor": {
+        "building": [
+          "東山區",
+          "大凍山步道"
+        ]
+      },
+      "spots": [
+        [
+          23.3115,
+          120.5226
+        ]
+      ],
+      "trail": [
+        [
+          23.33,
+          120.51
+        ],
+        [
+          23.3215,
+          120.5165
+        ],
+        [
+          23.3115,
+          120.5226
+        ]
+      ],
+      "desc": "台南最高峰，海拔 1,236.6 公尺，位在白河與嘉義大埔交界；從關子嶺後方的仙祖廟起登，單程約 6 公里。",
+      "facts": [
+        "海拔 1,236.6 公尺（台南最高）",
+        "步道起點：紫雲殿仙祖廟（起點座標待查證）"
+      ],
+      "source": [
+        "https://zh.wikipedia.org/wiki/大凍山_(臺南市)"
+      ]
+    },
+    {
+      "id": "zhuzijian",
+      "kind": "peak",
+      "icon": "⛰️",
+      "name": "竹子尖山",
+      "elevation": 1110,
+      "anchor": {
+        "building": [
+          "楠西區",
+          "梅嶺風景區"
+        ]
+      },
+      "spots": [
+        [
+          23.1759,
+          120.5656
+        ]
+      ],
+      "trail": [
+        [
+          23.1867,
+          120.5614
+        ],
+        [
+          23.181,
+          120.5636
+        ],
+        [
+          23.1759,
+          120.5656
+        ]
+      ],
+      "desc": "梅嶺的最高點，小百岳第 67 號，海拔約 1,110 公尺，位在南化與楠西交界，可從伍龍步道上山。",
+      "facts": [
+        "海拔約 1,110 公尺",
+        "小百岳 #067"
+      ],
+      "source": [
+        "https://www.openstreetmap.org/search?query=竹子尖山",
+        "https://blog.udn.com/cck2326/19860921"
+      ]
+    },
+    {
+      "id": "stars",
+      "kind": "stars",
+      "icon": "✨",
+      "name": "山區星空",
+      "anchor": {
+        "building": [
+          "大內區",
+          "南瀛天文館"
+        ]
+      },
+      "spots": [
+        [
+          23.1176,
+          120.3911
+        ]
+      ],
+      "desc": "入夜後東邊山區光害少，看得到的星星比市區多；大內的南瀛天文館有觀星平台。",
+      "facts": [
+        "台南沒有國際暗空認證地點",
+        "地圖上星空亮度依離市區遠近示意"
+      ],
+      "source": [
+        "https://smiletaiwan.cw.com.tw/article/1183"
+      ]
+    },
+    {
+      "id": "mango",
+      "kind": "orchard",
+      "icon": "🥭",
+      "name": "玉井芒果園",
+      "fruit": "#f2a33a",
+      "leaf": "#3f7d3a",
+      "anchor": {
+        "building": [
+          "玉井區",
+          "芒果產業文化資訊館"
+        ]
+      },
+      "spots": [
+        [
+          23.1222,
+          120.4574
+        ]
+      ],
+      "count": 36,
+      "fruitMonths": [
+        6,
+        7
+      ],
+      "desc": "玉井是台灣愛文芒果的故鄉，6 月開始採收，7 月盛產。",
+      "facts": [
+        "產季 6–7 月，7 月盛產"
+      ],
+      "source": [
+        "https://udn.com/news/story/7326/9556225",
+        "https://news.pts.org.tw/article/482265"
+      ]
+    },
+    {
+      "id": "longan",
+      "kind": "orchard",
+      "icon": "🟤",
+      "name": "龍眼園",
+      "fruit": "#b5813f",
+      "leaf": "#355f33",
+      "anchor": {
+        "building": [
+          "東山區",
+          "東山咖啡公路休憩站"
+        ]
+      },
+      "spots": [
+        [
+          23.2673,
+          120.5004
+        ],
+        [
+          23.0413,
+          120.4777
+        ]
+      ],
+      "count": 30,
+      "fruitMonths": [
+        7,
+        8,
+        9
+      ],
+      "desc": "東山與南化的山坡種滿龍眼，7 月底開始採收約兩個月；東山的龍眼乾用土窯烘焙六天五夜。南化龍眼產量被報導為全國第一。",
+      "facts": [
+        "7 月底開始採收，約兩個月",
+        "龍眼乾土窯焙六天五夜"
+      ],
+      "source": [
+        "https://smiletaiwan.cw.com.tw/article/1790",
+        "https://www.cw.com.tw/article/5116631"
+      ]
+    },
+    {
+      "id": "coffee",
+      "kind": "orchard",
+      "icon": "☕",
+      "name": "東山咖啡園",
+      "fruit": "#c0392b",
+      "leaf": "#2f5d3a",
+      "small": true,
+      "anchor": {
+        "building": [
+          "東山區",
+          "東山咖啡公路休憩站"
+        ]
+      },
+      "spots": [
+        [
+          23.269,
+          120.4914
+        ],
+        [
+          23.2794,
+          120.4678
+        ]
+      ],
+      "count": 30,
+      "fruitMonths": [
+        10,
+        11,
+        12,
+        1
+      ],
+      "desc": "市道 175「咖啡公路」沿線的咖啡園，果實秋天轉紅，秋末到冬天採收。",
+      "facts": [
+        "果實約 9–10 月轉紅，秋末到冬季採收（精確月份待查證）",
+        "東山咖啡節約在 10 月"
+      ],
+      "source": [
+        "https://www.ctee.com.tw/news/20260122700003-430902",
+        "https://www.cw.com.tw/article/5002431"
+      ]
+    },
+    {
+      "id": "plum",
+      "kind": "orchard",
+      "icon": "🌸",
+      "name": "梅嶺梅園",
+      "fruit": "#7fb24a",
+      "flower": "#fbf6f0",
+      "leaf": "#4a6b3c",
+      "anchor": {
+        "building": [
+          "楠西區",
+          "梅嶺風景區"
+        ]
+      },
+      "spots": [
+        [
+          23.1785,
+          120.566
+        ]
+      ],
+      "count": 30,
+      "flowerMonths": [
+        12,
+        1,
+        2
+      ],
+      "fruitMonths": [
+        3,
+        4
+      ],
+      "desc": "楠西梅嶺的梅花 12 月底到 1 月盛開；青梅 3 月底到 4 月底採收約 40 天，做脆梅、釀梅酒。",
+      "facts": [
+        "梅花 12 月底–1 月盛開",
+        "青梅 3 月底–4 月底採收"
+      ],
+      "source": [
+        "https://udn.com/news/story/7326/9279613",
+        "https://www.cna.com.tw/news/aloc/201804030078.aspx"
+      ]
+    },
+    {
+      "id": "fishponds",
+      "kind": "fishponds",
+      "icon": "🐟",
+      "name": "沿海魚塭",
+      "areas": [
+        {
+          "district": "七股區",
+          "at": [
+            23.1202,
+            120.1031
+          ],
+          "ha": 887
+        },
+        {
+          "district": "安南區",
+          "at": [
+            23.0568,
+            120.1502
+          ],
+          "ha": 789
+        },
+        {
+          "district": "北門區",
+          "at": [
+            23.2997,
+            120.13
+          ],
+          "ha": 742
+        },
+        {
+          "district": "學甲區",
+          "at": [
+            23.2323,
+            120.1803
+          ],
+          "ha": 415
+        },
+        {
+          "district": "將軍區",
+          "at": null,
+          "ha": 144
+        }
+      ],
+      "desc": "台南沿海一格一格的魚塭，水面上的水車打氣，常見虱目魚與文蛤混養。台南虱目魚養殖面積與產量都是全台第一。",
+      "facts": [
+        "虱目魚養殖面積：七股 887、安南 789、北門 742、學甲 415、將軍 144 公頃（113 年）",
+        "全市約 3,503 公頃，年產約 2.39 萬公噸",
+        "文蛤池常混養虱目魚"
+      ],
+      "note": "地圖上魚塭的格數依各區養殖面積比例配置，位置在各區沿海聚落附近（示意）。",
+      "source": [
+        "https://newtalk.tw/news/view/2025-11-17/1004992",
+        "https://www.cna.com.tw/news/aloc/202101100164.aspx"
+      ]
+    },
+    {
+      "id": "oysters",
+      "kind": "lagoon",
+      "icon": "🦪",
+      "name": "七股潟湖蚵棚與膠筏",
+      "anchor": {
+        "building": [
+          "七股區",
+          "七股潟湖"
+        ]
+      },
+      "racks": [
+        23.13,
+        120.07
+      ],
+      "route": [
+        [
+          23.1237,
+          120.0787
+        ],
+        [
+          23.1299,
+          120.0553
+        ],
+        [
+          23.1089,
+          120.0452
+        ]
+      ],
+      "hours": [
+        480,
+        1020
+      ],
+      "desc": "七股潟湖裡一排排的蚵棚；遊客從六孔或南灣碼頭搭膠筏遊湖，約 2 小時，可以看沙洲、蚵棚和紅樹林。",
+      "facts": [
+        "遊湖碼頭：六孔碼頭、南灣碼頭",
+        "蚵棚精確位置待查證（示意）"
+      ],
+      "source": [
+        "https://www.openstreetmap.org/search?query=六孔碼頭",
+        "https://www.twtainan.net/en/attractions/detail/4623"
+      ]
+    },
+    {
+      "id": "sicao",
+      "kind": "tunnel",
+      "icon": "🛶",
+      "name": "四草綠色隧道",
+      "anchor": {
+        "poi": "sicao"
+      },
+      "route": [
+        [
+          23.0195,
+          120.136
+        ],
+        [
+          23.0209,
+          120.1348
+        ],
+        [
+          23.0232,
+          120.1335
+        ]
+      ],
+      "hours": [
+        480,
+        960
+      ],
+      "desc": "安南四草大眾廟旁的紅樹林水道，兩岸的紅樹林在頭頂交會成綠色隧道，竹筏約 30 分鐘一趟、到底再原路折返。",
+      "facts": [
+        "營運 08:00–16:00，航程約 30 分鐘",
+        "水道長度各來源不一（約 200–800 公尺，待查證）"
+      ],
+      "source": [
+        "https://www.openstreetmap.org/search?query=四草綠色隧道",
+        "https://bunnyann.tw/?p=27682"
+      ]
+    },
+    {
+      "id": "noodles",
+      "kind": "noodles",
+      "icon": "🍜",
+      "name": "關廟曬麵",
+      "spots": [
+        [
+          22.9674,
+          120.3359
+        ],
+        [
+          22.9868,
+          120.3045
+        ]
+      ],
+      "hours": [
+        420,
+        1020
+      ],
+      "desc": "關廟麵靠日曬：麵廠外一排排的麵架，夏天約曬 2 天、冬天約 3 天，一下雨就要收麵。",
+      "facts": [
+        "日曬：夏 2 天、冬 3 天",
+        "也有業者改用室內乾燥室"
+      ],
+      "note": "地圖上的麵架晴天白天才出現，下雨時收起來。",
+      "source": [
+        "https://www.mirrormedia.mg/story/20170306bus001",
+        "https://www.mirrormedia.mg/story/20201105bus002"
+      ]
+    },
+    {
+      "id": "caltrop",
+      "kind": "caltrop",
+      "icon": "🌿",
+      "name": "官田菱角田",
+      "anchor": {
+        "building": [
+          "官田區",
+          "葫蘆埤自然公園"
+        ]
+      },
+      "spots": [
+        [
+          23.1914,
+          120.3066
+        ],
+        [
+          23.2171,
+          120.3297
+        ]
+      ],
+      "growMonths": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "harvestMonths": [
+        9,
+        10
+      ],
+      "desc": "官田是菱角的故鄉，菱角田也是水雉的棲地；9–10 月盛產，農民坐在菱角船上採收。",
+      "facts": [
+        "盛產 9–10 月（可延到 8 月底–11 月）",
+        "菱角田是水雉的繁殖棲地",
+        "水雉（凌波仙子）4–9 月繁殖，在菱角浮葉上築巢、行走，吃昆蟲不吃菱角"
+      ],
+      "source": [
+        "https://travel.yam.com/article/129164",
+        "https://smiletaiwan.cw.com.tw/article/6058",
+        "https://news.ltn.com.tw/news/life/breakingnews/2995740",
+        "https://supertaste.tvbs.com.tw/travel/310729"
+      ],
+      "jacanaMonths": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "dairy",
+      "kind": "dairy",
+      "icon": "🐄",
+      "name": "八翁酪農區",
+      "anchor": {
+        "building": [
+          "柳營區",
+          "八老爺車站乳牛的家"
+        ]
+      },
+      "spots": [
+        [
+          23.2709,
+          120.2966
+        ]
+      ],
+      "desc": "柳營八翁一帶早年是台灣最大的酪農專業區，現在約有 50 家牧場、8 千到 1 萬頭乳牛，有「牛乳之鄉」之稱。",
+      "facts": [
+        "約 50 家牧場、8 千–1 萬頭牛"
+      ],
+      "source": [
+        "https://news.tvbs.com.tw/life/2983554"
+      ]
+    },
+    {
+      "id": "harvest",
+      "kind": "harvest",
+      "icon": "🌾",
+      "name": "後壁稻田收割",
+      "anchor": {
+        "building": [
+          "後壁區",
+          "菁寮老街"
+        ]
+      },
+      "crop": "rice",
+      "district": "後壁區",
+      "yard": [
+        23.3789,
+        120.3359
+      ],
+      "desc": "後壁菁寮是《無米樂》的故鄉。一期稻約 6 月、二期稻約 11 月收割，收割機在金黃的稻田裡來回，收下的稻穀攤在曬穀場上翻曬。",
+      "facts": [
+        "一期稻約 6 月、二期稻約 11 月收割（依當年熟度）",
+        "紀錄片《無米樂》（2004）記錄菁寮老農崑濱伯，帶動菁寮觀光"
+      ],
+      "note": "地圖上：後壁稻田在產季資料的「收割」階段時出現收割機與曬穀場；曬穀場位置為示意。",
+      "source": [
+        "https://news.pts.org.tw/article/721615",
+        "https://news.pts.org.tw/article/653567",
+        "https://www.gvm.com.tw/article/51362"
+      ]
+    },
+    {
+      "id": "sugar",
+      "kind": "sugar",
+      "icon": "🏭",
+      "name": "善化糖廠製糖期",
+      "anchor": {
+        "building": [
+          "善化區",
+          "善化糖廠"
+        ]
+      },
+      "crop": "sugarcane",
+      "district": "善化區",
+      "months": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "desc": "善化糖廠是全台僅剩兩座還在製糖的糖廠之一（另一座是虎尾）。每年約 12 月中下旬開工到隔年 3 月，煙囪冒煙，載甘蔗的卡車在蔗田與糖廠間來回。",
+      "facts": [
+        "2025–26 年期：12/23 開工、預定 3/13 停工，共 81 天，預計壓榨約 18.76 萬公噸甘蔗",
+        "善化以卡車運蔗；全台只剩虎尾到褒忠一段還用五分車"
+      ],
+      "source": [
+        "https://news.pts.org.tw/article/461592",
+        "https://ec.ltn.com.tw/article/breakingnews/5287299"
+      ]
+    },
+    {
+      "id": "kilns",
+      "kind": "kilns",
+      "icon": "🔥",
+      "name": "龍眼乾焙灶",
+      "anchor": {
+        "building": [
+          "東山區",
+          "東山咖啡公路休憩站"
+        ]
+      },
+      "crop": "longan",
+      "spots": [
+        [
+          23.272,
+          120.4002
+        ],
+        [
+          23.2673,
+          120.5004
+        ],
+        [
+          23.0783,
+          120.4908
+        ]
+      ],
+      "desc": "東山、南化的龍眼採收後，用龍眼木柴火在土窯裡慢慢焙成龍眼乾，每批焙六天五夜、每兩小時看一次火。東山南溪里的「土窯巷」還有約 92 座老土窯。",
+      "facts": [
+        "焙灶期約 8–9 月：立秋「拜寮」起火，到「謝寮」結束",
+        "每灶約需 500 斤龍眼木"
+      ],
+      "note": "南化與東原的焙灶聚落位置待查證，地圖上為示意。",
+      "source": [
+        "https://smiletaiwan.cw.com.tw/article/1790",
+        "https://www.gvm.com.tw/article/20155",
+        "https://smiletaiwan.cw.com.tw/article/5230"
+      ]
+    },
+    {
+      "id": "lotus",
+      "kind": "lotus",
+      "icon": "🪷",
+      "name": "白河蓮田",
+      "anchor": {
+        "building": [
+          "白河區",
+          "白河蓮花公園"
+        ]
+      },
+      "crop": "lotus",
+      "district": "白河區",
+      "desc": "白河是台灣的蓮花故鄉，約農曆年前後種下蓮藕，荷葉一片片長出來，5–8 月開花，蓮子 6 月起採收，冬天休耕。",
+      "facts": [
+        "蓮花約 5–8 月開花；蓮子 6 月上旬到 7 月中旬盛產，可延到 9–10 月",
+        "蓮田早年超過 200 公頃，缺水年剩 150–170 公頃",
+        "荷葉冒出的月份與冬季休耕待查證"
+      ],
+      "source": [
+        "https://www.moa.gov.tw/ws.php?id=2503026",
+        "https://fae.moa.gov.tw/files/kids_edu_material/2377/A001_1.pdf",
+        "https://news.pts.org.tw/article/516603"
+      ]
+    },
+    {
+      "id": "bamboo",
+      "kind": "bamboo",
+      "icon": "🎋",
+      "name": "龍崎竹林",
+      "anchor": {
+        "building": [
+          "龍崎區",
+          "竹炭故事館"
+        ]
+      },
+      "spots": [
+        [
+          22.9314,
+          120.4092
+        ],
+        [
+          22.9466,
+          120.4181
+        ],
+        [
+          22.9642,
+          120.4367
+        ]
+      ],
+      "desc": "龍崎丘陵上長著大片莿竹林，曾是全省竹藤家具的主要供應地，有「采竹之鄉」之稱；現在農會回收廢竹燒竹炭、製竹醋液，竹筍也是主要農產。",
+      "facts": [
+        "龍崎區農會約有 3,000 公頃莿竹林",
+        "主要農特產：竹筍、鳳梨"
+      ],
+      "note": "竹林的實際範圍待查證，地圖上依丘陵聚落位置示意。",
+      "source": [
+        "https://www.ctee.com.tw/news/20231205701677-431401",
+        "https://newtalk.tw/news/view/2025-06-23/977932"
+      ]
+    },
+    {
+      "id": "wetland",
+      "kind": "wetland",
+      "icon": "🦢",
+      "name": "七股紅樹林與黑面琵鷺",
+      "anchor": {
+        "building": [
+          "七股區",
+          "黑面琵鷺生態展示館"
+        ]
+      },
+      "mangrove": [
+        23.1187,
+        120.0893
+      ],
+      "birds": [
+        23.0644,
+        120.0536
+      ],
+      "months": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "desc": "七股海寮的紅樹林保護區長著支柱根的紅樹林；曾文溪口的保護區是黑面琵鷺最重要的度冬地，10 月飛來、1 月中最多，隔年 3–5 月陸續離開。牠們在淺灘低頭左右掃動扁平的嘴覓食。",
+      "facts": [
+        "2026 年普查：全球 7,746 隻、台灣 4,719 隻，都是新高",
+        "2025 年普查：台南 2,439 隻"
+      ],
+      "source": [
+        "https://www.openstreetmap.org/relation/7144211",
+        "https://news.pts.org.tw/article/803734",
+        "https://newtalk.tw/news/view/2026-04-17/1030266",
+        "https://newtalk.tw/news/view/2025-04-11/964952"
+      ]
+    },
+    {
+      "id": "linfengying",
+      "kind": "dairy",
+      "icon": "🐄",
+      "name": "林鳳營牧場",
+      "anchor": {
+        "building": [
+          "六甲區",
+          "林鳳營牧場"
+        ]
+      },
+      "spots": [
+        [
+          23.2521,
+          120.3333
+        ]
+      ],
+      "desc": "六甲的林鳳營牧場由味全自營，被稱為全台唯一由乳品製造商自營的牧場，「林鳳營」鮮乳就是取自這裡的地名。旁邊菁埔埤的落羽松，當初是為了防疫、隔離乳牛而種。",
+      "facts": [
+        "和柳營八翁酪農區不同：林鳳營是單一廠商的牧場，八翁是約 95 戶酪農聚集的專業區"
+      ],
+      "source": [
+        "https://health.tainan.gov.tw/warehouse/8961CCB1-809E-44E1-8602-AB6B4A9A2D87/F_1715735086659e.pdf",
+        "https://www.moa.gov.tw/ws.php?id=12562"
+      ]
+    },
+    {
+      "id": "jiangchickens",
+      "kind": "chickens",
+      "icon": "🐔",
+      "name": "江家聚落的雞",
+      "anchor": {
+        "building": [
+          "楠西區",
+          "鹿陶洋江家古厝"
+        ]
+      },
+      "spots": [
+        [
+          23.1556,
+          120.4898
+        ]
+      ],
+      "desc": "鹿陶洋江家聚落仍有族人居住，埕上曬衣、雞群走動，是少見還在生活中的傳統聚落。",
+      "facts": [
+        "1721 年江家祖先落腳，1907 年完成最後一棟"
+      ],
+      "source": [
+        "https://smiletaiwan.cw.com.tw/article/1411",
+        "https://cna.com.tw/news/aloc/202608270145.aspx"
+      ]
+    },
+    {
+      "id": "guidan",
+      "kind": "steam",
+      "icon": "♨️",
+      "name": "龜丹溫泉",
+      "anchor": {
+        "building": [
+          "楠西區",
+          "龜丹溫泉"
+        ]
+      },
+      "spots": [
+        [
+          23.1368,
+          120.5082
+        ]
+      ],
+      "desc": "楠梓仙溪畔的弱鹼性碳酸氫鈉泉，泉水清澈、觸感滑潤，人稱「美人湯」，周圍是果園。龜丹溫泉體驗池由台南市觀光旅遊局委外經營。",
+      "facts": [
+        "泉質：弱鹼性碳酸氫鈉泉",
+        "2025 年 12 月仍營運，另有 5 家業者取得溫泉標章",
+        "水溫與營業時間待查證"
+      ],
+      "source": [
+        "https://www.openstreetmap.org/node/3128746495",
+        "https://udn.com/news/story/7326/9214202",
+        "https://money.udn.com/money/story/7307/9045540"
+      ]
+    },
+    {
+      "id": "zengwenboat",
+      "kind": "boat",
+      "icon": "🛥️",
+      "name": "曾文水庫觀光遊艇",
+      "anchor": {
+        "building": [
+          "楠西區",
+          "曾文水庫"
+        ]
+      },
+      "lake": "曾文水庫",
+      "trips": [
+        {
+          "from": 810,
+          "to": 1020,
+          "days": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "from": 600,
+          "to": 660,
+          "days": [
+            0,
+            6
+          ]
+        },
+        {
+          "from": 900,
+          "to": 960,
+          "days": [
+            0,
+            6
+          ]
+        }
+      ],
+      "desc": "從觀景樓下方的碼頭出發遊湖，可到山豬島、飛鷹峽谷。2026 年水位一度只剩約 9%，期間只能開到釣魚台，6/20 起恢復原航線。",
+      "facts": [
+        "假日 10:00、15:00 遊湖約 1 小時；每天 13:30 半日遊（班次依水位調整，待查證）",
+        "碼頭在觀景樓下方，OSM 標在嘉義縣大埔鄉那一側"
+      ],
+      "note": "地圖上的湖面是縮小的示意，遊艇在示意湖上航行。",
+      "source": [
+        "https://udn.com/news/story/7326/9577541",
+        "https://travel.yam.com/article/129670",
+        "https://www.openstreetmap.org/node/3128715874"
+      ]
+    },
+    {
+      "id": "nanximango",
+      "kind": "orchard",
+      "icon": "🥭",
+      "name": "楠西芒果園",
+      "fruit": "#f2a33a",
+      "leaf": "#3f7d3a",
+      "spots": [
+        [
+          23.1536,
+          120.4892
+        ],
+        [
+          23.1931,
+          120.4761
+        ],
+        [
+          23.2072,
+          120.5388
+        ]
+      ],
+      "count": 36,
+      "fruitMonths": [
+        6,
+        7
+      ],
+      "desc": "楠西的芒果約 2,000 公頃，報導稱是全國最大的芒果產區，6–7 月盛產；密枝里也以楊桃、芒果、蜜棗聞名。",
+      "facts": [
+        "約 2,000 公頃，6–7 月盛產"
+      ],
+      "note": "果園位置依鹿田、照興、密枝里一帶示意。",
+      "source": [
+        "https://news.ltn.com.tw/amp/news/Tainan/paper/1761560",
+        "https://www.moa.gov.tw/ws.php?id=2503150"
+      ]
+    },
+    {
+      "id": "nanhuamango",
+      "kind": "orchard",
+      "icon": "🥭",
+      "name": "南化芒果園",
+      "fruit": "#f2a33a",
+      "leaf": "#3f7d3a",
+      "spots": [
+        [
+          23.0712,
+          120.4634
+        ],
+        [
+          23.0306,
+          120.4571
+        ],
+        [
+          23.0849,
+          120.5407
+        ]
+      ],
+      "count": 36,
+      "fruitMonths": [
+        6,
+        7
+      ],
+      "desc": "南化的芒果近 1,300 公頃，全國第三（次於楠西、玉井），愛文約占六到七成、金煌其次，6–7 月盛產。",
+      "facts": [
+        "2026 年南化區農會 6/8 起收購，到 7/20 前後累計超過 37 萬公斤"
+      ],
+      "note": "果園位置依北平、西埔、玉山里一帶示意。",
+      "source": [
+        "https://news.ltn.com.tw/news/Tainan/breakingnews/5512058",
+        "https://news.ltn.com.tw/amp/news/life/breakingnews/5488924"
+      ]
+    },
+    {
+      "id": "wulong",
+      "kind": "trail",
+      "icon": "🥾",
+      "name": "梅嶺伍龍步道",
+      "anchor": {
+        "building": [
+          "楠西區",
+          "梅嶺風景區"
+        ]
+      },
+      "trail": [
+        [
+          23.1868,
+          120.5614
+        ],
+        [
+          23.1878,
+          120.564
+        ],
+        [
+          23.1888,
+          120.5667
+        ]
+      ],
+      "desc": "從梅嶺二層坪伍龍殿旁起登，全長約 2.1 公里、單程約 50 分鐘，是梅嶺最平緩的步道之一，沿途是梅樹，可遠眺楠西與曾文水庫。",
+      "facts": [
+        "約 2.1 公里，單程約 50 分鐘，親子等級",
+        "終點待查證；地圖上的路線依入口與步道代表點示意"
+      ],
+      "source": [
+        "https://www.openstreetmap.org/way/222918645",
+        "https://travel.yam.com/article/133887"
+      ]
+    },
+    {
+      "id": "beehives",
+      "kind": "beehives",
+      "icon": "🐝",
+      "name": "龍眼蜜蜂箱",
+      "spots": [
+        [
+          23.0413,
+          120.4777
+        ]
+      ],
+      "months": [
+        3,
+        4
+      ],
+      "desc": "春天龍眼開花時，蜂農把蜂箱搬到龍眼園邊，3 月到 4 月中旬是龍眼蜜的採收季。台南是全台龍眼面積最大的縣市，主要在東山、楠西、南化。",
+      "facts": [
+        "龍眼花期與採蜜：約 3 月到 4 月中旬（全台通則）",
+        "2026 年低溫加乾旱，龍眼花期偏短、採蜜量不理想"
+      ],
+      "note": "南化蜂農的位置待查證，蜂箱放在龍眼園旁示意。",
+      "source": [
+        "https://news.pts.org.tw/article/690670",
+        "https://udn.com/news/story/7326/9639165",
+        "https://www.foodnext.net/science/knowledge/paper/5111616413"
+      ]
+    },
+    {
+      "id": "farmhouses",
+      "kind": "farmhouses",
+      "icon": "🏠",
+      "name": "山區農家",
+      "background": true,
+      "districts": [
+        "楠西區",
+        "南化區"
+      ],
+      "count": 9,
+      "desc": "淺山坡上散落的農家，鐵皮屋頂、晾著衣服、旁邊一小塊菜園。",
+      "facts": [
+        "地圖背景，位置與數量為示意"
+      ],
+      "source": [
+        "https://www.pro360.com.tw/guide/metal_house_design"
+      ]
+    },
+    {
+      "id": "fruittrucks",
+      "kind": "trucks",
+      "icon": "🛻",
+      "name": "載水果的小貨車",
+      "background": true,
+      "routes": [
+        "綠21",
+        "綠24",
+        "綠26",
+        "綠27"
+      ],
+      "districts": [
+        "楠西區",
+        "南化區"
+      ],
+      "months": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "desc": "產季時，農民開著小貨車載一箱箱芒果、龍眼下山。",
+      "facts": [
+        "地圖背景：6–7 月載芒果、7–9 月載龍眼，沿公車支線行駛（示意）"
+      ],
+      "source": [
+        "https://www.moa.gov.tw/ws.php?id=2503150"
+      ]
+    },
+    {
+      "id": "bluemagpie",
+      "kind": "magpies",
+      "icon": "🐦",
+      "name": "台灣藍鵲",
+      "spots": [
+        [
+          23.0683,
+          120.5115
+        ]
+      ],
+      "desc": "台灣特有種，藍色身體拖著長長的白尾巴、紅嘴紅腳，常成群在海拔 1,000 公尺以下的闊葉林與次生林活動，近年也適應都會區。",
+      "facts": [
+        "台灣特有種，第三級「其他應予保育之野生動物」",
+        "台南淺山的觀察紀錄很少：只查到 2026 年 5 月在南化的一筆"
+      ],
+      "source": [
+        "https://www.inaturalist.org/observations/357458075",
+        "https://www.ctee.com.tw/news/20250617701715-431401"
+      ]
+    }
+  ],
+  "monkeys": {
+    "name": "台灣獼猴",
+    "desc": "台灣特有種，群居在低海拔山區；南化烏山的獼猴區從 1989 年起有人照顧，有百餘隻。也常下山吃農作物，造成農損。",
+    "source": [
+      "https://www.twtainan.net/en/attractions/detail/4567",
+      "https://www.moa.gov.tw/ws.php?id=13144",
+      "https://www.cw.com.tw/article/5116631"
+    ],
+    "troops": [
+      {
+        "id": "wushan",
+        "at": [
+          23.0164,
+          120.4737
+        ],
+        "verified": true
+      },
+      {
+        "id": "jinguang",
+        "at": [
+          23.0317,
+          120.5061
+        ]
+      },
+      {
+        "id": "nanhua-east",
+        "at": [
+          23.095,
+          120.53
+        ]
+      },
+      {
+        "id": "wulong",
+        "at": [
+          23.1867,
+          120.5614
+        ]
+      },
+      {
+        "id": "nanxi-north",
+        "at": [
+          23.2,
+          120.53
+        ]
+      },
+      {
+        "id": "yujing-hill",
+        "at": [
+          23.14,
+          120.49
+        ]
+      },
+      {
+        "id": "kantou",
+        "at": [
+          23.2662,
+          120.5046
+        ]
+      },
+      {
+        "id": "dadong-foot",
+        "at": [
+          23.305,
+          120.515
+        ]
+      },
+      {
+        "id": "guanziling",
+        "at": [
+          23.335,
+          120.5
+        ]
+      },
+      {
+        "id": "zuozhen",
+        "at": [
+          23.04,
+          120.43
+        ]
+      }
+    ]
+  }
+}

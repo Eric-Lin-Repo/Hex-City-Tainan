@@ -37,7 +37,7 @@ export function createFields(THREE, scene, city, crops, groundY) {
     const s = st[i], next = st[(i + 1) % st.length], to = doyOf(s.to);
     const left = to >= doy ? to - doy : to + 366 - doy; // 這個階段還剩幾天
     const t = next === s ? 0 : Math.max(0, 1 - left / FADE);
-    return { stage: s.label, color: ca.set(s.color).lerp(cb.set(next.color), t).clone() };
+    return { stage: s.label, index: i, color: ca.set(s.color).lerp(cb.set(next.color), t).clone() };
   }
 
   const current = new Map(); // cropId → { stage, color }，setDate 之後更新
@@ -62,5 +62,9 @@ export function createFields(THREE, scene, city, crops, groundY) {
   }
   setDate(new Date()); // 先用今天上色，app 之後再用日曆的日期呼叫 setDate
 
-  return { setDate, stageOf, fieldAt, pickables: n ? [mesh] : [], count: n };
+  // 景觀用（scenery.js）：某作物的田（可限定區）與該作物當天的階段名稱
+  const list = (cropId, districtId = null) => fields.filter((f) => f.cropId === cropId && (!districtId || f.district === districtId)).map(({ x, z, w, d, ry, district }) => ({ x, z, w, d, ry, district }));
+  const stageNow = (cropId) => current.get(cropId)?.stage ?? "";
+  const stageIndex = (cropId) => current.get(cropId)?.index ?? -1; // 階段在 crops.json 的序號（英文版的階段名稱會被翻譯，判斷要用序號）
+  return { setDate, stageOf, fieldAt, list, stageNow, stageIndex, pickables: n ? [mesh] : [], count: n };
 }

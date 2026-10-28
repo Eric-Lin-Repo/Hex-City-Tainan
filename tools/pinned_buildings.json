@@ -1,15 +1,69 @@
 {
-  "_note": "要放在真實位置的建築（key 是「區:建築名」）。build_city.py 在其他建築都放好之後，才把它們放到離真實座標最近的空地（不影響其他區的亂數配置）；new: true 表示是後來加的建築，不參與隨機取樣。座標 2026-10 查證，來源見 source。",
+  "_note": "要放在真實位置的建築（key 是「區:建築名」；大學、地理編碼查不到的地標）。build_city.py 在其他建築都放好之後，才把它們放到離真實座標最近的空地（不影響其他區的亂數配置）；new: true 表示是後來加的建築，不參與隨機取樣。座標 2026-10 查證，來源見 source。",
   "pins": {
-    "東區:國立成功大學": { "lat": 22.99901, "lon": 120.21622, "source": "https://www.openstreetmap.org/relation/6038644" },
-    "中西區:國立臺南大學": { "lat": 22.98355, "lon": 120.20735, "source": "https://www.openstreetmap.org/relation/2878946", "new": true },
-    "歸仁區:長榮大學": { "lat": 22.9037, "lon": 120.27332, "source": "https://www.openstreetmap.org/way/119438107", "new": true },
-    "永康區:南臺科技大學": { "lat": 23.02322, "lon": 120.22517, "source": "https://www.openstreetmap.org/relation/6322938", "new": true },
-    "永康區:崑山科技大學": { "lat": 22.9955, "lon": 120.25261, "source": "https://www.openstreetmap.org/relation/10082348", "new": true },
-    "仁德區:嘉南藥理大學": { "lat": 22.92226, "lon": 120.22764, "source": "https://www.openstreetmap.org/relation/12743130", "new": true },
-    "新市區:中信科技大學": { "lat": 23.06678, "lon": 120.29801, "source": "https://www.openstreetmap.org/way/164923035", "new": true },
-    "仁德區:中華醫事科技大學": { "lat": 22.96064, "lon": 120.2452, "source": "https://www.openstreetmap.org/relation/6554294", "new": true },
-    "安南區:中信金融管理學院": { "lat": 23.06658, "lon": 120.16408, "source": "https://www.openstreetmap.org/way/119430578", "new": true },
-    "東區:台南神學院": { "lat": 22.98854, "lon": 120.21403, "source": "https://zh.wikipedia.org/wiki/台南神學院", "new": true }
+    "東區:國立成功大學": {
+      "lat": 22.99901,
+      "lon": 120.21622,
+      "source": "https://www.openstreetmap.org/relation/6038644"
+    },
+    "中西區:國立臺南大學": {
+      "lat": 22.98355,
+      "lon": 120.20735,
+      "source": "https://www.openstreetmap.org/relation/2878946",
+      "new": true
+    },
+    "歸仁區:長榮大學": {
+      "lat": 22.9037,
+      "lon": 120.27332,
+      "source": "https://www.openstreetmap.org/way/119438107",
+      "new": true
+    },
+    "永康區:南臺科技大學": {
+      "lat": 23.02322,
+      "lon": 120.22517,
+      "source": "https://www.openstreetmap.org/relation/6322938",
+      "new": true
+    },
+    "永康區:崑山科技大學": {
+      "lat": 22.9955,
+      "lon": 120.25261,
+      "source": "https://www.openstreetmap.org/relation/10082348",
+      "new": true
+    },
+    "仁德區:嘉南藥理大學": {
+      "lat": 22.92226,
+      "lon": 120.22764,
+      "source": "https://www.openstreetmap.org/relation/12743130",
+      "new": true
+    },
+    "新市區:中信科技大學": {
+      "lat": 23.06678,
+      "lon": 120.29801,
+      "source": "https://www.openstreetmap.org/way/164923035",
+      "new": true
+    },
+    "仁德區:中華醫事科技大學": {
+      "lat": 22.96064,
+      "lon": 120.2452,
+      "source": "https://www.openstreetmap.org/relation/6554294",
+      "new": true
+    },
+    "安南區:中信金融管理學院": {
+      "lat": 23.06658,
+      "lon": 120.16408,
+      "source": "https://www.openstreetmap.org/way/119430578",
+      "new": true
+    },
+    "東區:台南神學院": {
+      "lat": 22.98854,
+      "lon": 120.21403,
+      "source": "https://zh.wikipedia.org/wiki/台南神學院",
+      "new": true
+    },
+    "南化區:烏山台灣獼猴保護區": {
+      "lat": 23.0164,
+      "lon": 120.4737,
+      "source": "https://www.twtainan.net/en/attractions/detail/4567"
+    }
   }
 }

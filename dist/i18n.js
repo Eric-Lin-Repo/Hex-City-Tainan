@@ -32,7 +32,7 @@ export async function createI18n(lang, loadJson) {
 
   // 把翻譯覆蓋進資料物件；原文保留在 *_zh，Google 地圖查詢要用原文
   const put = (obj, tr, keys) => { if (!obj || !tr) return; for (const k of keys) if (tr[k] != null && tr[k] !== "") { obj[k + "_zh"] ??= obj[k]; obj[k] = tr[k]; } };
-  function applyData({ islands, poi, events, rail, roles, settings, tours, crops, flows, specialties, foods }) {
+  function applyData({ islands, poi, events, rail, roles, settings, tours, crops, flows, specialties, foods, scenery }) {
     if (lang === "zh") return;
     for (const isl of islands || []) {
       put(isl, data.districts?.[isl.id], ["name", "summary"]);
@@ -51,6 +51,8 @@ export async function createI18n(lang, loadJson) {
     for (const [id, items] of Object.entries(specialties?.byDistrict || {})) items.forEach((it, i) => put(it, { name: data.specialties?.[id]?.[i] }, ["name"]));
     (settings?.dayCycle || []).forEach((d, i) => put(d, data.dayCycle?.[i], ["label", "note"]));
     for (const it of foods?.items || []) put(it, data.foods?.[it.id], ["name", "desc"]); // 吃遍台南
+    for (const it of scenery?.items || []) put(it, data.scenery?.[it.id], ["name", "desc", "facts", "note"]); // 山海景觀
+    if (scenery?.monkeys) put(scenery.monkeys, data.scenery?.monkeys, ["name", "desc"]);
     for (const tour of tours?.tours || []) {
       const tr = data.tours?.[tour.id];
       put(tour, tr, ["name", "blurb"]);

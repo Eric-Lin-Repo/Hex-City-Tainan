@@ -145,22 +145,25 @@
     {
       "id": "longqi",
       "name": "龍崎光節・空山祭",
-      "effect": "hilllights",
+      "effect": "lightfest",
       "at": {
         "building": [
           "龍崎區",
           "虎形山公園"
         ]
       },
-      "when": "春節前後約一個月",
-      "desc": "虎形山公園的山林燈節，被譽為全國最美的山林燈節。",
-      "source": "https://www.mirrormedia.mg/story/20250110edi050",
+      "when": "每年約 12 月下旬到隔年 2 月中（2025–26 屆延到 3/1），17:30–22:00；確切日期依當年公告",
+      "desc": "虎形山公園的山林燈節，用竹子與燈光在山林間做地景藝術，被譽為全國最美的山林燈節；會場要從文衡殿停車場搭接駁車。",
+      "source": "https://www.businessweekly.com.tw/style/blog/3017472",
       "schedule": {
-        "lunar": [
-          1,
-          1
+        "solar": [
+          12,
+          24
         ],
-        "window": 18
+        "solarEnd": [
+          2,
+          16
+        ]
       }
     },
     {

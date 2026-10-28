@@ -471,3 +471,7 @@ body.touring .guide { display: none; }
 .bus-stops button { all: unset; cursor: pointer; color: var(--ink); }
 .bus-stops button:hover, .bus-stops button:focus-visible { text-decoration: underline; }
 @media (max-width: 800px) { .bus-stops { columns: 1; } }
+
+/* 找獼猴面板：各區還剩幾群 */
+.monkey-list { list-style: none; margin: 6px 0; padding: 0; display: grid; gap: 4px; font-size: 13px; }
+.monkey-list b { display: inline-block; min-width: 4.5em; padding-left: 6px; border-left: 4px solid var(--c); }

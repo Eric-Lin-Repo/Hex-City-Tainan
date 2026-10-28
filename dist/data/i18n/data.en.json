@@ -172,7 +172,11 @@
     },
     "d1001103-2": {
       "name": "Baihe Lotus Park",
-      "desc": "The main spot for lotus viewing in summer."
+      "desc": "Baihe's main lotus-viewing spot, with a boardwalk across the lotus pond and a viewing pavilion; Baihe once had over 200 ha of lotus fields.",
+      "facts": [
+        "Lotus flowers bloom about May–August; lotus seeds harvested from June",
+        "Planted around Lunar New Year"
+      ]
     },
     "d1001101-0": {
       "name": "Minzhi Civic Center",
@@ -344,7 +348,12 @@
     },
     "d1001124-3": {
       "name": "Lutaoyang Jiang Family Historic Settlement",
-      "desc": "A well-preserved cluster of Fujian-style settlement houses."
+      "desc": "Taiwan's largest Hokkien-style farming village; the Jiang clan settled here in 1721 and has lived here for over 20 generations, around a four-hall central axis and 13 rows of side houses.",
+      "facts": [
+        "Registered as a single-surname traditional settlement in 2009; the Jiang ancestral hall is a historic building",
+        "About 3.5 ha",
+        "Damaged by an earthquake in early 2026; restoration in phases from October"
+      ]
     },
     "d1001107-0": {
       "name": "Zongye Arts and Culture Center",
@@ -980,7 +989,12 @@
     },
     "d1002107-5": {
       "name": "Blessing of the Big Fish",
-      "desc": "A large whale-shaped public artwork in Harbor History Park; visitors can walk inside to view the canal."
+      "desc": "A huge whale-shaped land-art piece in the Harbor Historical Park: the hollow body is welded from blue stainless-steel tubes, and you can walk into its belly to look out over the canal.",
+      "facts": [
+        "About 23 m long, 10 m wide and 8 m high",
+        "By artist Yang Shih-yi (A-Kuei); lit up in January 2019",
+        "Inside the belly is a Taiwan-shaped island set with 448 pieces of coloured glazed glass"
+      ]
     },
     "d1002107-6": {
       "name": "Haishan Hall",
@@ -1300,8 +1314,8 @@
     },
     "longqi": {
       "name": "Longci Light Festival · Empty Mountain Festival",
-      "when": "About a month around Lunar New Year",
-      "desc": "A forest lantern festival in Huxing Mountain Park, hailed as the most beautiful mountain lantern festival in the country."
+      "when": "Roughly late December to mid-February each year (the 2025–26 edition ran to 1 March), 17:30–22:00; check the year's announcement",
+      "desc": "A forest light festival in Huxing Mountain Park, with bamboo-and-light land art among the trees, hailed as the most beautiful mountain lantern festival in the country; visitors take a shuttle from the Wenheng Temple car park."
     },
     "kapok": {
       "name": "Baihe Kapok Blossom Season",
@@ -1719,8 +1733,8 @@
       "name": "Lotus",
       "stages": [
         "Fallow",
-        "Leafing out",
-        "Flowering",
+        "Planting, leaves out",
+        "Flowering, lotus seeds",
         "Harvesting seeds and roots",
         "Fallow"
       ]
@@ -2101,6 +2115,283 @@
     "cordia-pickle": {
       "name": "Pickled Cordia",
       "desc": "On Zuozhen's poor chalky soil, drought-hardy cordia thrives; picked in July, it is boiled and preserved in brine."
+    }
+  },
+  "scenery": {
+    "clouds": {
+      "name": "Valley sea of clouds",
+      "desc": "Around sunrise a layer of cloud fills the valleys. Erliao in Zuozhen is Taiwan's lowest-altitude sea-of-clouds spot; the best chance is the morning after heavy rain.",
+      "facts": [
+        "Best season June–September (after the plum rains until Mid-Autumn)",
+        "Sunrise around 05:12–06:41",
+        "Whether it is common in winter is unverified"
+      ],
+      "note": "On the map: when the clock is set to now it follows real humidity and yesterday's rain; on other dates the chance is estimated from the month."
+    },
+    "badlands": {
+      "name": "Moon World badlands",
+      "desc": "The blue-grey mudstone badlands of Zuozhen and Longqi: rain has carved gullies into the bare slopes where almost nothing grows, like the surface of the moon.",
+      "facts": [
+        "Roughly from Caoshan and Erliao in Zuozhen to Niupu in Longqi",
+        "Niupu in Longqi has a mudstone soil-and-water conservation park"
+      ]
+    },
+    "hotspring": {
+      "name": "Guanziling hot-spring steam",
+      "desc": "Guanziling is a rare mud hot spring; steam rises over the bathhouses on the hot-spring street, thicker on cold days and at night.",
+      "facts": [
+        "Hot-spring area in Guanling Village, Baihe, along County Road 175",
+        "Nearby Water and Fire Cave has water and fire coming out of the same crack"
+      ]
+    },
+    "dadongshan": {
+      "name": "Mt. Dadong",
+      "desc": "Tainan's highest peak at 1,236.6 m, on the border of Baihe and Dapu (Chiayi); the trail starts behind Guanziling at Xianzu Temple, about 6 km one way.",
+      "facts": [
+        "1,236.6 m, highest in Tainan",
+        "Trailhead: Ziyun Xianzu Temple (coordinates unverified)"
+      ]
+    },
+    "zhuzijian": {
+      "name": "Mt. Zhuzijian",
+      "desc": "The highest point of Meiling, Little Hundred Peaks No. 67, about 1,110 m on the Nanhua–Nanxi border; reachable via the Wulong Trail.",
+      "facts": [
+        "About 1,110 m",
+        "Little Hundred Peaks #067"
+      ]
+    },
+    "stars": {
+      "name": "Mountain starry sky",
+      "desc": "At night the eastern mountains have little light pollution and show far more stars than the city; the Tainan Astronomical Education Area in Danei has a stargazing deck.",
+      "facts": [
+        "Tainan has no certified dark-sky site",
+        "Star brightness on the map is illustrative, by distance from the city"
+      ]
+    },
+    "mango": {
+      "name": "Yujing mango orchards",
+      "desc": "Yujing is the home of Taiwan's Irwin mango: harvest starts in June and peaks in July.",
+      "facts": [
+        "Season June–July, peak in July"
+      ]
+    },
+    "longan": {
+      "name": "Longan orchards",
+      "desc": "The hillsides of Dongshan and Nanhua are covered in longan trees; harvest starts in late July and lasts about two months. Dongshan's dried longan is smoked in earthen kilns for six days and five nights. Nanhua is reported as Taiwan's top longan producer.",
+      "facts": [
+        "Harvest from late July for about two months",
+        "Dried longan kiln-smoked for six days and five nights"
+      ]
+    },
+    "coffee": {
+      "name": "Dongshan coffee farms",
+      "desc": "Coffee farms along County Road 175, the 'Coffee Road'; the cherries turn red in autumn and are picked from late autumn into winter.",
+      "facts": [
+        "Cherries ripen around Sept–Oct; picked late autumn to winter (exact months unverified)",
+        "Dongshan Coffee Festival is around October"
+      ]
+    },
+    "plum": {
+      "name": "Meiling plum orchards",
+      "desc": "Plum blossoms at Meiling in Nanxi peak from late December to January; green plums are picked from late March to late April for about 40 days, for crunchy pickled plums and plum wine.",
+      "facts": [
+        "Blossoms late December–January",
+        "Green plums picked late March–late April"
+      ]
+    },
+    "fishponds": {
+      "name": "Coastal fish ponds",
+      "desc": "Rows of fish ponds along the Tainan coast, with paddlewheel aerators churning the water; milkfish are often raised together with clams. Tainan leads Taiwan in milkfish farming area and output.",
+      "facts": [
+        "Milkfish ponds: Qigu 887, Annan 789, Beimen 742, Xuejia 415, Jiangjun 144 ha (2024)",
+        "About 3,503 ha city-wide, about 23,900 t a year",
+        "Clam ponds often also raise milkfish"
+      ],
+      "note": "Pond counts on the map follow each district's farming area; positions are near the coastal villages (illustrative)."
+    },
+    "oysters": {
+      "name": "Qigu Lagoon oyster racks & rafts",
+      "desc": "Rows of oyster racks fill Qigu Lagoon; visitors take rafts from Liukong or Nanwan pier for a 2-hour tour of sandbars, oyster racks and mangroves.",
+      "facts": [
+        "Tour piers: Liukong Pier and Nanwan Pier",
+        "Exact rack positions unverified (illustrative)"
+      ]
+    },
+    "sicao": {
+      "name": "Sicao Green Tunnel",
+      "desc": "A mangrove waterway beside Sicao Dazhong Temple in Annan where the trees meet overhead in a green tunnel; bamboo rafts take about 30 minutes and turn back at the end.",
+      "facts": [
+        "Open 08:00–16:00, about 30 minutes per trip",
+        "Reported length varies (about 200–800 m, unverified)"
+      ]
+    },
+    "noodles": {
+      "name": "Guanmiao sun-dried noodles",
+      "desc": "Guanmiao noodles are dried in the sun: racks of noodles line the factory yards for about 2 days in summer and 3 in winter, and come in as soon as it rains.",
+      "facts": [
+        "Sun-dried: 2 days in summer, 3 in winter",
+        "Some makers now use indoor drying rooms"
+      ],
+      "note": "On the map the racks only appear on dry days in the daytime."
+    },
+    "caltrop": {
+      "name": "Guantian water caltrop fields",
+      "desc": "Guantian is the home of water caltrop, and the fields are breeding grounds for the pheasant-tailed jacana; the harvest peaks in Sept–Oct, picked by farmers in small tub boats.",
+      "facts": [
+        "Peak Sept–Oct (late Aug to Nov)",
+        "Caltrop fields are jacana breeding habitat",
+        "Pheasant-tailed jacanas ('fairies on the waves') breed Apr–Sep, nesting and walking on the floating caltrop leaves; they eat insects, not the caltrops"
+      ]
+    },
+    "dairy": {
+      "name": "Bawong dairy area",
+      "desc": "The Bawong area of Liuying was once Taiwan's largest dairy district; today about 50 farms keep 8,000–10,000 cows, earning it the name 'hometown of milk'.",
+      "facts": [
+        "About 50 farms, 8,000–10,000 cows"
+      ]
+    },
+    "monkeys": {
+      "name": "Formosan macaque",
+      "desc": "Endemic to Taiwan, living in troops in the low mountains; the Wushan macaque area in Nanhua has cared for over a hundred since 1989. They also raid crops."
+    },
+    "harvest": {
+      "name": "Houbi rice harvest",
+      "desc": "Jingliao in Houbi is the home of the documentary 'Let It Be'. The first rice crop is harvested around June and the second around November: combine harvesters work the golden fields, and the grain is spread out to dry on the drying yard.",
+      "facts": [
+        "First crop harvested around June, second around November (depending on ripeness)",
+        "The 2004 documentary 'Let It Be' followed Jingliao's old farmer Kun-bin and brought tourists to Jingliao"
+      ],
+      "note": "On the map: harvesters and the drying yard appear while Houbi's rice fields are in the harvest stage; the drying yard location is illustrative."
+    },
+    "sugar": {
+      "name": "Shanhua Sugar Factory milling season",
+      "desc": "Shanhua Sugar Factory is one of only two sugar mills still operating in Taiwan (the other is Huwei). Milling runs from around mid-to-late December to March: the chimney smokes and trucks carry sugarcane between the fields and the mill.",
+      "facts": [
+        "2025–26 season: started 23 Dec, planned to end 13 Mar, 81 days, about 187,600 t of cane",
+        "Shanhua moves cane by truck; only the Huwei–Baozhong section still uses narrow-gauge cane trains"
+      ]
+    },
+    "kilns": {
+      "name": "Longan drying kilns",
+      "desc": "After the longan harvest in Dongshan and Nanhua, the fruit is slowly smoked into dried longan in earthen kilns over longan-wood fires, six days and five nights per batch with the fire checked every two hours. Nanxi Village in Dongshan still has about 92 old kilns on its 'Kiln Lane'.",
+      "facts": [
+        "Kiln season about Aug–Sep: lit at the 'Bai Liao' rite around Liqiu and ended with 'Xie Liao'",
+        "Each kiln burns about 300 kg of longan wood"
+      ],
+      "note": "Kiln clusters in Nanhua and Dongyuan are unverified; illustrative on the map."
+    },
+    "lotus": {
+      "name": "Baihe lotus fields",
+      "desc": "Baihe is Taiwan's lotus hometown: lotus roots are planted around Lunar New Year, leaves unfurl, flowers bloom May–August, seeds are picked from June, and the fields lie fallow in winter.",
+      "facts": [
+        "Flowers about May–August; lotus seeds peak early June to mid-July, lasting to Sep–Oct",
+        "Over 200 ha of lotus fields in the past; 150–170 ha in drought years",
+        "The month leaves appear and winter fallow are unverified"
+      ]
+    },
+    "bamboo": {
+      "name": "Longqi bamboo groves",
+      "desc": "Thorny bamboo covers the hills of Longqi, once the main supplier of rattan-and-bamboo furniture in Taiwan and known as the 'home of bamboo'; today the farmers' association turns waste bamboo into charcoal and bamboo vinegar, and bamboo shoots are a main crop.",
+      "facts": [
+        "The Longqi Farmers' Association has about 3,000 ha of thorny bamboo",
+        "Main specialties: bamboo shoots and pineapples"
+      ],
+      "note": "The actual extent of the groves is unverified; shown around the hill villages."
+    },
+    "wetland": {
+      "name": "Qigu mangroves & black-faced spoonbills",
+      "desc": "Haeliao in Qigu has a mangrove reserve with stilt-rooted trees; the Zengwen River mouth reserve is the most important wintering ground of the black-faced spoonbill: they arrive in October, peak in mid-January and leave by March–May, sweeping their flat bills side to side in the shallows.",
+      "facts": [
+        "2026 census: 7,746 worldwide and 4,719 in Taiwan, both records",
+        "2025 census: 2,439 in Tainan"
+      ]
+    },
+    "linfengying": {
+      "name": "Linfengying Ranch",
+      "desc": "Linfengying Ranch in Liujia is run by Wei Chuan itself, said to be the only dairy farm in Taiwan run by a milk producer; the 'Linfengying' fresh-milk brand is named after this place. The bald cypresses at nearby Jingpu Pond were planted to isolate the cows for disease control.",
+      "facts": [
+        "Unlike Bawong in Liuying: Linfengying is one company's ranch, while Bawong is a district of about 95 dairy households"
+      ]
+    },
+    "jiangchickens": {
+      "name": "Chickens of the Jiang village",
+      "desc": "Clan members still live in the Jiang settlement at Lutaoyang: laundry dries in the courtyard and chickens wander about, a rare traditional village that is still lived in.",
+      "facts": [
+        "The Jiang ancestors settled here in 1721; the last house was finished in 1907"
+      ]
+    },
+    "guidan": {
+      "name": "Guidan Hot Spring",
+      "desc": "A weakly alkaline sodium-bicarbonate spring beside the Nanzixian River, clear and silky, nicknamed the 'beauty spring' and surrounded by orchards. The Guidan hot-spring pools are run under contract for the Tainan tourism bureau.",
+      "facts": [
+        "Spring type: weakly alkaline sodium bicarbonate",
+        "Still operating in Dec 2025; five other operators hold hot-spring licences",
+        "Water temperature and opening hours unverified"
+      ]
+    },
+    "zengwenboat": {
+      "name": "Zengwen Reservoir tour boats",
+      "desc": "Tour boats leave from the pier below the viewing tower for Boar Island and Eagle Canyon. In 2026 the water fell to about 9% and boats only reached Fishing Platform until the full route reopened on 20 June.",
+      "facts": [
+        "Weekends 10:00 and 15:00, about 1 hour; daily 13:30 half-day trip (schedule depends on water level, unverified)",
+        "The pier is below the viewing tower, which OSM places on the Dapu, Chiayi side"
+      ],
+      "note": "The lake on the map is a scaled-down sketch; the boat sails on it."
+    },
+    "nanximango": {
+      "name": "Nanxi mango orchards",
+      "desc": "Nanxi has about 2,000 ha of mangoes, reported as Taiwan's largest mango area, peaking in June–July; Mizhi Village is also known for starfruit, mangoes and jujubes.",
+      "facts": [
+        "About 2,000 ha, peak June–July"
+      ],
+      "note": "Orchards shown around Lutian, Zhaoxing and Mizhi villages (illustrative)."
+    },
+    "nanhuamango": {
+      "name": "Nanhua mango orchards",
+      "desc": "Nanhua has nearly 1,300 ha of mangoes, third in Taiwan after Nanxi and Yujing; about 60–70% are Irwin, followed by Jinhwang, peaking in June–July.",
+      "facts": [
+        "In 2026 the Nanhua Farmers' Association bought from 8 June to about 20 July, over 370,000 kg"
+      ],
+      "note": "Orchards shown around Beiping, Xipu and Yushan villages (illustrative)."
+    },
+    "wulong": {
+      "name": "Meiling Wulong Trail",
+      "desc": "Starting beside Wulong Temple at Meiling, the trail is about 2.1 km, roughly 50 minutes one way, one of Meiling's gentlest, lined with plum trees and looking out over Nanxi and Zengwen Reservoir.",
+      "facts": [
+        "About 2.1 km, 50 minutes one way, family-friendly",
+        "End point unverified; route on the map follows the trailhead and a representative point"
+      ]
+    },
+    "beehives": {
+      "name": "Longan honey beehives",
+      "desc": "When longan trees flower in spring, beekeepers move their hives to the orchards; March to mid-April is longan-honey season. Tainan has Taiwan's largest longan area, mainly in Dongshan, Nanxi and Nanhua.",
+      "facts": [
+        "Longan flowering and honey: about March to mid-April (Taiwan-wide)",
+        "In 2026 cold and drought shortened flowering and cut the honey harvest"
+      ],
+      "note": "Nanhua beekeeper locations unverified; hives shown beside the longan orchard."
+    },
+    "farmhouses": {
+      "name": "Hill farmhouses",
+      "desc": "Farmhouses scattered on the low hills, with tin roofs, laundry drying and a small vegetable patch.",
+      "facts": [
+        "Map background; positions and numbers are illustrative"
+      ]
+    },
+    "fruittrucks": {
+      "name": "Fruit trucks",
+      "desc": "In season, farmers drive small trucks loaded with crates of mangoes and longans down the hills.",
+      "facts": [
+        "Map background: mangoes in June–July, longans in July–September, along the bus branch routes (illustrative)"
+      ]
+    },
+    "bluemagpie": {
+      "name": "Taiwan blue magpie",
+      "desc": "Endemic to Taiwan: a blue body with a long white-tipped tail and red bill and feet, usually in groups in broadleaf and secondary forest below 1,000 m, and lately in cities too.",
+      "facts": [
+        "Endemic; Category III 'other conservation-deserving wildlife'",
+        "Few records from Tainan's low hills: only one found, in Nanhua in May 2026"
+      ]
     }
   }
 }

@@ -1,4 +1,4 @@
-// 擴充模型：地景（牧場、漁港、海灘、水壩、動物園、風車公園）
+// 擴充模型：地景（牧場、漁港、海灘、水壩、動物園、風車公園、大魚的祝福）
 // 由主檔 models.js 的 buildModel 分派：回傳 true 表示已處理，false 表示不是這裡的模型。
 // h 內的工具（單位空間：底面約 [-0.5, 0.5]，y 向上，1 單位 ≈ 模型縮放前的一格）：
 //   h.box(pos, size, color, rot?)   方塊            h.b(pos, size, color, rot?)   圓角方塊（小於 0.06 會退回方塊）
@@ -188,6 +188,102 @@ export function landscapeModels(kind, h) {
         for (let i = 0; i < 6; i++) box([i * 0.1, 0.08, z], [0.03, 0.04, 0.03], tulips[(i + off) % 3]); // 鬱金香
       }
       tree(-0.55, 0.4, 0.35); tree(0.6, 0.45, 0.3);
+      return true;
+    }
+    // ── 大魚的祝福（安平港濱歷史公園，楊士毅作品）：藍色不鏽鋼管焊成的鏤空鯨魚趴在地上，長寬高約 23:10:8；
+    //    沿身體一圈圈肋骨（下半圈白色＝白色魚腹）、背脊與腹線、水平尾鰭，魚肚裡有一座鑲彩色玻璃的台灣島，入夜燈條會亮 ──
+    case "bigfish": {
+      const BLUE = 0x2f7fc1, WHITE = 0xf4f7fa, LED = 0x7fd3ff;
+      box([0, 0.012, 0], [1.3, 0.024, 0.75], 0xd9cdb5); // 地坪（港濱公園步道）
+      const L = 1.04, HY = 0.18, HZ = 0.22, CY = 0.17; // 身長、身高與身寬的一半、身體中心高度
+      // 身形：t 由尾（0）到頭（1）；頭圓鈍、尾巴細
+      const prof = (t) => (t > 0.86 ? Math.sqrt(Math.max(0, 1 - ((t - 0.86) / 0.14) ** 2)) : Math.pow(Math.sin((Math.PI / 2) * (t / 0.86)), 0.75)) * 0.94 + 0.06 * (1 - t);
+      const xs = (t) => -L / 2 + t * L;
+      const N = 16, SEG = 12;
+      const top = [], bot = [];
+      for (let i = 0; i <= N; i++) {
+        const t = 0.04 + (i / N) * 0.93, k = prof(t), x = xs(t), ry = HY * k, rz = HZ * k, cy0 = CY * (0.55 + 0.45 * k); // 尾巴略低、貼近地面
+        top.push([x, cy0 + ry]); bot.push([x, Math.max(0.02, cy0 - ry)]);
+        for (let j = 0; j < SEG; j++) {
+          const a0 = (j / SEG) * Math.PI * 2, a1 = ((j + 1) / SEG) * Math.PI * 2;
+          const y0 = cy0 + ry * Math.cos(a0), z0 = rz * Math.sin(a0), y1 = cy0 + ry * Math.cos(a1), z1 = rz * Math.sin(a1);
+          if (Math.min(y0, y1) < 0.015) continue; // 埋進地面的那段不畫（大魚是趴在地上的）
+          const len = Math.hypot(y1 - y0, z1 - z0), th = Math.atan2(z1 - z0, y1 - y0);
+          const lower = Math.cos((a0 + a1) / 2) < -0.25; // 下半圈：白色魚腹
+          p("cylinder", [x, (y0 + y1) / 2, (z0 + z1) / 2], [0.012, len + 0.006, 0.012], lower ? WHITE : BLUE, [th, 0, 0]);
+        }
+        if (i % 4 === 2) glow([x, cy0 + ry + 0.006, 0], [0.012, 0.008, rz * 1.2], LED); // 背上的燈條
+      }
+      // 背脊、腹線：相鄰兩圈之間的細管（在 x-y 平面傾斜，繞 z 軸轉）
+      for (const [line, color] of [[top, BLUE], [bot, WHITE]]) for (let i = 0; i < line.length - 1; i++) {
+        const [x0, y0] = line[i], [x1, y1] = line[i + 1], len = Math.hypot(x1 - x0, y1 - y0);
+        p("cylinder", [(x0 + x1) / 2, (y0 + y1) / 2, 0], [0.014, len, 0.014], color, [0, 0, -Math.atan2(x1 - x0, y1 - y0)]);
+      }
+      // 左右兩側的腰線
+      for (const side of [-1, 1]) for (let i = 0; i < N; i++) {
+        const t0 = 0.04 + (i / N) * 0.93, t1 = 0.04 + ((i + 1) / N) * 0.93, x0 = xs(t0), x1 = xs(t1);
+        const z0 = side * HZ * prof(t0), z1 = side * HZ * prof(t1), y = CY * (0.55 + 0.45 * prof((t0 + t1) / 2));
+        p("cylinder", [(x0 + x1) / 2, y, (z0 + z1) / 2], [0.011, Math.hypot(x1 - x0, z1 - z0), 0.011], BLUE, [0, -Math.atan2(z1 - z0, x1 - x0), Math.PI / 2]); // 先繞 z 轉 90° 讓管子躺平（沿 x），再繞 y 轉到腰線方向
+      }
+      // 尾鰭：尾端一對水平張開的魚尾
+      const tx = -L / 2 + 0.04 * L, ty = CY * (0.55 + 0.45 * prof(0.04)); // 尾柄（最後一圈肋骨）的位置
+      for (const side of [-1, 1]) { // 兩片尾鰭從尾柄往後、往兩側張開成 V 字
+        box([tx - 0.07, ty, side * 0.05], [0.16, 0.012, 0.05], BLUE, [0, side * 0.55, 0]);
+        box([tx - 0.12, ty, side * 0.085], [0.07, 0.014, 0.014], WHITE, [0, side * 0.55 - side * 1.2, 0]); // 尾鰭末端的白邊
+      }
+      // 頭部：眼睛與嘴線
+      for (const side of [-1, 1]) sphere([L / 2 - 0.1, CY + 0.04, side * 0.17], 0.018, 0x1d2b3a);
+      box([L / 2 - 0.05, CY - 0.03, 0], [0.012, 0.012, 0.3], WHITE, [0, 0, 0.35]);
+      // 魚肚裡的台灣島（地瓜形，鑲彩色玻璃，入夜發光）
+      const isle = [[-0.02, 0.06, 0.07], [0.06, 0.07, 0.06], [0.13, 0.05, 0.05], [-0.09, 0.05, 0.05]]; // 沿身體方向排的幾塊，越往南越窄
+      isle.forEach(([x, w, d], k) => box([x, 0.04, (k % 2 ? 0.01 : -0.01)], [w, 0.03, d], 0x7fa86a, [0, -0.5, 0]));
+      [0xff6b6b, 0xffd166, 0x06d6a0, 0x4cc9f0, 0xb388eb, 0xff9f1c].forEach((c, k) => glow([-0.08 + k * 0.04, 0.062, (k % 2 ? 0.015 : -0.015)], [0.025, 0.006, 0.025], c, [0, -0.5, 0])); // 彩色釉燒玻璃
+      return true;
+    }
+    // ── 白河蓮花公園：大蓮花池（池裡的荷葉與蓮花由 scenery.js 依產季長出來）、木棧道、賞蓮亭 ──
+    case "lotuspark": {
+      box([0, 0.012, 0], [1.34, 0.024, 1.1], GRASS); // 公園草地
+      p("cylinder", [-0.08, 0.026, 0.02], [0.98, 0.012, 0.78], 0x5b8f8a); // 蓮花池
+      p("cylinder", [-0.08, 0.022, 0.02], [1.04, 0.01, 0.84], 0x9c8a6a); // 池岸
+      box([-0.08, 0.05, 0.02], [0.92, 0.016, 0.08], C.wood); // 橫越池子的木棧道
+      for (let k = -4; k <= 4; k++) box([-0.08 + k * 0.1, 0.035, 0.02], [0.012, 0.03, 0.1], 0x6b4a2a); // 棧道支柱
+      box([0.2, 0.05, -0.15], [0.07, 0.016, 0.32], C.wood); // 往亭子的支道
+      // 賞蓮亭：四柱、紅柱綠瓦
+      for (const [x, z] of [[0.13, -0.38], [0.29, -0.38], [0.13, -0.24], [0.29, -0.24]]) cy([x, 0.16, z], 0.012, 0.3, 0xb03a2e);
+      box([0.21, 0.06, -0.31], [0.2, 0.02, 0.18], C.wood);
+      hip([0.21, 0.36, -0.31], [0.26, 0.12, 0.24], 0x3f7d4a);
+      sphere([0.21, 0.43, -0.31], 0.018, accent);
+      tree(-0.58, 0.44, 0.3); tree(0.58, 0.42, 0.28, "cone"); tree(-0.6, -0.4, 0.28);
+      return true;
+    }
+    // ── 烏山台灣獼猴保護區：山坡林地、之字形登山步道、入口告示牌與觀景台，樹上與步道邊有幾隻台灣獼猴 ──
+    case "macaquereserve": {
+      const FUR = 0x8a7a63, FACE = 0xe8a28c;
+      box([0, 0.012, 0], [1.34, 0.024, 1.1], 0x6f9a5a); // 林地
+      const HX = -0.15, HZ = -0.15, HR = 0.4, HH = 0.22; // 山坡：半球中心、半徑、高度
+      const hillY = (x, z) => { const d = Math.hypot(x - HX, z - HZ) / HR; return 0.024 + (d < 1 ? HH * Math.sqrt(1 - d * d) : 0); };
+      dome([HX, 0.024, HZ], HR, HH, 0x5f8a4a); // 烏山的山坡
+      // 之字形步道：從入口往山頂繞上去，每段的高度貼著山坡（兩端取高的那邊，再墊一點）
+      [[0.3, 0.38, 0.28, 0.5], [0.12, 0.24, 0.3, -0.55], [-0.02, 0.06, 0.26, 0.55], [-0.12, -0.08, 0.18, -0.5]].forEach(([x, z, len, ry]) => {
+        const ex = (Math.cos(ry) * len) / 2, ez = (-Math.sin(ry) * len) / 2, y = Math.max(hillY(x + ex, z + ez), hillY(x - ex, z - ez), hillY(x, z));
+        box([x, y + 0.008, z], [len, 0.012, 0.05], C.sand, [0, ry, 0]);
+      });
+      // 入口：告示牌與兩根門柱
+      for (const x of [0.36, 0.5]) box([x, 0.09, 0.48], [0.025, 0.18, 0.025], C.wood);
+      box([0.43, 0.17, 0.48], [0.18, 0.08, 0.015], C.cream);
+      box([0.43, 0.17, 0.488], [0.14, 0.04, 0.004], 0x3f7d4a);
+      // 山頂觀景台
+      const top = 0.024 + HH; // 山頂
+      box([HX, top + 0.05, HZ], [0.16, 0.02, 0.12], C.wood);
+      for (const [x, z] of [[-0.07, -0.05], [0.07, -0.05], [-0.07, 0.05], [0.07, 0.05]]) box([HX + x, top + 0.02, HZ + z], [0.015, 0.06, 0.015], C.wood);
+      // 林木
+      tree(-0.5, 0.3, 0.32); tree(0.5, -0.1, 0.3); tree(-0.45, -0.35, 0.3, "cone"); tree(0.1, -0.42, 0.28); tree(-0.55, 0.05, 0.26, "cone");
+      // 台灣獼猴：坐姿（身體、頭、紅臉），一隻在步道邊、兩隻在觀景台與樹下
+      for (const [x, y, z] of [[0.24, 0.06, 0.3], [HX, top + 0.095, HZ], [0.42, 0.06, -0.05]]) {
+        sphere([x, y, z], 0.035, FUR);
+        sphere([x, y + 0.045, z + 0.005], 0.024, FUR);
+        sphere([x, y + 0.044, z + 0.024], 0.013, FACE);
+      }
       return true;
     }
     default:

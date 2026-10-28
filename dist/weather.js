@@ -2,13 +2,13 @@
 // 網址加 ?weather=rain / cloudy / clear 可不打 API 直接用假資料測畫面。
 import { TOP } from "./world.js";
 
-const API = "https://api.open-meteo.com/v1/forecast?latitude=22.99&longitude=120.21&current=temperature_2m,cloud_cover,precipitation,weather_code,wind_speed_10m&timezone=Asia%2FTaipei";
+const API = "https://api.open-meteo.com/v1/forecast?latitude=22.99&longitude=120.21&current=temperature_2m,relative_humidity_2m,cloud_cover,precipitation,weather_code,wind_speed_10m&daily=precipitation_sum&past_days=1&forecast_days=1&timezone=Asia%2FTaipei"; // daily[0] 是昨天（山谷雲海要看前一天有沒有下雨）
 const REFRESH_MS = 10 * 60 * 1000, TIMEOUT_MS = 15000;
 const DROPS = 2500, DROP_LEN = 0.35, FALL_SPEED = 9, RAIN_TOP = 12; // 雨絲數量、長度、下落速度（單位/秒）、雨區高度
 const FAKE = {
-  rain: { temperature_2m: 24.6, cloud_cover: 96, precipitation: 2.4, weather_code: 63 },
-  cloudy: { temperature_2m: 27.1, cloud_cover: 82, precipitation: 0, weather_code: 3 },
-  clear: { temperature_2m: 30.2, cloud_cover: 8, precipitation: 0, weather_code: 0 },
+  rain: { temperature_2m: 24.6, relative_humidity_2m: 95, cloud_cover: 96, precipitation: 2.4, weather_code: 63, rain_yesterday: 12 },
+  cloudy: { temperature_2m: 27.1, relative_humidity_2m: 82, cloud_cover: 82, precipitation: 0, weather_code: 3, rain_yesterday: 0 },
+  clear: { temperature_2m: 30.2, relative_humidity_2m: 60, cloud_cover: 8, precipitation: 0, weather_code: 0, rain_yesterday: 0 },
 };
 
 // WMO 天氣代碼 → 中文標籤與圖示。0 晴、1～3 多雲、45/48 霧、51～67 雨、71～77 雪、80～82 陣雨、95～99 雷雨
@@ -26,7 +26,7 @@ function describe(code, cloudPct) {
 export function createWeather(THREE, scene, env, opts = {}) {
   const container = opts.container ?? document.querySelector(".brand") ?? document.body;
   const groundY = opts.groundY ?? TOP;
-  const state = { ok: false, temp: null, cloud: 0, rain: false, code: null, label: "", icon: "", updatedAt: null };
+  const state = { ok: false, temp: null, cloud: 0, rain: false, code: null, label: "", icon: "", updatedAt: null, humidity: null, rainYesterday: null };
   let bounds = opts.bounds ?? { minX: -35.5, maxX: 35.5, minZ: -33, maxZ: 33 };
 
   // ── 徽章 ──
@@ -86,6 +86,8 @@ export function createWeather(THREE, scene, env, opts = {}) {
   function apply(cur) {
     const [label, icon] = describe(cur.weather_code, cur.cloud_cover);
     state.temp = cur.temperature_2m;
+    state.humidity = typeof cur.relative_humidity_2m === "number" ? cur.relative_humidity_2m : null;
+    state.rainYesterday = typeof cur.rain_yesterday === "number" ? cur.rain_yesterday : null;
     state.code = cur.weather_code;
     state.rain = cur.precipitation > 0 || cur.weather_code >= 51; // 51 以上都是降水（雨、雪、陣雨、雷雨）
     state.cloud = Math.min(1, Math.max(cur.cloud_cover / 100, state.rain ? 0.8 : 0)); // 下雨時至少當 80% 雲量
@@ -105,7 +107,8 @@ export function createWeather(THREE, scene, env, opts = {}) {
     try {
       const r = await fetch(opts.apiUrl ?? API, { signal: ctrl.signal });
       if (!r.ok) throw Error(`open-meteo ${r.status}`);
-      const cur = (await r.json()).current;
+      const body = await r.json(), cur = body.current;
+      if (cur && Array.isArray(body.daily?.precipitation_sum)) cur.rain_yesterday = body.daily.precipitation_sum[0]; // past_days=1：第 0 筆是昨天
       if (typeof cur?.temperature_2m !== "number") throw Error("open-meteo: 回傳格式不符");
       state.ok = true;
       apply(cur);

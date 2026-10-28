@@ -1,5 +1,5 @@
 // 農曆換算與活動排程。農曆用瀏覽器內建的 Intl 中國農曆，不需查表。
-// 排程寫法：{ lunar:[月,日] } 或 { solar:[月,日] }，window 為前後天數；solar 可加 solarEnd:[月,日] 表示區間；
+// 排程寫法：{ lunar:[月,日] } 或 { solar:[月,日] }，window 為前後天數；solar 可加 solarEnd:[月,日] 表示區間（結束早於開始時算到隔年）；
 // 可以是單一物件或陣列（多段，例如去程與回程）。
 const fmt = new Intl.DateTimeFormat("en-u-ca-chinese", { month: "numeric", day: "numeric", timeZone: "Asia/Taipei" });
 const DAY = 86400000;
@@ -32,6 +32,7 @@ export function occurrencesIn(schedule, year) {
     if (s.solar) {
       start = new Date(Date.UTC(year, s.solar[0] - 1, s.solar[1]));
       end = s.solarEnd ? new Date(Date.UTC(year, s.solarEnd[0] - 1, s.solarEnd[1])) : start;
+      if (end < start) end = new Date(Date.UTC(year + 1, s.solarEnd[0] - 1, s.solarEnd[1])); // 跨年（例如 12/24 到隔年 2/16）
     } else {
       const d = gregorianOfLunar(year, s.lunar[0], s.lunar[1]);
       if (!d) return;
