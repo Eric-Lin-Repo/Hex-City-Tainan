@@ -138,7 +138,7 @@ python3 -I tools/build_city.py <twTown1982.topo.json> data
 - 建築從 136 棟增為 221 棟（新增 85 處：古蹟、廟宇、戲院、燈塔、鹽田、棒球場、眷村等），來源仍是 `tools/buildings_source.json`，座標由 `tools/fetch_geocode.py` 查 Nominatim（新增地點 48 處查到真實位置，其餘為區內示意並在卡片標註）。
 - 新模型 12 種在 `models-extra.js`：lighthouse、crystalchurch、stilthouse、ballpark、saltfan、suspbridge、lookout、granary、veterans、sunkenplaza、waterfire、shrine。
 - 第 24 個活動「頭社太祖夜祭」（農曆十月十四、十五夜），效果 `nightritual` 在 `events.js`。
-- 比例：地圖南北 80 單位（原 44 → 66 → 80，`tools/build_city.py` 的 `NS_UNITS`）；市區四區（面積 < `SMALL_AREA` = 24 單位²）建築縮 0.65；行人整體縮 0.75（`people.js` 的 `BASE_SCALE`）；行人、火車、公車、騎士、五分車速度與地形高度、霧距同步放大。改倍率時這些常數要一起動。
+- 比例：地圖南北 80 單位（原 44 → 66 → 80，`tools/build_city.py` 的 `NS_UNITS`；之後再放大 3 倍，見「地圖放大 3 倍」）；市區四區（面積 < `SMALL_AREA` = 24 單位²）建築縮 0.65；行人整體縮 0.75（`people.js` 的 `BASE_SCALE`）；行人、火車、公車、騎士、五分車速度與地形高度、霧距同步放大。改倍率時這些常數要一起動。
 
 ## 互動玩法（2026-10 第四批）
 
@@ -254,6 +254,26 @@ python3 -I tools/build_city.py <twTown1982.topo.json> data
 - **串路段**：OSM 的成員順序常亂（整段倒序、前後段對調、圓環、中途接入），`chain_ways` 先用共用節點串成幾段，再試每個起點、取缺口總長最短的拼法。OSM 真的少收的路段（缺口附近還有站牌）用 OSRM 公開路徑規劃沿道路補上；路段順序亂到台南境內的站牌收不到 90% 的，改用 OSRM 依序經過每個站牌重畫。OSRM 結果快取在 `tools/raw/bus_gap_routes.json`，重跑不用連網。
 - **站牌**：依 OSM 成員順序投到路線上，只往前找（進村再原路折返的路段不會對錯邊）；同名 60 公尺內的 stop／platform 合併。台南境內的站牌收進 97% 以上，沒收到的多在嘉義、高雄。
 - **即時位置**：`worker.js` 的 `/api/bus` 用 TDX 的 `RealTimeByFrequency/City/Tainan`（A1），只留六色路線、營運中、5 分鐘內的 GPS；token 在邊緣快取 23 小時。前端每 30 秒問一次，貼到同名路線同方向最近的型態上，30 秒內平滑移過去；離路線超過 2 單位（約 2 公里）的不畫。金鑰用 `npx wrangler secret put TDX_CLIENT_ID`、`TDX_CLIENT_SECRET` 設定，沒設時自動用模擬。**TDX 免費方案每月約 4,500 次呼叫**，`BUS_TTL`（預設 60 秒）只在有人開著網頁時才會打，常態使用建議升級方案或把 `BUS_TTL` 調大。
+
+## 地圖放大 3 倍（2026-10）
+
+`tools/build_city.py` 的 `MAP_SCALE`（目前 3）決定地圖大小：南北 80 × MAP_SCALE 單位，寫進 `data/city.json` 的 `scale`。建築、人、車、樹的大小不變，只有地圖變大。其他產生器（`build_hsr`、`build_terrain`、`build_bus`、`build_trails`、`build_sugar`）與前端都讀 `city.scale`，常數依類型換算：
+
+| 類型 | 換算 | 例子 |
+|---|---|---|
+| 地圖上的距離 | ×S | 路線簡化容差、找空地的半徑、相機遠平面、海面、熱度圖格子、龍舟水道（`events_source.json` 的 `path` 是 1 倍座標，產生器乘 S） |
+| 面積門檻 | ×S² | `SMALL_AREA`（`build_city.py` 與 `world.js` 兩處）、湖面最小面積、放田的門檻 |
+| 密度 | ×S² | 每區的樹、雨絲數量（田只 ×S，不把每區塞滿） |
+| 交通工具速度 | ×S | 台鐵、高鐵、公車、糖鐵、遊艇、小貨車、龍舟（行駛時間不變） |
+| 走路的人 | ×S/2 | 行人（步伐一起加快）、騎士、登山客、遶境隊伍 |
+| 山的高度 | ×√S | `build_terrain.py` 的 `CURVE_GAIN`、`MAX_H` |
+| 模型大小、彼此的間隔 | 不變 | 建築間距、軌道寬、高架橋寬 |
+
+其他配套：行人加到 1.5 倍（750／570／390）；陰影跟著鏡頭焦點與距離（`environment.js` 的 `follow`），拉近清楚、全景涵蓋整張圖；相機 near 依鏡頭距離調整，避免遠處閃爍；分享連結的 `spot:` 座標與「我的圖釘」存的是 1 倍座標（世界座標 ÷ S），放大前的連結與圖釘照樣能用。景觀找不到空地時 console 會警告「沒有放上地圖」。
+
+放大後的外觀修正：田貼著坡面傾斜（`fields.js` 用四角高度擬合斜面），坡度超過 0.3 或起伏太大的田不畫（約 60 塊）、景觀也不會挑它們；惡地小丘避開田時算進小丘寬度；七股蚵棚排距、樁距各 ×√2（密度減半）；行人不走上田與魚塭（`world.js` 的空地判斷加上田，魚塭由 `scenery.js` 登記成障礙物），直線檢查改成每 0.3 單位取樣，散步會多挑幾個走得通的目的地。跨區移動的行人從出發點走到區中心那一段仍可能短暫經過田。
+
+改倍數後重跑：`build_city.py` → `build_hsr.py` → `build_terrain.py` → `build_bus.py` → `build_trails.py` → `build_sugar.py`，再跑全部測試（測試的門檻也讀 `scale`）。
 
 ## 部署（Cloudflare Workers 靜態資產 + Worker）
 

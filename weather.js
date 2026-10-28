@@ -4,7 +4,7 @@ import { TOP } from "./world.js";
 
 const API = "https://api.open-meteo.com/v1/forecast?latitude=22.99&longitude=120.21&current=temperature_2m,relative_humidity_2m,cloud_cover,precipitation,weather_code,wind_speed_10m&daily=precipitation_sum&past_days=1&forecast_days=1&timezone=Asia%2FTaipei"; // daily[0] 是昨天（山谷雲海要看前一天有沒有下雨）
 const REFRESH_MS = 10 * 60 * 1000, TIMEOUT_MS = 15000;
-const DROPS = 2500, DROP_LEN = 0.35, FALL_SPEED = 9, RAIN_TOP = 12; // 雨絲數量、長度、下落速度（單位/秒）、雨區高度
+const DROPS_1X = 2500, DROP_LEN = 0.35, FALL_SPEED = 9, RAIN_TOP = 12; // 雨絲數量、長度、下落速度（單位/秒）、雨區高度
 const FAKE = {
   rain: { temperature_2m: 24.6, relative_humidity_2m: 95, cloud_cover: 96, precipitation: 2.4, weather_code: 63, rain_yesterday: 12 },
   cloudy: { temperature_2m: 27.1, relative_humidity_2m: 82, cloud_cover: 82, precipitation: 0, weather_code: 3, rain_yesterday: 0 },
@@ -28,6 +28,7 @@ export function createWeather(THREE, scene, env, opts = {}) {
   const groundY = opts.groundY ?? TOP;
   const state = { ok: false, temp: null, cloud: 0, rain: false, code: null, label: "", icon: "", updatedAt: null, humidity: null, rainYesterday: null };
   let bounds = opts.bounds ?? { minX: -35.5, maxX: 35.5, minZ: -33, maxZ: 33 };
+  const DROPS = Math.round(DROPS_1X * (opts.scale ?? 1) ** 2); // 雨下在整張地圖上：地圖放大 S 倍，雨絲 ×S² 密度才一樣
 
   // ── 徽章 ──
   const badge = document.createElement("div");

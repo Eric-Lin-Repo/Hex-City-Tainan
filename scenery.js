@@ -11,9 +11,10 @@
 //   ctx：{ minute, night, month, dateKey, weather: { rain, cloud, temp, humidity, rainYesterday, ok }, live, camera }
 import { TOP, mulberry } from "./world.js";
 
-export function createScenery(THREE, scene, world, data, { projection, anchorPos = () => null, fields = [], fieldsApi = null, tracks = [], lakes = [], rivers = [], districts = [], loadBusBranches = null, quality = "high" } = {}) {
+export function createScenery(THREE, scene, world, data, { projection, anchorPos = () => null, fields = [], fieldsApi = null, tracks = [], lakes = [], rivers = [], districts = [], loadBusBranches = null, quality = "high", scale: MS = 1 } = {}) {
+  // MS：地圖放大倍數。找空地的半徑、分佈範圍、交通工具速度跟著乘；模型大小、彼此的間隔不變。走路的人只快 MS/2 倍
   const districtByName = new Map(districts.map((d) => [d.name, d])), nameOfDistrict = new Map(districts.map((d) => [d.id, d.name]));
-  const P = projection;
+  const P = projection, WALK = Math.max(1, MS / 2);
   const toWorld = (lat, lon) => ({ x: (lon - P.lon_c) * P.km_x * P.k, z: -(lat - P.lat_c) * P.km_z * P.k });
   const gy = (x, z) => world.groundY(x, z);
   const rnd = mulberry(2027);
@@ -81,7 +82,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
   const take = (x, z, r) => taken.push([x, z, r]);
   const free = (x, z, margin = 0.4) => world.onLand(x, z) && !world.inLake(x, z) && !nearRiver(x, z) && !nearLine(trackSegs, x, z, 0.35) && !fieldHit(x, z, 0.05) && world.isClear(x, z, margin) && !taken.some(([tx, tz, r]) => Math.hypot(x - tx, z - tz) < r);
   // 離 (x, z) 最近的空地
-  function spot(x, z, margin = 0.5, radius = 3) {
+  function spot(x, z, margin = 0.5, radius = 3 * MS) {
     if (free(x, z, margin)) return { x, z };
     for (let r = 0.15; r <= radius; r += 0.15) for (let k = 0; k < 16; k++) {
       const a = (k / 16) * Math.PI * 2 + r, px = x + Math.cos(a) * r, pz = z + Math.sin(a) * r;
@@ -89,7 +90,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
     }
     return null;
   }
-  const onLandAt = (x, z) => { if (world.onLand(x, z)) return { x, z }; for (let r = 0.2; r <= 4; r += 0.2) for (let k = 0; k < 12; k++) { const a = (k / 12) * Math.PI * 2, px = x + Math.cos(a) * r, pz = z + Math.sin(a) * r; if (world.onLand(px, pz)) return { x: px, z: pz }; } return { x, z }; };
+  const onLandAt = (x, z) => { if (world.onLand(x, z)) return { x, z }; for (let r = 0.2; r <= 4 * MS; r += 0.2) for (let k = 0; k < 12; k++) { const a = (k / 12) * Math.PI * 2, px = x + Math.cos(a) * r, pz = z + Math.sin(a) * r; if (world.onLand(px, pz)) return { x: px, z: pz }; } return { x, z }; };
   const fieldHit = (x, z, m = 0.25) => fields.some(([fx, fz, w, d, ry]) => { const c = Math.cos(ry), s = Math.sin(ry), dx = x - fx, dz = z - fz; return Math.abs(dx * c - dz * s) < w / 2 + m && Math.abs(dx * s + dz * c) < d / 2 + m; });
   const inMonths = (list, m) => !!list && list.includes(m);
   // 柔邊圓點貼圖：雲、蒸氣用
@@ -104,8 +105,8 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
     const puffs = [];
     for (const [lat, lon] of it.spots) {
       const c = onLandAt(toWorld(lat, lon).x, toWorld(lat, lon).z), base = gy(c.x, c.z);
-      for (let k = 0; k < 11; k++) {
-        const a = rnd() * Math.PI * 2, r = 0.3 + rnd() * 1.3, sp = puff(0);
+      for (let k = 0; k < 11 * MS; k++) { // 山谷跟著地圖放大，雲海涵蓋的範圍與團數一起放大
+        const a = rnd() * Math.PI * 2, r = (0.3 + rnd() * 1.3) * MS, sp = puff(0);
         const s = 1.1 + rnd() * 1.3; sp.scale.set(s * 1.6, s * 0.55, 1);
         const p = { sp, cx: c.x, cz: c.z, a, r, y: base + 0.18 + rnd() * 0.3, w: (rnd() - 0.5) * 0.05 };
         sp.position.set(c.x + Math.cos(a) * r, p.y, c.z + Math.sin(a) * r);
@@ -147,11 +148,12 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
     const cone6 = new THREE.ConeGeometry(0.5, 1, 6);
     for (const [lat, lon] of it.spots) {
       const c = toWorld(lat, lon);
-      for (let k = 0; k < 40; k++) {
-        const a = rnd() * Math.PI * 2, r = Math.sqrt(rnd()) * 1.2, x = c.x + Math.cos(a) * r, z = c.z + Math.sin(a) * r;
+      for (let k = 0; k < 40 * MS * MS; k++) { // 惡地範圍 ×MS（地面變色見 badlandPatches），小丘密度不變
+        const a = rnd() * Math.PI * 2, r = Math.sqrt(rnd()) * 1.2 * MS, x = c.x + Math.cos(a) * r, z = c.z + Math.sin(a) * r;
         if (!free(x, z, 0.4)) continue;
         if (hills.some((h) => Math.hypot(h[0] - x, h[2] - z) < 0.16)) continue;
         const hgt = 0.1 + rnd() * 0.2, w = hgt * (1.0 + rnd() * 0.6), y = gy(x, z);
+        if (fieldHit(x, z, w * 0.6 + 0.05)) continue; // 小丘底面半徑約 0.55w（加上旁邊的小丘）：整座都不能壓到田
         hills.push([x, y + hgt / 2 - 0.01, z, w, hgt, w * (0.7 + rnd() * 0.4), rnd() * Math.PI]); take(x, z, w * 0.6);
         if (rnd() < 0.5) ridges.push([x + 0.05, y + hgt * 0.32, z - 0.03, w * 0.6, hgt * 0.65, w * 0.5, rnd() * Math.PI]); // 旁邊再疊一座小的，看起來連成山脊
       }
@@ -204,7 +206,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
     return g;
   }
   function peak(it) {
-    const c0 = toWorld(...it.spots[0]), c = spot(c0.x, c0.z, 0.35, 4) ?? onLandAt(c0.x, c0.z), y = gy(c.x, c.z);
+    const c0 = toWorld(...it.spots[0]), c = spot(c0.x, c0.z, 0.35, 4 * MS) ?? onLandAt(c0.x, c0.z), y = gy(c.x, c.z);
     const g = new THREE.Group(); g.position.set(c.x, y, c.z); root.add(g);
     for (const [x, z, s] of [[0, 0, 0.16], [0.08, 0.05, 0.12], [-0.07, 0.04, 0.11], [0.02, -0.07, 0.1]]) mesh("sphere", std(0x8d8a82), [x, s * 0.35, z], [s, s * 0.7, s], g); // 石堆
     mesh("cyl", std(0xdedede), [0, 0.35, 0], [0.015, 0.6, 0.015], g); // 旗桿
@@ -219,7 +221,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
     const total = cum.at(-1) || 1;
     const dots = []; for (let i = 0; i < pts.length - 1; i++) { const n = Math.max(1, Math.round((cum[i + 1] - cum[i]) / 0.18)); for (let k = 0; k < n; k++) { const t = k / n, x = pts[i].x + (pts[i + 1].x - pts[i].x) * t, z = pts[i].z + (pts[i + 1].z - pts[i].z) * t; dots.push([x, gy(x, z) + 0.01, z, 0.05, 0.01, 0.05]); } }
     instanced("box", std(0xc9b48a), dots, { shadow: false }); // 步道碎石點
-    const hikers = [0x2e9e4f, 0xd8342c, 0x1f6fd1].map((col, k) => ({ g: hikerModel(col), s: total * (0.15 + k * 0.3), dir: k % 2 ? -1 : 1, v: 0.12 + k * 0.02 }));
+    const hikers = [0x2e9e4f, 0xd8342c, 0x1f6fd1].map((col, k) => ({ g: hikerModel(col), s: total * (0.15 + k * 0.3), dir: k % 2 ? -1 : 1, v: (0.12 + k * 0.02) * WALK }));
     const at = (s) => { let i = 0; while (i < cum.length - 2 && s > cum[i + 1]) i++; const t = (s - cum[i]) / ((cum[i + 1] - cum[i]) || 1); return { x: pts[i].x + (pts[i + 1].x - pts[i].x) * t, z: pts[i].z + (pts[i + 1].z - pts[i].z) * t, ry: Math.atan2(pts[i + 1].x - pts[i].x, pts[i + 1].z - pts[i].z) }; };
     updaters.push((dt, ctx) => {
       const on = ctx.minute >= 360 && ctx.minute <= 1020 && !ctx.weather?.rain;
@@ -257,7 +259,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
     updaters.push((dt, ctx) => {
       if (!ctx.camera) return;
       starPts.position.copy(ctx.camera.position);
-      const tg = ctx.target, mountain = tg ? Math.max(0, Math.min(1, (tg.x - 8) / 14)) : 0.3; // 鏡頭看向東邊山區時更亮
+      const tg = ctx.target, mountain = tg ? Math.max(0, Math.min(1, (tg.x - 8 * MS) / (14 * MS))) : 0.3; // 鏡頭看向東邊山區時更亮
       const clear = 1 - Math.min(1, (ctx.weather?.cloud ?? 0) * 1.1);
       const o = Math.max(0, ctx.night - 0.35) / 0.65 * clear * (0.45 + 0.55 * mountain);
       starPts.material.opacity = o;
@@ -269,15 +271,16 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
 
   // ── 果園：一片果樹（樹幹、樹冠），產季結果、梅花季開白花 ──
   function orchard(it) {
-    const per = Math.round((it.count ?? 30) / it.spots.length), trunks = [], crowns = [], fruits = [], flowers = [];
+    const per = Math.round(((it.count ?? 30) * MS) / it.spots.length), trunks = [], crowns = [], fruits = [], flowers = [];
     const k = it.small ? 0.6 : 1;
     let first = null;
     for (const [lat, lon] of it.spots) {
-      const c0 = toWorld(lat, lon), c = spot(c0.x, c0.z, 0.45, 3) ?? c0;
+      const c0 = toWorld(lat, lon), c = spot(c0.x, c0.z, 0.45, 3 * MS) ?? c0;
       first ??= c;
+      const span = Math.round(9 * Math.sqrt(MS)); // 果樹 ×MS 棵，果園邊長 ×√MS：成行成列的密度不變
       let placed = 0;
       for (let tries = 0; tries < per * 12 && placed < per; tries++) {
-        const gx = Math.round((rnd() - 0.5) * 9) * 0.2, gz = Math.round((rnd() - 0.5) * 9) * 0.2; // 0.2 格子：果園成行成列
+        const gx = Math.round((rnd() - 0.5) * span) * 0.2, gz = Math.round((rnd() - 0.5) * span) * 0.2; // 0.2 格子：果園成行成列
         const x = c.x + gx, z = c.z + gz;
         if (!free(x, z, 0.4) || fieldHit(x, z)) continue;
         if (trunks.some((t) => Math.hypot(t[0] - x, t[2] - z) < 0.17)) continue;
@@ -307,11 +310,11 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
     for (const area of it.areas) {
       let c;
       if (area.at) c = toWorld(...area.at);
-      else { const d = districtByName.get(area.district); c = d ? { x: d.hub[0] - 1.2, z: d.hub[1] } : null; } // 沒有代表點：區中心往西（沿海）一點
+      else { const d = districtByName.get(area.district); c = d ? { x: d.hub[0] - 1.2 * MS, z: d.hub[1] } : null; } // 沒有代表點：區中心往西（沿海）一點
       if (!c) continue;
-      const n = Math.max(4, Math.round((area.ha / maxHa) * 26));
+      const n = Math.round(Math.max(4, Math.round((area.ha / maxHa) * 26)) * MS); // 池數 ×MS（養殖區跟著地圖放大）
       let placed = 0, first = null;
-      for (let ring = 0; ring < 9 && placed < n; ring++) for (let i = -ring; i <= ring && placed < n; i++) for (let j = -ring; j <= ring && placed < n; j++) {
+      for (let ring = 0; ring < 9 * Math.sqrt(MS) && placed < n; ring++) for (let i = -ring; i <= ring && placed < n; i++) for (let j = -ring; j <= ring && placed < n; j++) {
         if (Math.max(Math.abs(i), Math.abs(j)) !== ring) continue;
         const x = c.x + i * 0.5, z = c.z + j * 0.38; // 池子約 0.44 × 0.32，土堤寬 0.06
         const corners = [[x - 0.24, z - 0.18], [x + 0.24, z - 0.18], [x - 0.24, z + 0.18], [x + 0.24, z + 0.18], [x, z]];
@@ -323,6 +326,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
         const wx = x + (rnd() - 0.5) * 0.2, wz = z + (rnd() - 0.5) * 0.12, ry = rnd() * Math.PI;
         floats.push([wx, y + 0.033, wz, 0.07, 0.015, 0.03, ry]);
         wheels.push({ x: wx, y: y + 0.05, z: wz, ry, a: rnd() * 6 });
+        world.addObstacle(world.districtAt(x, z), x, z, 0.3); // 行人散步的目的地與直線路徑避開魚塭
         first ??= { x, z };
         placed++;
       }
@@ -381,10 +385,12 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
     const poly = lakePoly("七股潟湖");
     const waterY = () => TOP + 0.03;
     const c = toWorld(...it.racks), posts = [], ropes = [];
-    if (poly) for (let row = -5; row <= 5; row++) {
-      const z = c.z + row * 0.22, x0 = c.x - 1.0;
+    // 蚵棚範圍跟著地圖放大（約 2.2·MS 見方）；排距、樁距各 ×√2，密度是 1 倍地圖時的一半，近看才不會像一整片柵欄
+    const ROW = 0.31, POST = 0.28, RN = Math.round((1.1 * MS) / ROW), PN = Math.round((2.0 * MS) / POST);
+    if (poly) for (let row = -RN; row <= RN; row++) {
+      const z = c.z + row * ROW, x0 = c.x - 1.0 * MS;
       let run = [];
-      for (let k = 0; k <= 10; k++) { const x = x0 + k * 0.2 + (row % 2) * 0.1; if (inPoly(poly, x, z)) run.push(x); }
+      for (let k = 0; k <= PN; k++) { const x = x0 + k * POST + (row % 2) * POST / 2; if (inPoly(poly, x, z)) run.push(x); }
       if (run.length < 3) continue;
       for (const x of run) posts.push([x, waterY() + 0.05, z, 0.012, 0.16, 0.012]);
       ropes.push([(run[0] + run.at(-1)) / 2, waterY() + 0.11, z, run.at(-1) - run[0], 0.006, 0.006]);
@@ -392,7 +398,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
     instanced("cyl", std(0xc8b27a), posts, { shadow: false });
     instanced("box", std(0x3b3b3b), ropes, { shadow: false });
     const pts = it.route.map(([lat, lon]) => toWorld(lat, lon));
-    const move = pathMover(pts, [boatModel(0x2e86c1), boatModel(0xd35400)], it.hours, 0.22);
+    const move = pathMover(pts, [boatModel(0x2e86c1), boatModel(0xd35400)], it.hours, 0.22 * MS);
     updaters.push((dt, ctx) => move(dt, ctx, waterY));
     hitbox(it.id, c.x, c.z, 1.8, 0.4);
   }
@@ -441,7 +447,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
   function noodles(it) {
     const racks = [];
     for (const [lat, lon] of it.spots) {
-      const c0 = toWorld(lat, lon), c = spot(c0.x, c0.z, 0.45, 2) ?? c0;
+      const c0 = toWorld(lat, lon), c = spot(c0.x, c0.z, 0.45, 2 * MS) ?? c0;
       const g = new THREE.Group(); g.position.set(c.x, gy(c.x, c.z), c.z); g.rotation.y = rnd() * Math.PI; g.scale.setScalar(1.6); root.add(g);
       for (let r = 0; r < 3; r++) {
         const z = (r - 1) * 0.12;
@@ -465,7 +471,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
   function caltrop(it) {
     const waters = [], leaves = [], tubs = [];
     for (const [lat, lon] of it.spots) {
-      const c0 = toWorld(lat, lon), c = spot(c0.x, c0.z, 0.45, 2.5) ?? c0;
+      const c0 = toWorld(lat, lon), c = spot(c0.x, c0.z, 0.45, 2.5 * MS) ?? c0;
       for (const [dx, dz] of [[-0.3, -0.2], [0.3, -0.2], [-0.3, 0.2], [0.3, 0.2]]) {
         const x = c.x + dx, z = c.z + dz;
         if (!free(x, z, 0.3) || fieldHit(x, z, 0.1)) continue;
@@ -507,11 +513,11 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
     const W = 0.9, D = 0.7;
     const sx = a ? a.x + 0.6 : c0.x, sz = a ? a.z + 0.5 : c0.z; // 整塊圍欄（中心與四角）都要在空地上，找離地標最近的
     let c = null;
-    for (let r = 0; r <= 2.5 && !c; r += 0.15) for (let k = 0; k < (r ? 16 : 1) && !c; k++) {
+    for (let r = 0; r <= 2.5 * MS && !c; r += 0.15) for (let k = 0; k < (r ? 16 : 1) && !c; k++) {
       const x = sx + Math.cos((k / 16) * Math.PI * 2) * r, z = sz + Math.sin((k / 16) * Math.PI * 2) * r;
       if ([[0, 0], [-W / 2, -D / 2], [W / 2, -D / 2], [-W / 2, D / 2], [W / 2, D / 2], [0, -D / 2], [0, D / 2], [-W / 2, 0], [W / 2, 0]].every(([dx, dz]) => free(x + dx, z + dz, 0.5))) c = { x, z }; // 建築模型半寬約 0.4，留 0.5
     }
-    c ??= spot(sx, sz, 0.45, 2.5) ?? c0;
+    c ??= spot(sx, sz, 0.45, 2.5 * MS) ?? c0;
     take(c.x, c.z, 0.6);
     const y = gy(c.x, c.z), posts = [], rails = [];
     for (let k = 0; k <= 9; k++) { const t = k / 9; posts.push([c.x - W / 2 + W * t, y + 0.04, c.z - D / 2, 0.012, 0.08, 0.012], [c.x - W / 2 + W * t, y + 0.04, c.z + D / 2, 0.012, 0.08, 0.012]); }
@@ -555,7 +561,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
     const fl = fieldsApi?.list(it.crop, districtId(it.district)) ?? [];
     const machines = fl.filter((_, i) => i % 2 === 0).map((f) => ({ f, g: machineModel(0xd8342c), t: rnd() }));
     // 曬穀場（位置示意）
-    const c0 = toWorld(...it.yard), c = spot(c0.x, c0.z, 0.4, 2.5) ?? c0, y = gy(c.x, c.z);
+    const c0 = toWorld(...it.yard), c = spot(c0.x, c0.z, 0.4, 2.5 * MS) ?? c0, y = gy(c.x, c.z);
     take(c.x, c.z, 0.45);
     const yard = new THREE.Group(); yard.position.set(c.x, y, c.z); root.add(yard);
     mesh("box", std(0xbdb7ad), [0, 0.008, 0], [0.6, 0.016, 0.45], yard); // 水泥埕
@@ -625,7 +631,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
   function kilns(it) {
     const smokes = [];
     for (const [lat, lon] of it.spots) {
-      const c0 = toWorld(lat, lon), c = spot(c0.x, c0.z, 0.35, 2.5);
+      const c0 = toWorld(lat, lon), c = spot(c0.x, c0.z, 0.35, 2.5 * MS);
       if (!c) continue;
       take(c.x, c.z, 0.3);
       const g = new THREE.Group(); g.position.set(c.x, gy(c.x, c.z), c.z); g.rotation.y = rnd() * Math.PI; root.add(g);
@@ -693,7 +699,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
         clumps.push({ g, ph: rnd() * 6 });
       }
     }
-    const c0 = toWorld(...it.spots[0]), hb = spot(c0.x, c0.z, 0.3, 2) ?? c0;
+    const c0 = toWorld(...it.spots[0]), hb = spot(c0.x, c0.z, 0.3, 2 * MS) ?? c0;
     hitbox(it.id, hb.x, hb.z, 1.2, 0.6);
     let t = 0;
     updaters.push((dt) => { t += dt; for (const cl of clumps) { cl.g.rotation.z = Math.sin(t * 1.2 + cl.ph) * 0.04; cl.g.rotation.x = Math.cos(t * 0.9 + cl.ph) * 0.03; } });
@@ -795,22 +801,22 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
     const xs = poly.map((p) => p[0]), zs = poly.map((p) => p[1]);
     const edge = (x, z) => { let d = Infinity; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const [ax, az] = poly[j], [bx, bz] = poly[i], dx = bx - ax, dz = bz - az, L2 = dx * dx + dz * dz; const t = L2 ? Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / L2)) : 0; d = Math.min(d, Math.hypot(ax + dx * t - x, az + dz * t - z)); } return d; };
     const wet2 = [];
-    for (let x = Math.min(...xs); x <= Math.max(...xs); x += 0.08) for (let z = Math.min(...zs); z <= Math.max(...zs); z += 0.08) if (inPoly(poly, x, z) && edge(x, z) > 0.07) wet2.push({ x, z });
+    for (let x = Math.min(...xs); x <= Math.max(...xs); x += 0.08 * MS) for (let z = Math.min(...zs); z <= Math.max(...zs); z += 0.08 * MS) if (inPoly(poly, x, z) && edge(x, z) > 0.07) wet2.push({ x, z });
     const a = anchorPos(it.anchor) ?? wet2[0] ?? { x: xs[0], z: zs[0] };
     const clearLine = (p, q) => { for (let k = 1; k < 10; k++) { const x = p.x + (q.x - p.x) * k / 10, z = p.z + (q.z - p.z) * k / 10; if (!inPoly(poly, x, z) || edge(x, z) < 0.05) return false; } return true; };
     const route = [];
     if (wet2.length) {
       route.push(wet2.reduce((b, p) => (Math.hypot(p.x - a.x, p.z - a.z) < Math.hypot(b.x - a.x, b.z - a.z) ? p : b)));
       for (let k = 0; k < 4; k++) { // 每次往「看得到、離起點最遠」的湖面點開
-        const cur = route.at(-1), cand = wet2.filter((p) => Math.hypot(p.x - cur.x, p.z - cur.z) > 0.25 && clearLine(cur, p));
+        const cur = route.at(-1), cand = wet2.filter((p) => Math.hypot(p.x - cur.x, p.z - cur.z) > 0.25 * MS && clearLine(cur, p));
         if (!cand.length) break;
         route.push(cand.reduce((b, p) => (Math.hypot(p.x - route[0].x, p.z - route[0].z) > Math.hypot(b.x - route[0].x, b.z - route[0].z) ? p : b)));
       }
     }
     const cx = route[0]?.x ?? a.x, cz = route[0]?.z ?? a.z;
     const waterY = TOP + 0.02 + poly.reduce((s2, [x, z]) => s2 + world.heightAt(x, z), 0) / poly.length + 0.012;
-    const g = boatModelBig(); g.scale.setScalar(0.55); // 示意湖是縮小過的，船也小一點
-    const move = route.length > 1 ? pathMover(route, [g], [0, 1440], 0.12) : null;
+    const g = boatModelBig(); g.scale.setScalar(MS > 1 ? 0.8 : 0.55); // 1 倍地圖的示意湖很小，船也縮小；地圖放大後用原尺寸
+    const move = route.length > 1 ? pathMover(route, [g], [0, 1440], 0.12 * MS) : null;
     console.info(`[scenery] ${it.id}：航線 ${route.length} 點`);
     hitbox(it.id, cx, cz, 0.6, 0.4);
     updaters.push((dt, ctx) => {
@@ -829,7 +835,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
     const total = cum.at(-1) || 1, dots = [];
     for (let i = 0; i < pts.length - 1; i++) { const n = Math.max(1, Math.round((cum[i + 1] - cum[i]) / 0.15)); for (let k = 0; k < n; k++) { const t = k / n, x = pts[i].x + (pts[i + 1].x - pts[i].x) * t, z = pts[i].z + (pts[i + 1].z - pts[i].z) * t; dots.push([x, gy(x, z) + 0.01, z, 0.05, 0.01, 0.05]); take(x, z, 0.1); } }
     instanced("box", std(0xc9b48a), dots, { shadow: false });
-    const hikers = [0xf1c232, 0x2e86c1, 0xd35400].map((col, k) => ({ g: hikerModel(col), s: total * (0.1 + k * 0.35), dir: k % 2 ? -1 : 1, v: 0.1 + k * 0.02 }));
+    const hikers = [0xf1c232, 0x2e86c1, 0xd35400].map((col, k) => ({ g: hikerModel(col), s: total * (0.1 + k * 0.35), dir: k % 2 ? -1 : 1, v: (0.1 + k * 0.02) * WALK }));
     const at = (s2) => { let i = 0; while (i < cum.length - 2 && s2 > cum[i + 1]) i++; const t = (s2 - cum[i]) / ((cum[i + 1] - cum[i]) || 1); return { x: pts[i].x + (pts[i + 1].x - pts[i].x) * t, z: pts[i].z + (pts[i + 1].z - pts[i].z) * t, ry: Math.atan2(pts[i + 1].x - pts[i].x, pts[i + 1].z - pts[i].z) }; };
     hitbox(it.id, pts[0].x, pts[0].z, 0.6, 0.5);
     updaters.push((dt, ctx) => {
@@ -846,7 +852,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
 
   // ── 龍眼蜜蜂箱：龍眼園邊一排蜂箱，花期時蜜蜂在附近飛 ──
   function beehives(it) {
-    const c0 = toWorld(...it.spots[0]), c = spot(c0.x + 0.3, c0.z + 0.3, 0.35, 2.5);
+    const c0 = toWorld(...it.spots[0]), c = spot(c0.x + 0.3, c0.z + 0.3, 0.35, 2.5 * MS);
     if (!c) return;
     take(c.x, c.z, 0.35);
     const y = gy(c.x, c.z), boxes = [], lids = [];
@@ -872,7 +878,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
       if (!dd?.polygon) continue;
       const xs = dd.polygon.map((p) => p[0]), zs = dd.polygon.map((p) => p[1]);
       let placed = 0;
-      for (let tries = 0; tries < 400 && placed < it.count; tries++) {
+      for (let tries = 0; tries < 400 * MS && placed < it.count * MS; tries++) { // 區跟著地圖放大，農家 ×MS 戶
         const x = Math.min(...xs) + rnd() * (Math.max(...xs) - Math.min(...xs)), z = Math.min(...zs) + rnd() * (Math.max(...zs) - Math.min(...zs));
         if (world.districtAt(x, z) !== dd.id || !free(x, z, 0.6) || fieldHit(x, z, 0.3)) continue;
         take(x, z, 0.4);
@@ -915,7 +921,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
         if (cur.length > best.length) best = cur;
         if (best.length < 2) continue;
         const t = truckSmall();
-        list.push({ ...t, move: pathMover(best, [t.g], [360, 1080], 0.25) });
+        list.push({ ...t, move: pathMover(best, [t.g], [360, 1080], 0.25 * MS) });
       }
     }
     updaters.push((dt, ctx) => {
@@ -932,7 +938,7 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
 
   // ── 台灣藍鵲：兩隻拖著長尾巴的藍鵲在幾棵樹間繞飛 ──
   function magpies(it) {
-    const c0 = toWorld(...it.spots[0]), c = spot(c0.x, c0.z, 0.4, 2) ?? c0, y = gy(c.x, c.z);
+    const c0 = toWorld(...it.spots[0]), c = spot(c0.x, c0.z, 0.4, 2 * MS) ?? c0, y = gy(c.x, c.z);
     take(c.x, c.z, 0.5);
     for (const [dx, dz] of [[-0.2, -0.1], [0.2, 0.05], [0, 0.22]]) { mesh("cyl", std(0x5a4632), [c.x + dx, y + 0.1, c.z + dz], [0.02, 0.2, 0.02]); mesh("sphere", std(0x3f7d3a), [c.x + dx, y + 0.26, c.z + dz], [0.2, 0.16, 0.2]); }
     const birds = [0, 1].map((k) => {
@@ -965,7 +971,9 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
     boat, trail: trailWalk, beehives, farmhouses, trucks, magpies };
   for (const it of data.items) {
     items.set(it.id, it);
+    const before = pickables.length;
     try { BUILD[it.kind]?.(it); } catch (e) { console.warn("[scenery]", it.id, e); }
+    if (!it.background && pickables.length === before) console.warn(`[scenery] ${it.id} 找不到空地，沒有放上地圖`);
   }
 
   function update(dt, ctx) {
@@ -984,7 +992,8 @@ export function createScenery(THREE, scene, world, data, { projection, anchorPos
 }
 
 // 月世界惡地的地形變色範圍（要在建地形之前算，所以獨立出來）
-export function badlandPatches(data, projection, r = 1.35) {
+export function badlandPatches(data, projection, S = 1) { // S：地圖放大倍數
+  const r = 1.35 * S;
   const P = projection, it = data.items.find((x) => x.kind === "badlands");
   return (it?.spots ?? []).map(([lat, lon]) => ({ x: (lon - P.lon_c) * P.km_x * P.k, z: -(lat - P.lat_c) * P.km_z * P.k, r }));
 }

@@ -67,7 +67,8 @@ class FieldsTest(unittest.TestCase):
         farmed = [d for d in self.city["districts"] if d["fields"]]
         self.assertGreaterEqual(len(farmed), 20, f"只有 {len(farmed)} 區有田")
         for d in farmed:
-            self.assertTrue(4 <= len(d["fields"]) <= 10, f"{d['name']} 有 {len(d['fields'])} 塊田（要 4～10）")
+            most = round(10 * self.city.get("scale", 1.0))  # 1 倍地圖最多 10 塊，放大後 ×S
+            self.assertTrue(4 <= len(d["fields"]) <= most, f"{d['name']} 有 {len(d['fields'])} 塊田（要 4～{most}）")
             self.assertIn(d["id"], self.crops["byDistrict"], f"{d['name']} 有田但 crops.json 沒指定作物")
 
 

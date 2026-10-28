@@ -5,7 +5,7 @@
 //   → { button(container), update(dt, ctx), pickables, found(id) → 是否新找到, info(id), get count, total }
 const KEY = "hexcity-monkeys";
 
-export function createMonkeys({ THREE, scene, world, data, projection: P, t, esc, islands, toast, onComplete }) {
+export function createMonkeys({ THREE, scene, world, data, projection: P, scale: S = 1, t, esc, islands, toast, onComplete }) {
   const toWorld = (lat, lon) => ({ x: (lon - P.lon_c) * P.km_x * P.k, z: -(lat - P.lat_c) * P.km_z * P.k });
   const gy = (x, z) => world.groundY(x, z);
   const fur = new THREE.MeshStandardMaterial({ color: 0x8a7a63, roughness: 0.9 }), face = new THREE.MeshStandardMaterial({ color: 0xe8a28c, roughness: 0.8 });
@@ -29,7 +29,7 @@ export function createMonkeys({ THREE, scene, world, data, projection: P, t, esc
     let { x, z } = toWorld(...tr.at);
     // 貼回陸地，避開建築與道路附近
     let ok = world.onLand(x, z) && world.isClear(x, z, 0.4);
-    for (let r = 0.15; !ok && r <= 3; r += 0.15) for (let k = 0; k < 16 && !ok; k++) { const a = (k / 16) * Math.PI * 2, px = x + Math.cos(a) * r, pz = z + Math.sin(a) * r; if (world.onLand(px, pz) && world.isClear(px, pz, 0.4)) { x = px; z = pz; ok = true; } }
+    for (let r = 0.15; !ok && r <= 3 * S; r += 0.15) for (let k = 0; k < 16 && !ok; k++) { const a = (k / 16) * Math.PI * 2, px = x + Math.cos(a) * r, pz = z + Math.sin(a) * r; if (world.onLand(px, pz) && world.isClear(px, pz, 0.4)) { x = px; z = pz; ok = true; } }
     const district = world.districtAt(x, z);
     const g = new THREE.Group(); g.position.set(x, gy(x, z), z); scene.add(g);
     part("cyl", trunkM, [0, 0.14, 0], [0.04, 0.28, 0.04], g);

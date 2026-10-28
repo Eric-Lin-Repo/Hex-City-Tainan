@@ -1,7 +1,7 @@
 // 以真實行政區輪廓擠出成島、區與區之間架橋、行人用的鄰接圖與路線。資料來自 data/city.json。
 export const TOP = 0.6; // 地面高度
 export const DEPTH = 1.4;
-export const SMALL_AREA = 24; // 面積（世界單位²）小於此的市區：建築與景點縮小（與 tools/build_city.py 的 SMALL_AREA 一致）
+const SMALL_AREA_1X = 24; // 1 倍地圖時，面積（世界單位²）小於此的市區：建築與景點縮小（與 tools/build_city.py 的 SMALL_AREA 一致，實際乘 scale²）
 
 // 固定種子亂數，讓裝飾每次重整都長一樣
 export function mulberry(seed) {
@@ -63,6 +63,7 @@ const boundaryDist = (poly, x, z) => {
 
 export function buildWorld(THREE, scene, D, kit, buildModel, tree) {
   const T = D.city;
+  const S = T.scale ?? 1, SMALL_AREA = SMALL_AREA_1X * S * S; // 地圖放大倍數；面積門檻跟著乘 S²
   const islandsById = new Map(D.islands.map((i) => [i.id, i]));
   const centers = new Map(), adjacency = new Map(), buildingPos = new Map(), pickables = [], buildingHit = new Map();
   const polys = new Map(), slotsOf = new Map(), areaOf = new Map(), ports = new Map();
@@ -238,9 +239,9 @@ export function buildWorld(THREE, scene, D, kit, buildModel, tree) {
 
   // 外圍裝飾小島
   const B = T.bounds, cx = (B.minX + B.maxX) / 2, cz = (B.minZ + B.maxZ) / 2;
-  const R0 = Math.max(B.maxX - B.minX, B.maxZ - B.minZ) / 2 + 4;
+  const R0 = Math.max(B.maxX - B.minX, B.maxZ - B.minZ) / 2 + 4 * S;
   for (let i = 0; i < 18; i++) {
-    const a = rnd() * Math.PI * 2, d = R0 + rnd() * 9;
+    const a = rnd() * Math.PI * 2, d = R0 + rnd() * 9 * S;
     const x = cx + Math.cos(a) * d * 1.1, z = cz + Math.sin(a) * d, s = 0.6 + rnd() * 1.1;
     const islet = landMass(THREE, coastline(THREE, rnd, s), 0.7, rnd() > 0.5 ? 0x8fa07a : 0xa8b58c, 0xd9c4a3, 0.08);
     islet.position.set(x, 0, z);
@@ -275,7 +276,10 @@ export function buildWorld(THREE, scene, D, kit, buildModel, tree) {
     return pts;
   }
 
-  // 區內空地判斷：在輪廓內、離岸邊有距離、離建築有距離
+  // 每區的田 [x, z, 寬, 深, 旋轉]（行人與景觀都不走、不放在田上）
+  const fieldsOf = new Map(T.districts.map((d) => [d.id, d.fields || []]));
+  const inField = (id, x, z, m = 0.1) => fieldsOf.get(id).some(([fx, fz, w, d, ry]) => { const c = Math.cos(ry), s = Math.sin(ry), dx = x - fx, dz = z - fz; return Math.abs(dx * c - dz * s) < w / 2 + m && Math.abs(dx * s + dz * c) < d / 2 + m; });
+  // 區內空地判斷：在輪廓內、離岸邊有距離、離建築有距離、不在田上
   function clear(id, x, z, margin = 0.6) {
     const poly = polys.get(id);
     if (!poly || !pointInPoly(poly, x, z) || boundaryDist(poly, x, z) < 0.3) return false;
@@ -283,7 +287,7 @@ export function buildWorld(THREE, scene, D, kit, buildModel, tree) {
     const poiMargin = (areaOf.get(id) || 99) < SMALL_AREA ? 0.6 : 0.95;
     if ((poisByDistrict.get(id) || []).some((p) => Math.hypot(x - p.pos.x, z - p.pos.z) < poiMargin)) return false;
     if ((obstacles.get(id) || []).some(([ox, oz, r]) => Math.hypot(x - ox, z - oz) < r)) return false;
-    if (inLake(x, z)) return false;
+    if (inLake(x, z) || inField(id, x, z)) return false;
     return slotsOf.get(id).every(([sx, sz]) => Math.hypot(x - sx, z - sz) > margin);
   }
   // 在某點附近找一個空地（行人去車站時用）
@@ -305,8 +309,9 @@ export function buildWorld(THREE, scene, D, kit, buildModel, tree) {
     }
   }
   function segmentClear(id, p, q) {
-    for (let i = 0; i <= 10; i++) {
-      const t = i / 10;
+    const n = Math.max(10, Math.ceil(Math.hypot(q.x - p.x, q.z - p.z) / 0.3)); // 每 0.3 單位查一次：田約 1 單位寬，固定 11 點在地圖放大後會漏掉
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
       if (!clear(id, p.x + (q.x - p.x) * t, p.z + (q.z - p.z) * t, 0.55)) return false;
     }
     return true;

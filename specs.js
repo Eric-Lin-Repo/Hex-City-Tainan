@@ -4,7 +4,7 @@
 //   → { names, info(name), districtsOf(name), inSeason(name, month), seasonalOf(id, month), highlight(name), clear(), setSeasonal(on), setMonth(m), update(dt), cardHtml(name, month, islandBtn) }
 const GLOW = 0xffc94d, HOLD = 7; // 光柱顏色、亮幾秒
 
-export function createSpecs({ THREE, scene, CSS2DObject, specData, seasons, centers, groundY, t = (k, zh) => zh, esc }) {
+export function createSpecs({ THREE, scene, CSS2DObject, specData, seasons, centers, groundY, scale: S = 1, t = (k, zh) => zh, esc }) {
   const byName = new Map(); // 名稱 → { name, icon, districts: [id] }
   for (const [id, items] of Object.entries(specData.byDistrict || {})) {
     for (const it of items) {
@@ -18,7 +18,7 @@ export function createSpecs({ THREE, scene, CSS2DObject, specData, seasons, cent
   const seasonalOf = (id, month) => (specData.byDistrict[id] || []).filter((it) => inSeason(it.name_zh ?? it.name, month));
 
   // ── 產地高亮：每個產區一根半透明光柱＋上方的特產圖示，脈動幾秒後淡出 ──
-  const beamGeo = new THREE.CylinderGeometry(0.55, 0.9, 7, 20, 1, true).translate(0, 3.5, 0);
+  const beamGeo = new THREE.CylinderGeometry(0.55 * S, 0.9 * S, 7 * S, 20, 1, true).translate(0, 3.5 * S, 0); // 產區光柱是給全景看的，跟著地圖放大
   const beamMat = new THREE.MeshBasicMaterial({ color: GLOW, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending });
   const group = new THREE.Group();
   group.visible = false;
@@ -47,7 +47,7 @@ export function createSpecs({ THREE, scene, CSS2DObject, specData, seasons, cent
       el.className = "spec-beacon";
       el.innerHTML = `<span>${esc(s.icon)}</span>`; // 內層 span 做出現時的放大，外層的 transform 由 CSS2DRenderer 每幀改寫
       const o = new CSS2DObject(el);
-      o.position.set(c.x, y + 3.4, c.z);
+      o.position.set(c.x, y + 3.4 * S, c.z);
       group.add(o); tags.push(o);
     }
     group.visible = true; current = key; left = HOLD;

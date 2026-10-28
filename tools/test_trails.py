@@ -13,6 +13,7 @@ class TrailsTest(unittest.TestCase):
             with open(os.path.join(ROOT, "data", n), encoding="utf-8") as f: return json.load(f)
         cls.trails = load("trails.json")["trails"]
         cls.bounds = load("city.json")["bounds"]
+        cls.S = load("city.json").get("scale", 1.0)  # 地圖放大倍數（加密間距跟著乘）
 
     def test_seven_trails(self):
         self.assertEqual(len(self.trails), 7)
@@ -42,11 +43,11 @@ class TrailsTest(unittest.TestCase):
                     self.assertTrue(b["minX"] <= x <= b["maxX"] and b["minZ"] <= z <= b["maxZ"], f"{t['id']} 點 ({x}, {z}) 超出範圍")
 
     def test_densified(self):
-        """加密後相鄰點距不超過 0.3 單位（留一點浮點餘裕）。"""
+        """加密後相鄰點距不超過 0.3 單位 ×S（留一點浮點餘裕）。"""
         for t in self.trails:
             for seg in t["segments"]:
                 for (x0, z0), (x1, z1) in zip(seg, seg[1:]):
-                    self.assertLessEqual(((x1 - x0) ** 2 + (z1 - z0) ** 2) ** 0.5, 0.3 + 1e-3, t["id"])
+                    self.assertLessEqual(((x1 - x0) ** 2 + (z1 - z0) ** 2) ** 0.5, 0.3 * self.S + 1e-3, t["id"])
 
 
 if __name__ == "__main__":

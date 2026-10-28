@@ -28,6 +28,7 @@ const SKIN = 0xf3d2b8;
 export function createPeople(THREE, scene, D, world, CSS2DObject) {
   const population = D.settings?.population ?? 500;
   const perFlow = D.settings?.flowWalkersPerFlow ?? 6;
+  const WALK = Math.max(1, (D.city?.scale ?? 1) / 2); // 地圖放大 S 倍時行人只快 S/2 倍（步伐一起加快），再快就像在溜冰
   const rnd = mulberry(42);
   const islandIds = D.islands.map((i) => i.id);
   // 依人口比例挑區（跨區旅程的目的地）：永康、安南的人會比龍崎多很多
@@ -128,7 +129,7 @@ export function createPeople(THREE, scene, D, world, CSS2DObject) {
     const w = {
       index: walkers.length, role, age: AGE_OF(role), flow, parts, name: pick(surnames) + pick(given), home: flow ? flow.from : null,
       scale: BASE_SCALE * (st.child ? CHILD_SCALE : 1), // 小孩整體縮小，由根矩陣統一處理，零件尺寸與關節位置不用另外算
-      pos: new THREE.Vector3(), yaw: 0, phase: rnd() * 6, speed: (st.child ? 0.85 : 1) * (0.82 + rnd() * 0.55), /* 速度跟著地圖倍率（原 0.45+0.3，地圖現為原本的 1.82 倍） */
+      pos: new THREE.Vector3(), yaw: 0, phase: rnd() * 6, speed: WALK * (st.child ? 0.85 : 1) * (0.82 + rnd() * 0.55), /* 1 倍地圖的速度（原 0.45+0.3，當時地圖為更早的 1.82 倍）× WALK */
       lateral: (rnd() - 0.5) * (flow ? 0.24 : 0.36), s: 0, dir: 1, wait: rnd() * 3,
       path: null, at: null, visible: true, zeroed: false, label: null,
     };
@@ -164,15 +165,20 @@ export function createPeople(THREE, scene, D, world, CSS2DObject) {
       const pois = world.poisIn(w.at);
       const markets = pois.filter((p) => p.type === "nightmarket" && p.open);
       const sights = pois.filter((p) => p.type !== "nightmarket");
-      let dest;
-      const r = rnd();
       const evs = world.eventsIn(w.at);
-      if (evs.length && r < 0.4) dest = world.randomPointNear(w.at, evs[Math.floor(rnd() * evs.length)].pos, rnd);
-      else if (night > 0.4 && markets.length && r < 0.55) dest = world.randomPointNear(w.at, markets[Math.floor(rnd() * markets.length)].pos, rnd);
-      else if (night <= 0.4 && sights.length && r < 0.35) dest = world.randomPointNear(w.at, sights[Math.floor(rnd() * sights.length)].pos, rnd);
-      else if (sts.length && r < 0.6) dest = world.randomPointNear(w.at, sts[Math.floor(rnd() * sts.length)].pos, rnd);
-      else dest = world.randomPoint(w.at, rnd);
-      w.path = finish(world.segmentClear(w.at, here, dest) ? [here, dest] : [here, center, dest], w.at);
+      const pickDest = () => {
+        const r = rnd();
+        if (evs.length && r < 0.4) return world.randomPointNear(w.at, evs[Math.floor(rnd() * evs.length)].pos, rnd);
+        if (night > 0.4 && markets.length && r < 0.55) return world.randomPointNear(w.at, markets[Math.floor(rnd() * markets.length)].pos, rnd);
+        if (night <= 0.4 && sights.length && r < 0.35) return world.randomPointNear(w.at, sights[Math.floor(rnd() * sights.length)].pos, rnd);
+        if (sts.length && r < 0.6) return world.randomPointNear(w.at, sts[Math.floor(rnd() * sts.length)].pos, rnd);
+        return world.randomPoint(w.at, rnd);
+      };
+      // 多挑幾個目的地，找直線走得通的（不穿過建築、田、魚塭）；都不行才先回區中心再過去
+      let dest = pickDest(), direct = world.segmentClear(w.at, here, dest);
+      for (let k = 0; k < 4 && !direct; k++) { dest = pickDest(); direct = world.segmentClear(w.at, here, dest); }
+      for (let k = 0; k < 6 && !direct; k++) { dest = world.randomPointNear(w.at, here, rnd); direct = world.segmentClear(w.at, here, dest); } // 遠的都走不通：在附近散步
+      w.path = finish(direct ? [here, dest] : [here, center, dest], w.at);
     } else {
       let to = rnd() < 0.5 ? w.home : pickDistrict(); // 一半的跨區旅程是回家
       if (to === w.at) to = world.adjacency.get(w.at)?.[0] || islandIds[(islandIds.indexOf(to) + 1) % islandIds.length];
@@ -294,7 +300,7 @@ export function createPeople(THREE, scene, D, world, CSS2DObject) {
       return 0;
     }
     place(w);
-    w.phase += dt * 9 * speedMul;
+    w.phase += dt * 9 * WALK * speedMul;
     return Math.sin(w.phase);
   }
 

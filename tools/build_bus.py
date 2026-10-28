@@ -18,13 +18,13 @@ OUT_BRANCH = os.path.join(ROOT, "data", "bus_branches.json")
 COLORS = {"藍": ("blue", "Blue", "#1f6fd1"), "綠": ("green", "Green", "#2e9e4f"), "紅": ("red", "Red", "#d8342c"),
           "橘": ("orange", "Orange", "#ef8a1e"), "黃": ("yellow", "Yellow", "#e3b91c"), "棕": ("brown", "Brown", "#8a5a2b")}
 EN_PREFIX = {"藍": "B", "綠": "G", "紅": "R", "橘": "O", "黃": "Y", "棕": "BR"}  # 跟 TDX 的 RouteName.En 一致（B1、G17、BR1）
-DP_EPS = 0.03        # Douglas–Peucker 容許誤差（世界單位，約 30 公尺）
-LAND_TOL = 0.4       # 區界是簡化過的多邊形，離區界 0.4 以內的路段仍算在陸地上
-MIN_LAND = 0.5       # 落在台南陸地上的比例低於此就整條排除（高雄公車）
-STOP_SNAP = 0.35     # 站牌離路線超過這個距離就不收（OSM 偶爾把對向或別條路的站牌掛進來）
-
 raw = json.load(open(RAW, encoding="utf-8"))
 city = json.load(open(CITY, encoding="utf-8"))
+S = city.get("scale", 1.0)  # 地圖放大倍數：世界單位的容差跟著乘，公里不變
+DP_EPS = 0.03 * S    # Douglas–Peucker 容許誤差（世界單位，約 22 公尺）
+LAND_TOL = 0.4 * S   # 區界是簡化過的多邊形，離區界 0.4（×S）以內的路段仍算在陸地上
+MIN_LAND = 0.5       # 落在台南陸地上的比例低於此就整條排除（高雄公車）
+STOP_SNAP = 0.35 * S # 站牌離路線超過這個距離就不收（OSM 偶爾把對向或別條路的站牌掛進來）
 P = city["projection"]
 proj = lambda lon, lat: ((lon - P["lon_c"]) * P["km_x"] * P["k"], -(lat - P["lat_c"]) * P["km_z"] * P["k"])
 polys = [d["polygon"] for d in city["districts"]]
@@ -234,13 +234,13 @@ def build_pattern(rel, via=False):
         sp = proj(m["lon"], m["lat"])
         cands = []
         for i in range(len(pts) - 1):
-            if cum[i + 1] < last_d - 0.05: continue
+            if cum[i + 1] < last_d - 0.05 * S: continue
             dist, t = seg_proj(sp, pts[i], pts[i + 1])
             if dist <= STOP_SNAP: cands.append((cum[i] + t * (cum[i + 1] - cum[i]), dist))
         if not cands: continue
-        d = min(cands, key=lambda c: (c[1] > 0.08, c[0]))[0]  # 夠近（8 公尺級）的取最前面那段，否則取最近
+        d = min(cands, key=lambda c: (c[1] > 0.08 * S, c[0]))[0]  # 夠近（8 公尺級）的取最前面那段，否則取最近
         sid = stop_id(m["ref"], m["lon"], m["lat"])
-        if stops and (sid == stops[-1][0] or stop_list[stops[-1][0]]["name"] == stop_list[sid]["name"] and d - stops[-1][1] < 0.06): continue
+        if stops and (sid == stops[-1][0] or stop_list[stops[-1][0]]["name"] == stop_list[sid]["name"] and d - stops[-1][1] < 0.06 * S): continue
         d = max(d, last_d)
         stops.append([sid, round(d, 3)]); last_d = d
     big_gaps = missing

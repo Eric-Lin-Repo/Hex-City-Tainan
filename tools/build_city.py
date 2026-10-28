@@ -5,8 +5,10 @@ import json, math, os, random, sys
 
 SRC, OUT = sys.argv[1], sys.argv[2]
 COUNTIES = ("台南市", "台南縣")   # 1982 版：原台南市 6 區 + 原台南縣 31 鄉鎮市 = 今日台南市 37 區
-NS_UNITS = 80.0                   # 南北總長（世界單位）；原本 44 → 66 → 80，區塊相對建築更寬鬆
-SMALL_AREA = 24.0                 # 面積（世界單位²）小於這個值的市區（中西、北、東、安平）建築縮小、間距放寬
+MAP_SCALE = 3.0                   # 地圖放大倍數（以南北 80 單位為 1 倍）；建築、人、車、樹的大小不變，只有地圖變大。寫進 city.json 的 scale，前端常數跟著乘
+S = MAP_SCALE
+NS_UNITS = 80.0 * S               # 南北總長（世界單位）；原本 44 → 66 → 80 → 240（3 倍）
+SMALL_AREA = 24.0 * S * S         # 面積（世界單位²）小於這個值的市區（中西、北、東、安平）建築縮小、間距放寬；面積跟著乘 S²，要和 world.js 一致
 SMALL_GAP = 0.65                  # 小區任兩個建築／景點／車站的最小間距；模型縮成 0.58 倍約 0.55–0.6 寬，原本 0.5 會疊在一起（中西區用 0.75 會塞不下）
 INSET = 0.0                       # 區與區貼合（0）；大於 0 會往內縮留水道
 t = json.load(open(SRC))
@@ -97,7 +99,7 @@ rnd = random.Random(7)
 simp_arc = {}
 def simp(i):
     if i not in simp_arc:
-        simp_arc[i] = dp([proj(p) for p in arcs[i]], 0.06)
+        simp_arc[i] = dp([proj(p) for p in arcs[i]], 0.06 * S)
     return simp_arc[i]
 def ring_from_simplified(idx_list):
     out = []
@@ -120,7 +122,7 @@ for id_, d in D.items():
     # 區中心：離邊界最遠的內部點（格點搜尋）
     xs = [p[0] for p in poly]; zs = [p[1] for p in poly]
     best = (-1, c)
-    step = max(0.08, min(0.2, (max(xs) - min(xs)) / 40))
+    step = max(0.08 * S, min(0.2 * S, (max(xs) - min(xs)) / 40))
     x = min(xs)
     while x <= max(xs):
         z = min(zs)
@@ -242,7 +244,7 @@ if os.path.exists(osm_rail_path):
         t = w.get("tags", {})
         if w["type"] == "way" and t.get("railway") == "rail" and "高速鐵路" in t.get("name", "") and not t.get("service"):
             pts = [proj((g["lon"], g["lat"])) for g in w.get("geometry", [])]
-            if len(pts) > 1: hsr_tracks.append([[round(x, 3), round(z, 3)] for x, z in dp(pts, 0.05)])
+            if len(pts) > 1: hsr_tracks.append([[round(x, 3), round(z, 3)] for x, z in dp(pts, 0.05 * S)])
     print("rail graph ways", len(tra), "nodes", len(rail_graph), "components", len(comps), "hsr ways", len(hsr_tracks))
 
 stations, station_node = [], {}
@@ -250,10 +252,10 @@ for st in rail_src["stations"]:
     if rail_graph:
         ll = geo_lonlat("station:" + st["id"]) or (st["lon"], st["lat"])  # 地理編碼只用來找最近的軌道節點
         node = min(rail_nodes, key=lambda n: (n[0] - ll[0]) ** 2 + (n[1] - ll[1]) ** 2)
-        # 軌道沿區界走時最近的節點會落在水道裡：在附近 0.8 單位內改挑離陸地 0.3 以內、最靠近的節點
-        if land_dist(proj(node)) > 0.3:
+        # 軌道沿區界走時最近的節點會落在水道裡：在附近 0.8 單位（×S）內改挑離陸地 0.3（×S）以內、最靠近的節點
+        if land_dist(proj(node)) > 0.3 * S:
             p0 = proj(node)
-            cands = [n for n in rail_nodes if math.hypot(proj(n)[0] - p0[0], proj(n)[1] - p0[1]) < 0.8 and land_dist(proj(n)) <= 0.3]
+            cands = [n for n in rail_nodes if math.hypot(proj(n)[0] - p0[0], proj(n)[1] - p0[1]) < 0.8 * S and land_dist(proj(n)) <= 0.3 * S]
             if cands: node = min(cands, key=lambda n: (n[0] - ll[0]) ** 2 + (n[1] - ll[1]) ** 2)
         station_node[st["id"]] = node
         q = proj(node); did = district_of(q)
@@ -269,7 +271,7 @@ for l in ([] if rail_graph else rail_src["lines"]):
         if d < 1.4:
             ux, uz = ((pb[0] - pa[0]) / d, (pb[1] - pa[1]) / d) if d > 1e-6 else (1.0, 0.0)
             pos_of[b][0] = round(pa[0] + ux * 1.4, 3); pos_of[b][1] = round(pa[1] + uz * 1.4, 3)
-def densify(pts, max_len=0.3):
+def densify(pts, max_len=0.3 * S):
     """太長的線段補中間點（平原上的縱貫線幾乎是直線，dp 之後點很少；補點不改形狀，火車行駛較平順）。"""
     out = [pts[0]]
     for a, b in zip(pts, pts[1:]):
@@ -284,7 +286,7 @@ def route_points(station_ids):
             path = dijkstra(rail_graph, station_node[a], station_node[b])
             if not path: print(f"WARN rail {a}→{b} 在軌道圖上不連通，改用直線")
             seg = [proj(n) for n in path] if path else [tuple(pos_of[a]), tuple(pos_of[b])]
-            seg = dp(seg, 0.03)
+            seg = dp(seg, 0.03 * S)
         else:
             seg = [tuple(pos_of[a]), tuple(pos_of[b])]
         seg = densify(seg)
@@ -334,7 +336,7 @@ if os.path.exists(osm_water_path):
             by_name.setdefault(nm, []).append(e)
     for nm, ways in by_name.items():
         for line in merge_ways(ways):
-            pts = dp([proj(p) for p in line], 0.08)
+            pts = dp([proj(p) for p in line], 0.08 * S)
             if len(pts) > 2: rivers.append({"name": nm, "points": [[round(x, 3), round(z, 3)] for x, z in pts]})
     def lake_name(nm):
         """OSM 名稱對到清單：如「烏山頭水庫 (珊瑚潭)」「虎頭埤水庫」「尖山埤水庫」。"""
@@ -355,8 +357,8 @@ if os.path.exists(osm_water_path):
             rings = merge_ways(outer)
         for ring in rings:
             if len(ring) < 4: continue
-            pts = dp_ring([proj(p) for p in ring], 0.06)
-            if len(pts) >= 3 and abs(area(pts)) > 0.02: lakes.append({"name": nm, "polygon": [[round(x, 3), round(z, 3)] for x, z in pts]})
+            pts = dp_ring([proj(p) for p in ring], 0.06 * S)
+            if len(pts) >= 3 and abs(area(pts)) > 0.02 * S * S: lakes.append({"name": nm, "polygon": [[round(x, 3), round(z, 3)] for x, z in pts]})
     print("rivers", [(r["name"], len(r["points"])) for r in rivers], "lakes", [(l["name"], len(l["polygon"])) for l in lakes])
 
 # ── 湖面與水庫：建築、景點、樹、田都不放進湖裡（前端只畫大半在陸地上的湖，這裡用同一個標準）──
@@ -378,7 +380,7 @@ def fit_lake(poly, did, dam_q):
     a = min(poly, key=lambda v: math.hypot(v[0] - dam_q[0], v[1] - dam_q[1]))
     coarse = poly[::max(1, len(poly) // 48)]
     t0, _ = snap(dam_q)
-    grid = sorted(((t0[0] + i * 0.2, t0[1] + j * 0.2) for i in range(-30, 31) for j in range(-30, 31)), key=lambda t: math.hypot(t[0] - t0[0], t[1] - t0[1]))
+    grid = sorted(((t0[0] + i * 0.2 * S, t0[1] + j * 0.2 * S) for i in range(-30, 31) for j in range(-30, 31)), key=lambda t: math.hypot(t[0] - t0[0], t[1] - t0[1]))
     for s in (0.5, 0.45, 0.4, 0.35, 0.3, 0.25, 0.2, 0.15):
         for t in grid:
             if not inside(dpoly, t): continue
@@ -412,7 +414,7 @@ def wet(p, m=LAKE_GAP):
         x0, x1, z0, z1 = l["_bbox"]
         if x0 - m <= p[0] <= x1 + m and z0 - m <= p[1] <= z1 + m and (inside(l["polygon"], p) or boundary_dist(l["polygon"], p) < m): return True
     return False
-def dry(q, did, others, gap, m=LAKE_GAP, margin=0.4, radius=5.0):
+def dry(q, did, others, gap, m=LAKE_GAP, margin=0.4, radius=5.0 * S):
     """q 附近最近的乾地：在 did 區內、離區界 ≥ margin、離湖岸 ≥ m、離 others ≥ gap、離鐵路 ≥ 0.35。找不到回 None。"""
     poly = D[did]["poly"]; n = int(radius / 0.1)
     for c in sorted(((q[0] + i * 0.1, q[1] + j * 0.1) for i in range(-n, n + 1) for j in range(-n, n + 1)), key=lambda c: math.hypot(c[0] - q[0], c[1] - q[1])):
@@ -522,7 +524,7 @@ def make_content(i, id_, d):
         return PALETTE[i % len(PALETTE)], f"台南市{d['name']}，面積約 {d['area'] / (k * k):.0f} 平方公里。", buildings
     urban = d["area"] < median * 0.8 or d["name"] in ("永康區", "新營區", "仁德區", "歸仁區", "善化區", "新市區", "麻豆區", "佳里區", "新化區")
     pool = URBAN if urban else RURAL
-    count = 1 if d["hubClear"] < 0.9 else 2 if d["area"] < 10 else 3 if d["area"] < 30 else 4
+    count = 1 if d["hubClear"] < 0.9 * S else 2 if d["area"] < 10 * S * S else 3 if d["area"] < 30 * S * S else 4
     picks = rnd.sample(pool, count)
     buildings = [{"id": f"{id_}-{m}", "name": nm.format(n=n), "model": m, "plain": plain, "facts": facts} for m, nm, plain, facts in picks]
     kind = "市區" if urban else "鄉村"
@@ -535,7 +537,7 @@ def relax(pts, poly, fixed, segs, name, gap=SMALL_GAP, margin=0.15, rail_gap=0.3
     再拉一點回原位、推離軌道、留在區界內。偏移平均分攤到所有建築，而不是後放的被一路擠到遠處。"""
     orig = [tuple(p) for p in pts]; cur = [list(p) for p in pts]
     hub = fixed[0]  # 呼叫端第一個固定點是區中心
-    near_fixed = [f for f in fixed if any(math.hypot(f[0] - p[0], f[1] - p[1]) < 4 for p in orig)]
+    near_fixed = [f for f in fixed if any(math.hypot(f[0] - p[0], f[1] - p[1]) < 4 * S for p in orig)]
     for _ in range(iters):
         moved = 0
         for i, p in enumerate(cur):
@@ -632,9 +634,9 @@ for i, (id_, d) in enumerate(sorted(D.items(), key=lambda kv: (kv[1]["hub"][1], 
         slots = [None if q is None else next(moved_r) for q in slots]
     buildings = kept
     geocoded_buildings[0] += len(fixed); geocoded_buildings[1] += len(kept)
-    n_trees = max(2, min(16, int(d["area"] / 3.2)))
+    n_trees = max(2, min(int(16 * S * S), int(d["area"] / 3.2)))  # 密度跟 1 倍時一樣：面積 ×S² 棵數也 ×S²；樹只長在離區界 0.3–0.9·S 的帶狀區
     slots_raw = [q for q in slots if q is not None]
-    trees = sample(d["poly"], hub, [hub] + ports + slots_raw + station_pts + poi_pts_raw, paths, n_trees, 0.3, 0.9, 0.8, 0.5, tries=800)
+    trees = sample(d["poly"], hub, [hub] + ports + slots_raw + station_pts + poi_pts_raw, paths, n_trees, 0.3, 0.9 * S, 0.8, 0.5, tries=int(800 * S * S))
     # ── 後處理（不動亂數）：壩放到湖岸、湖裡的建築推到岸邊、被搬走的景點或壩壓到的建築讓開；樹在湖裡或壓到建築就拿掉 ──
     gap = 0.55 if small else 0.6
     others = lambda k: [hub] + ports + station_pts + poi_pts + [q for j, q in enumerate(slots) if j != k and q is not None]
@@ -642,7 +644,7 @@ for i, (id_, d) in enumerate(sorted(D.items(), key=lambda kv: (kv[1]["hub"][1], 
     dam_k = [bk for bk, b in enumerate(buildings) if b["model"] == "dam" and b["name"] in dam_at]
     for bk in dam_k:
         nm = buildings[bk]["name"]
-        q = dry(dam_at[nm], id_, others(bk), gap, m=DAM_GAP, margin=0.3, radius=8)
+        q = dry(dam_at[nm], id_, others(bk), gap, m=DAM_GAP, margin=0.3, radius=8 * S)
         if q is None: raise SystemExit(f"{nm} 的壩找不到湖岸空地")
         print(f"壩 {nm}：{d['name']} ({q[0]:.2f}, {q[1]:.2f})，離湖岸上的壩址 {math.hypot(q[0] - dam_at[nm][0], q[1] - dam_at[nm][1]):.2f} 單位")
         slots[bk] = q
@@ -655,11 +657,11 @@ for i, (id_, d) in enumerate(sorted(D.items(), key=lambda kv: (kv[1]["hub"][1], 
         # 都離真實座標超過 1 單位，才讓它優先占位、附近的隨機落點建築讓開
         q = None
         for g2 in ([gap, 0.5, 0.45, 0.4] if small else [gap]):
-            c2 = dry(want, id_, others(bk), g2, margin=0.15 if small else 0.4, radius=1.0)
+            c2 = dry(want, id_, others(bk), g2, margin=0.15 if small else 0.4, radius=1.0)  # 1 單位：放大後更接近真實座標
             if c2 is not None: q = c2; pin_gap[bk] = g2; break
         if q is None:
             hard = [hub] + ports + station_pts + poi_pts + [slots[j] for j, bb in enumerate(buildings) if j != bk and slots[j] is not None and bb.get("geocoded")]
-            q = dry(want, id_, hard, gap, margin=0.15 if small else 0.4, radius=6)
+            q = dry(want, id_, hard, gap, margin=0.15 if small else 0.4, radius=6 * S)
         if q is None: raise SystemExit(f"{nm} 找不到空地")
         print(f"真實位置 {d['name']} {nm}：離真實座標 {math.hypot(q[0] - want[0], q[1] - want[1]):.2f} 單位")
         slots[bk] = q; buildings[bk]["geocoded"] = True  # 卡片不再標「位置為區內示意」
@@ -709,14 +711,15 @@ def sample_fields(dd, d):
     paths = [(hub, p) for p in d.get("ports", [])] + rail_segs
     avoid = [tuple(s) for s in dd["_slots_raw"]] + station_pts + poi_pts_raw  # 改版前的位置：田的亂數消耗不變，最後再濾掉壓到湖或建築的田
     trees = [(t[0], t[1]) for t in dd["_trees_raw"]]
-    n = min(10, 4 + int((d["area"] - 20) / 25))  # 面積 20 → 4 塊，每多 25 單位² 多一塊，最多 10 塊
+    n = int(S * min(10, 4 + int((d["area"] / (S * S) - 20) / 25)))  # 1 倍時面積 20 → 4 塊，每多 25 單位² 多一塊，最多 10 塊；放大後只 ×S（不照面積 ×S² 塞滿，留空地）
     xs = [p[0] for p in poly]; zs = [p[1] for p in poly]
     out = []
     for relax in (1.0, 0.8, 0.6, 0.45, 0.3):  # 細長的區放不下就逐步縮短距離，田也偏小
-        for _ in range(3000):
+        for _ in range(int(3000 * S * S)):
             if len(out) >= n: break
             x, z = frnd.uniform(min(xs), max(xs)), frnd.uniform(min(zs), max(zs))
             w, dp_, ry = frnd.uniform(0.9, 0.9 + 0.7 * relax), frnd.uniform(0.7, 0.7 + 0.5 * relax), frnd.uniform(-0.35, 0.35)
+            x, z, w, dp_, ry = round(x, 3), round(z, 3), round(w, 2), round(dp_, 2), round(ry, 3)  # 先四捨五入再檢查，存檔的田角落才保證在區內
             if not inside(poly, (x, z)) or boundary_dist(poly, (x, z)) < 0.6 * relax: continue
             corners = rect_corners(x, z, w, dp_, ry)
             if not all(inside(poly, c) for c in corners): continue
@@ -725,13 +728,13 @@ def sample_fields(dd, d):
             if any(seg_dist((x, z), a, b) < 0.8 * relax or any(seg_dist(c, a, b) < 0.25 for c in corners) for a, b in paths): continue
             if any(rect_hits(x, z, w, dp_, ry, tq, 0.5 * relax) for tq in trees): continue
             if any(math.hypot(x - f[0], z - f[1]) < (math.hypot(w, dp_) + math.hypot(f[2], f[3])) / 2 + 0.15 for f in out): continue  # 半對角線相加：田不重疊
-            out.append([round(x, 3), round(z, 3), round(w, 2), round(dp_, 2), round(ry, 3)])
+            out.append([x, z, w, dp_, ry])
         if len(out) >= n: break
     if len(out) < 4: print(f"WARN {dd['name']} 只放得下 {len(out)}/{n} 塊田")
     return out
 for dd in districts:
     dsrc = D[dd["id"]]
-    dd["fields"] = [] if dsrc["area"] < 20 or dd["name"] in NO_FIELDS else sample_fields(dd, dsrc)
+    dd["fields"] = [] if dsrc["area"] < 20 * S * S or dd["name"] in NO_FIELDS else sample_fields(dd, dsrc)
     keep = [f for f in dd["fields"] if not any(wet(c, 0.15) for c in rect_corners(*f) + [(f[0], f[1])])
             and not any(rect_hits(*f, q, 0.3) for q in dd["_moved"])]
     if len(keep) < len(dd["fields"]): print(f"田 {dd['name']}：拿掉 {len(dd['fields']) - len(keep)} 塊（壓到湖或建築）")
@@ -771,6 +774,7 @@ def resolve_at(at):
 for ev in events_src["events"]:
     pos, did = resolve_at(ev["at"])
     entry = {**{k: v for k, v in ev.items() if k not in ("at", "to")}, "pos": pos, "district": did, "hub": D[did]["hub"]}
+    if "path" in ev: entry["path"] = [[round(x * S, 3), round(z * S, 3)] for x, z in ev["path"]]  # 來源的 path 是 1 倍地圖的世界座標
     if "to" in ev:
         tpos, tdid = resolve_at(ev["to"])
         entry.update({"toPos": tpos, "toDistrict": tdid, "toHub": D[tdid]["hub"]})
@@ -783,6 +787,7 @@ city = {
     "name": "台南市",
     "source": "g0v/twgeojson twTown1982.topo.json（CC0），內政部 1982 版鄉鎮市區界線；鄉鎮市改稱區，投影後往內縮留水道",
     "unitsPerKm": round(k, 4),
+    "scale": S,  # 地圖放大倍數：前端的距離常數乘 scale、面積乘 scale²、交通工具速度乘 scale
     "projection": {"lon_c": lon_c, "lat_c": lat_c, "km_x": km_x, "km_z": km_z, "k": k, "note": "x = (lon - lon_c) * km_x * k；z = -(lat - lat_c) * km_z * k"},
     "bounds": {"minX": round(min(allx), 2), "maxX": round(max(allx), 2), "minZ": round(min(allz), 2), "maxZ": round(max(allz), 2)},
     "districts": districts, "bridges": bridges, "coast": coast,

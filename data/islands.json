@@ -694,7 +694,7 @@
         "model": "nature",
         "plain": "官田的埤塘公園，有情人吊橋橫跨水面，也是水雉的棲息地。",
         "facts": [],
-        "geocoded": false
+        "geocoded": true
       }
     ]
   },
@@ -1277,7 +1277,7 @@
         "model": "nature",
         "plain": "南科園區內的人工湖，湖畔步道與大型藝術裝置是園區的休憩地標。",
         "facts": [],
-        "geocoded": false
+        "geocoded": true
       },
       {
         "id": "d1001120-4",
@@ -2111,7 +2111,7 @@
         "model": "fab",
         "plain": "可參觀的食品觀光工廠。",
         "facts": [],
-        "geocoded": false
+        "geocoded": true
       },
       {
         "id": "d1001127-2",

@@ -2,7 +2,7 @@
 // 只在 09:00–16:30 營運，其他時間停在起點車站並隱藏。資料來自 data/sugar.json，介面與 train.js 一致。
 import { TOP } from "./world.js";
 
-export function createSugarRail(THREE, scene, data, heightAt = () => 0) {
+export function createSugarRail(THREE, scene, data, heightAt = () => 0, MS = 1) { // MS：地圖放大倍數
   const box = new THREE.BoxGeometry(1, 1, 1), wheelGeo = new THREE.CylinderGeometry(0.5, 0.5, 1, 8);
   const railMat = new THREE.MeshStandardMaterial({ color: 0x8a5a3a, roughness: 0.7 }); // 鏽紅鐵軌
   const tieMat = new THREE.MeshStandardMaterial({ color: 0x6b5a48, roughness: 0.9 }); // 枕木
@@ -116,7 +116,7 @@ export function createSugarRail(THREE, scene, data, heightAt = () => 0) {
       if (!on) { tr.s = tr.stopS[0]; tr.stop = 0; tr.dir = 1; tr.wait = 2; } // 收班：回到起點車站停著
       else if (tr.wait > 0) tr.wait -= d;
       else {
-        tr.s += tr.dir * SPEED * Math.min(1.2, speedMul) * d;
+        tr.s += tr.dir * SPEED * MS * Math.min(1.2, speedMul) * d; // 地圖放大 S 倍，行駛時間不變
         const next = tr.stop + tr.dir, target = tr.stopS[next];
         if ((tr.dir > 0 && tr.s >= target) || (tr.dir < 0 && tr.s <= target)) {
           tr.s = target; tr.stop = next;

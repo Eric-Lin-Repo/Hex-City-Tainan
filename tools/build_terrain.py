@@ -16,14 +16,16 @@ GRID_PATH = os.path.join(HERE, "raw", "elevation_grid.json")
 CITY_PATH = os.path.join(ROOT, "data", "city.json")
 OUT_PATH = os.path.join(ROOT, "data", "terrain.json")
 
-SPACING = 0.9        # 高度場格距（世界單位）
-MARGIN = 1.8         # 高度場比城市 bounds 多留的邊
+S = json.load(open(CITY_PATH)).get("scale", 1.0)  # 地圖放大倍數（build_city.py 的 MAP_SCALE）
+H = S ** 0.5         # 山的高度只乘 √S（3 倍時約 1.73）：坡度不會太平，山也不會高到壓過建築
+SPACING = 0.45 * S   # 高度場格距（世界單位）；1 倍時 0.9，放大後格點比原始高程資料（約 1.1 公里）還密就夠了
+MARGIN = 1.8 * S     # 高度場比城市 bounds 多留的邊
 FLOOR_M = 40.0       # 這個高度以下視為平原
 SCALE_M = 750.0      # 曲線的分母（調小讓台南的淺山更明顯）
-CURVE_GAIN = 2.9     # 曲線的倍率
+CURVE_GAIN = 2.9 * H # 曲線的倍率
 CURVE_POW = 0.7      # 曲線的指數（<1：低山也看得見）
-MAX_H = 4.4          # 世界高度上限
-FEATHER = 1.45       # 輪廓邊界內的漸弱距離
+MAX_H = 4.4 * H      # 世界高度上限
+FEATHER = 1.45 * S   # 輪廓邊界內的漸弱距離
 CHUNK = 100          # Open-Meteo 每次最多 100 點
 UA = "hex-city-demo/1.0"
 
@@ -213,7 +215,7 @@ def main():
             heights.append(h)
             max_h = max(max_h, h)
 
-    out = {"x0": round(x0, 3), "z0": round(z0, 3), "dx": SPACING, "dz": SPACING, "nx": nx, "nz": nz, "maxH": max_h, "heights": heights}
+    out = {"x0": round(x0, 3), "z0": round(z0, 3), "dx": round(SPACING, 3), "dz": round(SPACING, 3), "nx": nx, "nz": nz, "maxH": max_h, "heights": heights}
     with open(OUT_PATH, "w") as f:
         json.dump(out, f, separators=(",", ":"))
     raised = sum(1 for h in heights if h > 0)

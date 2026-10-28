@@ -6,18 +6,18 @@
 // 站牌：相機拉近才顯示；點站牌看有哪些路線經過。路線、公車、站牌都用 InstancedMesh，支線全開也只多幾個 draw call。
 import { TOP } from "./world.js";
 
-const SPEED = 3.15;                         // 模擬行駛速度（單位／秒）
+const SPEED = 3.15;                         // 模擬行駛速度（1 倍地圖的單位／秒，實際再乘地圖倍數 scale）
 const STOP_WAIT = 1.2;                      // 模擬停站秒數
 const OPEN = 6 * 60, CLOSE = 22 * 60 + 30;  // 模擬營運時間
 const POLL_MS = 30000;                      // 即時資料輪詢間隔（Worker 端另有 BUS_TTL 快取）
 const LIVE_EASE = 28;                       // 即時：兩次更新之間花幾秒移到新位置
-const SNAP = 0.6;                           // 即時：GPS 離路線這麼近才貼到路線上（0.6–2 之間照 GPS 放，再遠就不畫）
+const SNAP = 0.6;                           // 即時：GPS 離路線這麼近才貼到路線上（0.6–2 之間照 GPS 放，再遠就不畫）；1 倍地圖的單位，實際乘 scale
 const SIDE = 0.045;                         // 往返程各往右偏移，兩條線並排
 const STOP_SHOW = 16;                       // 相機離焦點小於這個距離才畫站牌
 const MAX_BUSES = 1200;
 const DASH = { trunk: { w: 0.09, h: 0.024, len: 0.26, gap: 0.12 }, branch: { w: 0.055, h: 0.02, len: 0.2, gap: 0.16 }, variant: { w: 0.045, h: 0.02, len: 0.1, gap: 0.12 } };
 
-export function createBuses(THREE, scene, trunkData, { heightAt = () => 0, projection = null, loadBranches = null, onChange = () => {} } = {}) {
+export function createBuses(THREE, scene, trunkData, { heightAt = () => 0, projection = null, loadBranches = null, onChange = () => {}, scale: S = 1 } = {}) {
   const groundY = (x, z) => TOP + heightAt(x, z);
   const colors = trunkData?.colors ?? {};
   const routes = new Map(), stops = [];
@@ -127,7 +127,7 @@ export function createBuses(THREE, scene, trunkData, { heightAt = () => 0, proje
     for (const r of routes.values()) {
       if (!r.visible) continue;
       for (const p of r.mains) {
-        const n = r.trunk ? Math.max(2, Math.round(p.total / 9)) : p.total > 18 ? 2 : 1;
+        const n = r.trunk ? Math.max(2, Math.round(p.total / (9 * S))) : p.total > 18 * S ? 2 : 1; // 車距（時間）跟 1 倍地圖一樣
         for (let k = 0; k < n; k++) out.push({ key: `sim:${r.id}:${p.rel}:${k}`, route: r, pat: p, s: (p.total * (k + 0.35)) / n, wait: 0, live: null, visible: true });
       }
     }
@@ -176,13 +176,13 @@ export function createBuses(THREE, scene, trunkData, { heightAt = () => 0, proje
       const cands = r.patterns.filter((p) => p.dir === v.dir);
       let best = null;
       for (const p of cands.length ? cands : r.patterns) { const n = nearestOn(p, w.x, w.z); if (!best || n.d < best.d) best = { ...n, pat: p }; }
-      if (best && best.d > SNAP) for (const p of r.patterns) { const n = nearestOn(p, w.x, w.z); if (n.d < best.d) best = { ...n, pat: p }; } // 方向資料不準時試另一向
-      if (!best || best.d > 2) continue; // 離路線太遠（出了台南、在場站或資料錯）：只計數不畫
+      if (best && best.d > SNAP * S) for (const p of r.patterns) { const n = nearestOn(p, w.x, w.z); if (n.d < best.d) best = { ...n, pat: p }; } // 方向資料不準時試另一向
+      if (!best || best.d > 2 * S) continue; // 離路線太遠（出了台南、在場站或資料錯）：只計數不畫
       const key = `live:${v.plate}`, prev = old.get(key);
       const b = prev ?? { key, route: r, wait: 0, visible: true };
       b.live = v; b.route = r;
-      if (best && best.d <= SNAP) {
-        const same = prev && prev.pat === best.pat && !prev.free && best.s >= prev.s - 0.3 && best.s - prev.s < 6;
+      if (best && best.d <= SNAP * S) {
+        const same = prev && prev.pat === best.pat && !prev.free && best.s >= prev.s - 0.3 * S && best.s - prev.s < 6 * S;
         if (same) { b.target = best.s; b.rate = Math.max(0, best.s - prev.s) / LIVE_EASE; }
         else { b.pat = best.pat; b.s = best.s; b.target = best.s; b.rate = 0; }
         b.free = false;
@@ -241,7 +241,7 @@ export function createBuses(THREE, scene, trunkData, { heightAt = () => 0, proje
         if (!hide) {
           if (b.wait > 0) b.wait -= d;
           else {
-            b.s += SPEED * Math.min(1.2, speedMul) * d;
+            b.s += SPEED * S * Math.min(1.2, speedMul) * d;
             const st = b.pat.stops[b.next];
             if (st && b.s >= st.d) { b.s = st.d; b.wait = STOP_WAIT; b.next++; }
             else if (b.s >= b.pat.total) { b.pat = otherDirection(b); b.s = 0; b.next = nextStopIndex(b.pat, 0); b.wait = STOP_WAIT * 2; } // 終點：換返程

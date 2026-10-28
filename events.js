@@ -1,7 +1,7 @@
 // 民俗活動的動態效果：蜂炮（粒子）、燒王船（火焰與煙）、蜈蚣陣（繞廟前進的隊伍）、太祖夜祭（篝火與圍圈牽手舞）。
 import { TOP } from "./world.js";
 
-export function createEvents(THREE, scene, world, events, rnd) {
+export function createEvents(THREE, scene, world, events, rnd, S = 1) { // S：地圖放大倍數（遶境隊伍走得比較遠、龍舟水道比較長）
   const group = new THREE.Group();
   scene.add(group);
   const basic = (c, extra = {}) => new THREE.MeshBasicMaterial({ color: c, ...extra });
@@ -215,7 +215,7 @@ export function createEvents(THREE, scene, world, events, rnd) {
       if (!grp.visible) return;
       if (state.wait > 0) state.wait -= dt;
       else {
-        state.s += state.dir * 0.5 * Math.min(1.2, speedMul) * dt;
+        state.s += state.dir * 0.5 * Math.max(1, S / 2) * Math.min(1.2, speedMul) * dt; // 隊伍是走路，跟行人一樣只快 S/2 倍
         if (state.s >= total) { state.s = total; state.dir = -1; state.wait = 4; }
         if (state.s <= 0) { state.s = 0; state.dir = 1; state.wait = 4; }
       }
@@ -395,7 +395,7 @@ export function createEvents(THREE, scene, world, events, rnd) {
         mesh("box", std(0x5a3a2a), [side * 0.06, -0.02, 0], [0.12, 0.01, 0.02], o);
         oars.push(o);
       }
-      return { b, oars, lane: (k - 1) * 0.13, speed: 0.55 + k * 0.06, d: k * 0.2, dir: 1, wait: 0 };
+      return { b, oars, lane: (k - 1) * 0.13, speed: (0.55 + k * 0.06) * S, d: k * 0.2, dir: 1, wait: 0 }; // 水道長度 ×S，划完一趟的時間不變
     });
     let t = 0;
     updaters.push((dt, night, speedMul) => {

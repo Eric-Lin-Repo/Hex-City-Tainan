@@ -142,11 +142,11 @@ export function buildInfrastructure(THREE, scene, world, kit, D, buildModel) {
   }
 
   // 高鐵的上下行軌道是兩條幾乎重疊的折線，畫高架橋前先把重疊的線段剔除，避免兩片橋面閃爍
-  const drawnHsr = [];
+  const drawnHsr = [], S = D.city?.scale ?? 1;
   const isDupSeg = (a, b) => {
     const [mx, mz] = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
     for (const [p, q] of drawnHsr) {
-      if (segDist(mx, mz, p[0], p[1], q[0], q[1]) < 0.12 && segDist(a[0], a[1], p[0], p[1], q[0], q[1]) < 0.2 && segDist(b[0], b[1], p[0], p[1], q[0], q[1]) < 0.2) return true;
+      if (segDist(mx, mz, p[0], p[1], q[0], q[1]) < 0.12 * S && segDist(a[0], a[1], p[0], p[1], q[0], q[1]) < 0.2 * S && segDist(b[0], b[1], p[0], p[1], q[0], q[1]) < 0.2 * S) return true; // 上下行的間距是真實距離，跟著地圖倍數
     }
     drawnHsr.push([a, b]);
     return false;

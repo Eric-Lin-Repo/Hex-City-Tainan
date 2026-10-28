@@ -65,7 +65,7 @@ try {
   const zh = (o) => o?.name_zh || o?.name; // 地圖查詢用原文名稱
   // ── 畫質分級：high／med／low。手機、4 核以下或小螢幕從 med 起跳；?quality= 可強制；執行中 FPS 太低會再自動降一級 ──
   const lowEndDevice = /Mobi|Android/i.test(navigator.userAgent) || (navigator.hardwareConcurrency || 8) <= 4 || Math.min(screen.width, screen.height) < 800;
-  const QUALITY = { high: { ratio: 1.5, shadows: true, people: 500 }, med: { ratio: 1.15, shadows: true, people: 380 }, low: { ratio: 0.85, shadows: false, people: 260 } };
+  const QUALITY = { high: { ratio: 1.5, shadows: true, people: 750 }, med: { ratio: 1.15, shadows: true, people: 570 }, low: { ratio: 0.85, shadows: false, people: 390 } }; // 地圖放大 3 倍後行人加到 1.5 倍
   let quality = ["high", "med", "low"].includes(params.get("quality")) ? params.get("quality") : lowEndDevice ? "med" : "high";
   const D = { islands: islandData, flows: flowData, dayCycle: settings.dayCycle, settings: { ...settings, population: Math.min(settings.population ?? 500, QUALITY[quality].people) }, roles, city, rail, poi, events: eventData, water, ages: agesData, specialties: specData, specSeasons: seasonsData };
   const roleLabel = (r) => roles.roles[r]?.label || r;
@@ -96,7 +96,8 @@ try {
   stage.appendChild(labelRenderer.domElement);
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 500);
+  const S = city.scale ?? 1; // 地圖放大倍數（build_city.py 的 MAP_SCALE）：地圖上的距離乘 S，模型大小不變
+  const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 500 * S); // near 每幀依鏡頭距離調整（見 animate），拉遠時深度才夠精確
   const B = city.bounds, CX = (B.minX + B.maxX) / 2, CZ = (B.minZ + B.maxZ) / 2, EXT = Math.max(B.maxX - B.minX, B.maxZ - B.minZ);
   const HOME = { pos: new THREE.Vector3(CX, EXT * 1.0, CZ + EXT * 1.05), target: new THREE.Vector3(CX, 0.3, CZ + EXT * 0.05) };
   // 直式螢幕的水平視角比較窄，全景要依長寬比拉遠（以 1.2（1440×900 桌面）為基準，最多 2.4 倍）
@@ -114,26 +115,26 @@ try {
   const env = createEnvironment(THREE, scene);
   env.setExtent(EXT);
   const kit = createKit(THREE);
-  const terrain = createTerrain(THREE, scene, terrainData, TOP, { patches: badlandPatches(sceneryData, city.projection) }); // 地形先建，世界裡的東西才能放在坡面上；左鎮、龍崎的惡地改成青灰色
+  const terrain = createTerrain(THREE, scene, terrainData, TOP, { patches: badlandPatches(sceneryData, city.projection, S) }); // 地形先建，世界裡的東西才能放在坡面上；左鎮、龍崎的惡地改成青灰色
   D.heightAt = terrain.heightAt;
   const world = buildWorld(THREE, scene, D, kit, buildModel, tree);
   const infra = buildInfrastructure(THREE, scene, world, kit, D, buildModel); // 一定在 kit.build 之前
   world.stationsIn = infra.stationsIn; // people.js 透過 world 查車站
   const stats = kit.build(scene);
-  const fx = createEvents(THREE, scene, world, eventData.events, mulberry(2026)); // 先登記障礙物，行人才會避開
+  const fx = createEvents(THREE, scene, world, eventData.events, mulberry(2026), S); // 先登記障礙物，行人才會避開
   const eventsById = new Map(fx.events.map((e) => [e.id, e]));
   const people = createPeople(THREE, scene, D, world, CSS2DObject);
   const audio = createAudio();
-  const trains = createTrains(THREE, scene, infra.services, terrain.heightAt, audio.trainHorn);
+  const trains = createTrains(THREE, scene, infra.services, terrain.heightAt, audio.trainHorn, { speed: 4.4 * S }); // 地圖放大 S 倍，行駛時間不變
   // 高鐵：兩列 8 節對開，只停高鐵台南站，跑在高架橋面上；開出地圖就隱藏、折返時再出現
   const hsrService = { id: "hsr", name: "台灣高鐵", color: "#e58a3c", cars: 8, trains: 2, points: hsrData.points.map(([x, z]) => new THREE.Vector3(x, 0, z)), stops: hsrData.stops };
-  const hsr = createTrains(THREE, scene, [hsrService], terrain.heightAt, null, { style: "hsr", speed: 11, deckY: TOP + 0.45, bounds: city.bounds, carGap: 0.86, startStop: 1 });
+  const hsr = createTrains(THREE, scene, [hsrService], terrain.heightAt, null, { style: "hsr", speed: 11 * S, deckY: TOP + 0.45, bounds: city.bounds, carGap: 0.86, startStop: 1 });
   // 六色公車：幹線一開始就載入，支線在側欄打開該顏色時才載入；時鐘在「現在」時改用 TDX 即時位置（見 bus.js）
-  const buses = createBuses(THREE, scene, busData, { heightAt: terrain.heightAt, projection: city.projection, loadBranches: () => loadJson("./data/bus_branches.json"), onChange: () => busChanged() });
-  const trails = createTrails(THREE, scene, trailData, terrain.heightAt); // 山海圳綠道與自行車道的虛線＋騎士
+  const buses = createBuses(THREE, scene, busData, { heightAt: terrain.heightAt, projection: city.projection, loadBranches: () => loadJson("./data/bus_branches.json"), scale: S, onChange: () => busChanged() });
+  const trails = createTrails(THREE, scene, trailData, terrain.heightAt, S); // 山海圳綠道與自行車道的虛線＋騎士
   const trailsById = new Map(trailData.trails.map((tr) => [tr.id, tr]));
-  const sugar = createSugarRail(THREE, scene, sugarData, terrain.heightAt); // 烏樹林糖廠五分車：窄軌與一列觀光小火車
-  const heat = createHeatmap(THREE, scene, B, world.groundY); // 人流熱度圖（「熱度」開關）
+  const sugar = createSugarRail(THREE, scene, sugarData, terrain.heightAt, S); // 烏樹林糖廠五分車：窄軌與一列觀光小火車
+  const heat = createHeatmap(THREE, scene, B, world.groundY, S, 1.5); // 行人是 1 倍地圖的 1.5 倍 // 人流熱度圖（「熱度」開關）
   const fields = createFields(THREE, scene, city, cropsData, world.groundY); // 郊區田地，顏色隨作物產季與日期變化
   let treeReady = false; // renderTree 第一次畫完之後，水庫資料到了才重畫側欄（避免用到還沒宣告的變數）
   // 水庫 ↔ 建築／景點（reservoir.js 的 ANCHORS）：rsvAnchor 水庫名 → { type, id, merged }；rsvOf "building:<id>" → 水庫名
@@ -159,7 +160,7 @@ try {
   // 山海景觀（scenery.js）：雲海、惡地、溫泉煙、山頂、星空、果園、魚塭、潟湖、綠色隧道、曬麵、菱角田、乳牛。anchor 是附近的地標（用原文比對）
   const buildingIdOf = ([dn, bn]) => { const isl = D.islands.find((x) => (x.name_zh ?? x.name) === dn); return isl?.buildings.find((x) => (x.name_zh ?? x.name) === bn)?.id ?? null; };
   const sceneryAnchor = (a) => (!a ? null : a.poi ? (world.poiById.has(a.poi) ? { type: "poi", id: a.poi } : null) : (buildingIdOf(a.building) ? { type: "building", id: buildingIdOf(a.building) } : null));
-  const scenery = createScenery(THREE, scene, world, sceneryData, { projection: city.projection, quality,
+  const scenery = createScenery(THREE, scene, world, sceneryData, { projection: city.projection, quality, scale: S,
     anchorPos: (a) => { const k = sceneryAnchor(a); return !k ? null : k.type === "poi" ? world.poiById.get(k.id).pos : world.buildingPos.get(k.id); },
     fields: city.districts.flatMap((d) => d.fields || []), fieldsApi: fields, tracks: [...rail.lines.map((l) => l.points), hsrData.points], lakes: D.water.lakes, rivers: D.water.rivers || [], districts: city.districts.map((d) => ({ id: d.id, name: d.name, hub: d.hub, polygon: d.polygon })), loadBusBranches: () => loadJson("./data/bus_branches.json") });
   // 集章：37 區各一個代表地標，集滿放 10 秒煙火
@@ -177,15 +178,15 @@ try {
   document.addEventListener("click", (e) => { if (!gameMenu.hidden && !e.target.closest("#play-menu,#play-btn")) setGameMenu(false); });
   stamps.mount(gameMenu, $("#app"));
   // 農特產：點特產亮產地、「當季」開關、猜產地小遊戲
-  const specs = createSpecs({ THREE, scene, CSS2DObject, specData, seasons: seasonsData, centers: world.centers, groundY: world.groundY, t, esc });
+  const specs = createSpecs({ THREE, scene, CSS2DObject, specData, seasons: seasonsData, centers: world.centers, groundY: world.groundY, scale: S, t, esc });
   // 把一組區框進畫面：取中心點與最遠距離，從東南上方看過去
   function flyToDistricts(ids) {
     const cs = ids.map((id) => world.centers.get(id)).filter(Boolean);
     if (!cs.length) return;
     const c = cs.reduce((a, p) => a.add(p), new THREE.Vector3()).multiplyScalar(1 / cs.length);
-    const r = Math.max(4, ...cs.map((p) => Math.hypot(p.x - c.x, p.z - c.z)));
+    const r = Math.max(4 * S, ...cs.map((p) => Math.hypot(p.x - c.x, p.z - c.z)));
     c.y = world.groundY(c.x, c.z);
-    flyTo(c.clone().add(new THREE.Vector3(0, 5 + r * 1.5, 6 + r * 1.7)), c);
+    flyTo(c.clone().add(new THREE.Vector3(0, 5 * S + r * 1.5, 6 * S + r * 1.7)), c);
   }
   const quiz = createQuiz({ t, esc, specs, islands, toast: (m) => toast(m), onReveal: (key) => { specs.highlight(key); flyToDistricts(specs.districtsOf(key)); },
     onStart: () => { stamps.setOpen(false); select(null); flyTo(HOME.pos, HOME.target); }, onPerfect: () => celebrate(t("quiz.perfect", "全對！台南農產達人 🎆")) });
@@ -206,7 +207,7 @@ try {
     onFound: () => guide.say(t("guide.ming_found", "找到阿明了！他明天會換一區躲，記得回來。"), { force: true }) });
   ming.button(gameMenu);
   // 找獼猴：山區 10 群台灣獼猴，點到就收集
-  const monkeys = createMonkeys({ THREE, scene, world, data: sceneryData.monkeys, projection: city.projection, t, esc, islands, toast: (m) => toast(m),
+  const monkeys = createMonkeys({ THREE, scene, world, data: sceneryData.monkeys, projection: city.projection, scale: S, t, esc, islands, toast: (m) => toast(m),
     onComplete: () => celebrate(t("monkey.complete", "10 群台灣獼猴全部找到了！🎆")) });
   monkeys.button(gameMenu);
   // 拍照模式：收起介面，濾鏡＋相框＋浮水印，下載 PNG
@@ -235,7 +236,7 @@ try {
   const tripBtn = (type, id) => `<button class="chip act" data-trip-add="${esc(type)}:${esc(id)}">${esc(t("trip.add", "加入行程"))}</button>`;
   const talk = createTalk({ t, islands, specialties: specData, pois: world.pois, roles, adjacency: world.adjacency, rnd: mulberry(7), data: talkData }); // 市民對話：三句泡泡
   // 我的圖釘：圖釘卡片可存成自己的圖釘並寫一行筆記，存在瀏覽器，可用 ?pins= 分享
-  const myPins = createMyPins(THREE, scene, { groundY: world.groundY, toLonLat: world.toLonLat, districtAt: world.districtAt, onChange: () => renderTree($("#search").value) });
+  const myPins = createMyPins(THREE, scene, { groundY: world.groundY, toLonLat: world.toLonLat, districtAt: world.districtAt, scale: S, onChange: () => renderTree($("#search").value) });
   function selectedName() {
     if (!selected) return "";
     const u = selected;
@@ -253,7 +254,7 @@ try {
     setTimeout(() => { for (const id of ids) applyEvent(eventsById.get(id), calDate); }, 10000);
   } // 六座水庫的水面依蓄水率縮放（/api/reservoir，失敗用備援檔）
   const WEATHER_KEY = { 雷雨: "weather.thunder", 小雨: "weather.light_rain", 雨: "weather.rain", 雪: "weather.snow", 霧: "weather.fog", 陰: "weather.overcast", 多雲: "weather.cloudy", 晴: "weather.clear", 天氣資料暫時無法取得: "weather.unavailable" };
-  const weather = createWeather(THREE, scene, env, { bounds: B, onChange: (w) => people.setRain?.(w.rain), translate: (zh) => t(WEATHER_KEY[zh] || zh, zh) }); // 即時天氣：雲量壓暗陽光、下雨飄雨絲、行人撐傘
+  const weather = createWeather(THREE, scene, env, { bounds: B, scale: S, onChange: (w) => people.setRain?.(w.rain), translate: (zh) => t(WEATHER_KEY[zh] || zh, zh) }); // 即時天氣：雲量壓暗陽光、下雨飄雨絲、行人撐傘
   let activeKinds = []; // 目前可見的活動效果種類，給聲音層
   const stations = new Map(infra.stations.map((s) => [s.id, s]));
   window.hexcity = { look: (x, z, d = 3) => { const p = new THREE.Vector3(x, world.groundY(x, z), z); flyTo(p.clone().add(new THREE.Vector3(d * 0.4, d * 0.8, d)), p); }, minor: () => Object.fromEntries([...minorIds].map(([id, k]) => [buildings.get(id)?.name, +k.toFixed(2)])), select: (u) => select(u), walker: (i) => people.info(i), ming: () => ming, quality: () => quality, fps: () => fpsNow, trains, hsr, buses, trails, sugar, terrain, stations: infra.stations.map((s) => ({ id: s.id, x: +s.pos.x.toFixed(2), z: +s.pos.z.toFixed(2) })) }; // 除錯用
@@ -1071,7 +1072,7 @@ try {
     const q = new URLSearchParams(location.search);
     for (const k of ["sel", "t", "d", "day", "flows", "names", "labels", "events"]) q.delete(k);
     if (selected && selected.type !== "walker" && selected.type !== "bus") // 行人與公車每次載入都不一樣，不寫進網址
-      q.set("sel", selected.type === "spot" && Number.isFinite(selected.x) ? `spot:${selected.id}@${selected.x.toFixed(2)},${selected.z.toFixed(2)}` : `${selected.type}:${selected.id}`); // 圖釘要連座標一起記
+      q.set("sel", selected.type === "spot" && Number.isFinite(selected.x) ? `spot:${selected.id}@${(selected.x / S).toFixed(2)},${(selected.z / S).toFixed(2)}` : `${selected.type}:${selected.id}`); // 圖釘要連座標一起記
     q.set("d", fmtDate(calDate));
     q.set("t", String(Math.round(minute)));
     for (const k of ["flows", "names", "events", "labels"]) if (toggles[k] !== (k === "events" || k === "labels")) q.set(k, toggles[k] ? "1" : "0");
@@ -1220,7 +1221,7 @@ try {
   );
   $("#bird").addEventListener("click", () => {
     const tg = controls.target.clone();
-    flyTo(new THREE.Vector3(tg.x, Math.max(10, camera.position.distanceTo(tg) * 1.1), tg.z + 0.01), tg);
+    flyTo(new THREE.Vector3(tg.x, Math.max(10 * S, camera.position.distanceTo(tg) * 1.1), tg.z + 0.01), tg);
     toast(t("toast.bird", "俯瞰目前位置，拖曳可轉回"));
   });
   $("#home").addEventListener("click", () => {
@@ -1341,9 +1342,9 @@ try {
     try {
       const [type, ...rest] = params.get("sel").split(":");
       let u = { type, id: rest.join(":") };
-      if (type === "spot") { // spot:<區>@x,z；舊網址沒有座標就改開那一區
+      if (type === "spot") { // spot:<區>@x,z（1 倍地圖的座標，地圖放大前的連結也能用）；舊網址沒有座標就改開那一區
         const [id, xz] = u.id.split("@"), [x, z] = (xz || "").split(",").map(Number);
-        u = Number.isFinite(x) && Number.isFinite(z) ? { type, id, x, z } : { type: "island", id };
+        u = Number.isFinite(x) && Number.isFinite(z) ? { type, id, x: x * S, z: z * S } : { type: "island", id };
       }
       select(u, { silent: true });
     } catch (e) { console.warn("[hex-city] 網址的 sel 無法還原，略過", params.get("sel"), e); select(null, { silent: true }); }
@@ -1459,7 +1460,7 @@ try {
     if (labelAcc < 0.25) return;
     labelAcc = 0;
     const show = toggles.bnames && camDist < EXT * 0.45 && !ride;
-    const tg = controls.target, R = Math.min(14, camDist * 1.2), MAX = quality === "low" ? 20 : 40;
+    const tg = controls.target, R = Math.min(14 * S, camDist * 1.2), MAX = quality === "low" ? 20 : 40;
     const cand = [];
     for (const o of buildingLabels) {
       if (!show || (minorIds.get(o.element.dataset.building) ?? 1) < 0.5) { o.visible = false; continue; } // 還沒長出來的次要建築不顯示名牌
@@ -1554,7 +1555,7 @@ try {
       weather.update(dt);
       heat.update(people, dt);
     }
-    audio.update(dt, { night: nightNow, period: period?.label_zh ?? period?.label ?? null, activeEffects: activeKinds, cameraHeight: camera.position.y - TOP, paused: toggles.pause });
+    audio.update(dt, { night: nightNow, period: period?.label_zh ?? period?.label ?? null, activeEffects: activeKinds, cameraHeight: (camera.position.y - TOP) / S, paused: toggles.pause });
     if (yearPlaying && !toggles.pause) {
       yearAcc += dt;
       if (yearAcc >= 0.5) {
@@ -1598,6 +1599,9 @@ try {
     const lod = dist > EXT * 1.1 ? "lod-far" : dist > EXT * 0.45 ? "lod-mid" : "lod-near";
     if (lod !== currentLod) { labelRenderer.domElement.classList.remove("lod-far", "lod-mid", "lod-near"); labelRenderer.domElement.classList.add(lod); currentLod = lod; }
     controls.update();
+    env.follow(controls.target, dist); // 陰影範圍跟著鏡頭焦點與距離
+    const near = Math.min(2, Math.max(0.1, dist * 0.005)); // 拉遠時 near 放大，遠處的線和地面才不會互相閃爍
+    if (Math.abs(near - camera.near) > camera.near * 0.1) { camera.near = near; camera.updateProjectionMatrix(); }
     cullBuildingLabels(dt, dist);
     renderer.render(scene, camera);
     labelRenderer.render(scene, camera);

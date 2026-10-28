@@ -52,9 +52,12 @@ export function createEnvironment(THREE, scene) {
   sun.shadow.normalBias = 0.02;
   scene.add(sun, sun.target);
   scene.add(new THREE.AmbientLight(0xffffff, 0.15));
+  // 陰影跟著鏡頭焦點：只涵蓋看得到的範圍，拉近時陰影清楚、全景時涵蓋整張圖（地圖放大後固定一張陰影貼圖蓋全圖會糊）
+  const sunDir = new THREE.Vector3(0.6, 0.73, 0.33), focus = new THREE.Vector3();
+  let shadowHalf = 18, maxHalf = 64;
 
   const water = new THREE.Mesh(
-    new THREE.PlaneGeometry(240, 240),
+    new THREE.PlaneGeometry(1, 1), // 大小由 setExtent 依城市範圍設定
     new THREE.MeshStandardMaterial({ color: 0x79b3dc, roughness: 0.35, metalness: 0.05 }),
   );
   water.rotation.x = -Math.PI / 2;
@@ -124,18 +127,39 @@ export function createEnvironment(THREE, scene) {
     hemi.intensity = lerpN(A[5], B[5], t);
     const night = lerpN(A[6], B[6], t);
     const ang = ((min - sunrise) / (sunset - sunrise)) * Math.PI; // 日出 → 0，日落 → π
-    sun.position.set(Math.cos(ang) * 18, Math.max(Math.sin(ang), 0.25) * 22, 10);
+    sunDir.set(Math.cos(ang) * 18, Math.max(Math.sin(ang), 0.25) * 22, 10).normalize();
+    placeSun();
     applyWeather();
     return night;
   }
 
-  // 依城市大小調整陰影範圍；霧的距離依全景鏡頭的距離算，直向手機鏡頭拉得比桌機遠，才不會整座島都被霧蓋住
+  // 太陽放在焦點往太陽方向的遠處，陰影相機的方框以焦點為中心；焦點對齊陰影貼圖的格子，平移時陰影不會閃
+  function placeSun() {
+    const texel = (shadowHalf * 2) / sun.shadow.mapSize.x;
+    const fx = Math.round(focus.x / texel) * texel, fz = Math.round(focus.z / texel) * texel;
+    const dist = shadowHalf * 2 + 20;
+    sun.target.position.set(fx, 0, fz);
+    sun.position.set(fx + sunDir.x * dist, sunDir.y * dist, fz + sunDir.z * dist);
+    sc.far = dist + shadowHalf * 2;
+  }
+  // 每幀由 app 呼叫：陰影範圍約為鏡頭距離，最大到整座城市
+  function follow(target, camDist) {
+    focus.copy(target);
+    const half = Math.min(maxHalf, Math.max(14, camDist * 0.9));
+    if (Math.abs(half - shadowHalf) / shadowHalf > 0.05) {
+      shadowHalf = half;
+      sc.left = sc.bottom = -half; sc.right = sc.top = half;
+      sc.updateProjectionMatrix();
+    }
+    placeSun();
+  }
+
+  // 依城市大小調整陰影上限與海面；霧的距離依全景鏡頭的距離算，直向手機鏡頭拉得比桌機遠，才不會整座島都被霧蓋住
   function setExtent(size, viewDist = size * 1.45) {
-    sc.left = sc.bottom = -size * 0.75;
-    sc.right = sc.top = size * 0.75;
-    sc.updateProjectionMatrix();
+    maxHalf = size * 0.75;
+    water.scale.set(size * 2.8, size * 2.8, 1); // 1 倍地圖（EXT 86）時是 240×240
     scene.fog.near = viewDist * 0.9;
     scene.fog.far = viewDist * 2.35;
   }
-  return { setTime, setExtent, setDate, getDaylight, setWeather };
+  return { setTime, setExtent, setDate, getDaylight, setWeather, follow };
 }

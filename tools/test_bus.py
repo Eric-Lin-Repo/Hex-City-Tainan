@@ -59,10 +59,11 @@ class BusDataTest(unittest.TestCase):
                         self.assertIn(p["kind"], KINDS)
                         self.assertIn(p["dir"], (0, 1))
                         self.assertGreaterEqual(len(p["points"]), 2)
-                        m = 0.5  # 區界是簡化過的多邊形，路線可以貼著邊界外一點點（build_bus.py 的 LAND_TOL）
+                        S = self.city.get("scale", 1.0)  # 地圖放大倍數
+                        m = 0.5 * S  # 區界是簡化過的多邊形，路線可以貼著邊界外一點點（build_bus.py 的 LAND_TOL）
                         for x, z in p["points"]: self.assertTrue(b["minX"] - m <= x <= b["maxX"] + m and b["minZ"] - m <= z <= b["maxZ"] + m, f"({x}, {z}) 超出地圖")
                         longest = max(math.dist(a, c) for a, c in zip(p["points"], p["points"][1:]))
-                        self.assertLess(longest, 7, "有一段直線太長，可能是路段沒接好")
+                        self.assertLess(longest, 7 * S, "有一段直線太長，可能是路段沒接好")
                         length = sum(math.dist(a, c) for a, c in zip(p["points"], p["points"][1:]))
                         self.assertAlmostEqual(length, p["length"], delta=0.05)
 

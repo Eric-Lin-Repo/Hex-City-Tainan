@@ -8,12 +8,13 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 rail = json.load(open(os.path.join(ROOT, "data", "rail.json")))
 segs = [[tuple(p) for p in l["points"]] for l in rail["lines"] if l.get("kind") == "hsr" and len(l["points"]) > 1]
 dist = lambda a, b: math.hypot(a[0] - b[0], a[1] - b[1])
+S = json.load(open(os.path.join(ROOT, "data", "city.json"))).get("scale", 1.0)  # 地圖放大倍數，距離容差跟著乘
 
 start = min((s for s in segs), key=lambda s: min(s[0][1], s[-1][1]))
 path = list(start if start[0][1] < start[-1][1] else start[::-1])
 used = {id(start)}
 # 另一個方向的重複線段：中點離已走路徑很近就視為重複
-def near_path(p, tol=0.25):
+def near_path(p, tol=0.25 * S):
     return any(dist(p, q) < tol for q in path)
 while True:
     tail = path[-1]
@@ -22,18 +23,18 @@ while True:
         if id(s) in used: continue
         for cand in (s, s[::-1]):
             d = dist(tail, cand[0])
-            if d < 0.6 and (best is None or d < best[0]): best = (d, s, cand)
+            if d < 0.6 * S and (best is None or d < best[0]): best = (d, s, cand)
     if not best: break
     _, s, cand = best
     used.add(id(s))
     mid = cand[len(cand) // 2] if len(cand) > 2 else ((cand[0][0] + cand[-1][0]) / 2, (cand[0][1] + cand[-1][1]) / 2)
-    if near_path(mid) and cand[-1][1] <= tail[1] + 0.05: continue  # 往回走的重複線段
+    if near_path(mid) and cand[-1][1] <= tail[1] + 0.05 * S: continue  # 往回走的重複線段
     path.extend(cand[1:])
 
 # 加密
 dense = [path[0]]
 for a, b in zip(path, path[1:]):
-    n = max(1, int(dist(a, b) / 0.3))
+    n = max(1, int(dist(a, b) / (0.3 * S)))
     for k in range(1, n + 1):
         dense.append((a[0] + (b[0] - a[0]) * k / n, a[1] + (b[1] - a[1]) * k / n))
 st = next(s for s in rail["stations"] if s.get("kind") == "hsr")

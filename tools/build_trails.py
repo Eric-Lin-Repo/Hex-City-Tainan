@@ -8,7 +8,8 @@ city = json.load(open(os.path.join(ROOT, "data", "city.json"), encoding="utf-8")
 raw = json.load(open(os.path.join(here, "raw", "osm_trails.json"), encoding="utf-8"))
 P = city["projection"]; K = P["k"]
 polys = [d["polygon"] for d in city["districts"]]
-EPS, STEP = 0.04, 0.3  # Douglas–Peucker 容差、加密間距（世界單位）
+S = city.get("scale", 1.0)  # 地圖放大倍數
+EPS, STEP = 0.04 * S, 0.3 * S  # Douglas–Peucker 容差、加密間距（世界單位，跟著地圖放大）
 
 # 要輸出的路線：id、OSM 名稱比對字串、種類、顏色、一句介紹
 GREEN, TEAL = "#3a8f5a", "#2a8c8a"

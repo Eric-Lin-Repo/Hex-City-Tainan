@@ -14,9 +14,9 @@ MAIN = NAMES[0]
 LINE = {"id": "wushulin", "name": "烏樹林五分車", "color": "#c8472b",
         "desc": "烏樹林糖廠 1910 年代起的糖業鐵道，2001 年起以觀光五分車行駛。",
         "start": "烏樹林車站", "end": "新頂埤"}
-EPS, STEP, SNAP = 0.03, 0.15, 0.01  # 加密間距用 0.15（0.25 只剩 16 點，不到測試要求的 20 點）
-
 city = json.load(open(CITY, encoding="utf-8"))
+S = city.get("scale", 1.0)  # 地圖放大倍數
+EPS, STEP, SNAP = 0.03 * S, 0.15 * S, 0.01 * S  # 加密間距用 0.15（×S）（0.25 只剩 16 點，不到測試要求的 20 點）
 P = city["projection"]
 proj = lambda lon, lat: ((lon - P["lon_c"]) * P["km_x"] * P["k"], -(lat - P["lat_c"]) * P["km_z"] * P["k"])
 ways = [w for w in json.load(open(RAW, encoding="utf-8"))["elements"]
@@ -94,7 +94,7 @@ bi = next(i for i, b in enumerate(isl["buildings"]) if b["name"] == "烏樹林�
 slot = houbi["slots"][bi]
 d0 = math.hypot(pts[0][0] - slot[0], pts[0][1] - slot[1])
 print(f"way {len(ways)} 段，點 {len(pts)}，長度 {length:.2f} 單位（約 {length / city['projection']['k']:.2f} km），起點 {[round(v, 2) for v in pts[0]]} 離糖廠落點 {d0:.2f} 單位")
-if d0 > 1.5: print("WARN 起點離糖廠超過 1.5 單位")
+if d0 > 1.5 * S: print(f"WARN 起點離糖廠超過 {1.5 * S:g} 單位")
 
 line = {"id": LINE["id"], "name": LINE["name"], "district": houbi["id"], "color": LINE["color"], "desc": LINE["desc"],
         "points": [[round(x, 3), round(z, 3)] for x, z in pts],

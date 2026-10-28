@@ -2,11 +2,13 @@
 // createHeatmap(THREE, scene, bounds, groundY) → { setEnabled(on), update(people, dt), enabled }
 import { TOP } from "./world.js";
 
-const CELL = 2.0; // 格子邊長（世界單位）
+const CELL_1X = 2.0, HOT_1X = 6; // 1 倍地圖時的格子邊長（世界單位）與「最熱」人數
 const EVERY = 0.5; // 幾秒統計一次
 const SMOOTH = 0.35; // 色塊強度的平滑係數（越小越慢）
 
-export function createHeatmap(THREE, scene, bounds, groundY = () => TOP) {
+export function createHeatmap(THREE, scene, bounds, groundY = () => TOP, S = 1, peopleK = 1) {
+  // 地圖放大 S 倍：格子邊長 ×S（格數不變）；一格的面積 ×S²、全市行人 ×peopleK，所以一格的人數約 ×peopleK
+  const CELL = CELL_1X * S, HOT = HOT_1X * peopleK;
   const nx = Math.ceil((bounds.maxX - bounds.minX) / CELL), nz = Math.ceil((bounds.maxZ - bounds.minZ) / CELL);
   const n = nx * nz;
   const geo = new THREE.PlaneGeometry(CELL * 0.96, CELL * 0.96).rotateX(-Math.PI / 2);
@@ -40,7 +42,7 @@ export function createHeatmap(THREE, scene, bounds, groundY = () => TOP) {
       if (ix >= 0 && ix < nx && iz >= 0 && iz < nz) counts[iz * nx + ix]++;
     });
     for (let i = 0; i < n; i++) {
-      const target = Math.min(1, counts[i] / 6); // 6 人以上就是最熱
+      const target = Math.min(1, counts[i] / HOT); // HOT 人以上就是最熱
       level[i] += (target - level[i]) * SMOOTH;
       const v = level[i];
       const sc = v < 0.02 ? 0 : 0.6 + 0.4 * v;

@@ -1,7 +1,7 @@
 {
   "title": "HEX CITY 台南",
-  "population": 500,
-  "flowWalkersPerFlow": 6,
+  "population": 750,
+  "flowWalkersPerFlow": 9,
   "dayCycle": [
     {
       "from": 0,

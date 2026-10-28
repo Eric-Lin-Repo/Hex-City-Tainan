@@ -2,11 +2,11 @@
 import { TOP, mulberry } from "./world.js";
 
 const DASH = { w: 0.06, len: 0.24, gap: 0.12, h: 0.02 }; // 虛線小方塊：寬、長、間隔、高
-const RIDE = { from: 360, to: 1140, speed: 1.2 }; // 出現時段（分鐘）與基準速度（單位/秒）
+const RIDE = { from: 360, to: 1140, speed: 1.2 }; // 出現時段（分鐘）與基準速度（1 倍地圖的單位/秒；地圖放大 S 倍時騎士和行人一樣只快 S/2 倍，不然像在飆車）
 const SHIRTS = [0xdb6a41, 0x4a7fc1, 0xe8c547, 0x7a6fb5, 0xf4efe6, 0x3e7c8c];
 const SKIN = 0xf3d2b8;
 
-export function createTrails(THREE, scene, data, heightAt = () => 0) {
+export function createTrails(THREE, scene, data, heightAt = () => 0, S = 1) { // S：地圖放大倍數
   const rnd = mulberry(177);
   const groundY = (x, z) => TOP + heightAt(x, z);
   const pickables = [], riders = [];
@@ -82,15 +82,15 @@ export function createTrails(THREE, scene, data, heightAt = () => 0) {
       const cum = [0];
       for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
       return { pts, cum, total: cum[cum.length - 1] };
-    }).filter((s) => s.total > 0.5);
+    }).filter((s) => s.total > 0.5 * S);
     if (!segs.length) continue;
     const units = segs.reduce((a, s) => a + s.total, 0);
-    const n = tr.kind === "greenway" ? 5 : Math.min(5, Math.max(2, 2 + Math.floor(units / 20)));
+    const n = tr.kind === "greenway" ? 5 : Math.min(5, Math.max(2, 2 + Math.floor(units / (20 * S))));
     for (let k = 0; k < n; k++) {
       let pick = ((k + 0.5) / n) * units, seg = segs[0]; // 依長度比例落在哪一段
       for (const s of segs) { if (pick <= s.total) { seg = s; break; } pick -= s.total; }
       const { g, wheels } = makeRider();
-      riders.push({ trail: tr.id, seg, g, wheels, s: Math.min(seg.total, pick), dir: k % 2 ? -1 : 1, speed: RIDE.speed * (0.85 + rnd() * 0.3), spin: 0 });
+      riders.push({ trail: tr.id, seg, g, wheels, s: Math.min(seg.total, pick), dir: k % 2 ? -1 : 1, speed: RIDE.speed * Math.max(1, S / 2) * (0.85 + rnd() * 0.3), spin: 0 });
     }
   }
 
