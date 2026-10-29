@@ -4,9 +4,11 @@
 //   車：小客車、貨車、聯結車、客運沿鏈開，到端點挑下一條（大多留在主線，偶爾下匝道）；開出地圖或匝道盡頭就從入口重新進來。
 //       數量依時段（尖峰多、半夜少）與畫質；入夜亮車頭燈與尾燈。
 //   交流道：綠色路牌，拉近才顯示名稱。
+//   即時車速（traffic.js）：addSections 把高公局／TDX 的分向路段對上路段鏈，setSpeeds 依真實車速把路面染成綠黃橘紅、那一段的車跟著變慢。
 // createHighways(THREE, scene, data, { heightAt, CSS2DObject, scale, unitsPerKm, quality, lang, rnd })
-//   → { update(dt, speedMul, timeScale, minute), setNight, setVisible, setQuality, pick(hit), pickables, routeInfo(id), routeList(), carInfo(i), carPos(i), junctionPos(i), segments(), state() }
+//   → { update(dt, speedMul, timeScale, minute), setNight, addSections(list), setSpeeds(map|null), setVisible, setQuality, pick(hit), pickables, routeInfo(id), routeList(), carInfo(i), carPos(i), junctionPos(i), segments(), state() }
 import { TOP } from "./world.js";
+import { matchSections, speedColor } from "./traffic.js";
 
 const GROUND = 0.035, BRIDGE = 0.22, LAYER_STEP = 0.16, SLOPE = 0.1; // 路面離地高度、一層橋的高度、每多一層再加多少、坡道每單位升多少
 const WIDTH = { main: 0.26, link: 0.15 }; // 單向車道的路面寬（雙向兩條並排就是整條公路）
@@ -56,7 +58,7 @@ export function createHighways(THREE, scene, data, { heightAt = () => 0, CSS2DOb
 
   // ── 路面、標線、護欄、橋柱：各一個 InstancedMesh ──
   const m4 = new THREE.Matrix4(), q4 = new THREE.Quaternion(), e3 = new THREE.Euler(0, 0, 0, "YXZ"), v3 = new THREE.Vector3(), s3 = new THREE.Vector3();
-  const lists = { deck: [], line: [], dash: [], rail: [], pillar: [] }, deckChain = [];
+  const lists = { deck: [], line: [], dash: [], rail: [], pillar: [] }, deckChain = [], deckSeg = [];
   const put = (list, x, y, z, w, h, l, yaw, pitch = 0) => list.push([x, y, z, w, h, l, yaw, pitch]);
   for (const c of chains) {
     const W = c.link ? WIDTH.link : WIDTH.main;
@@ -67,7 +69,7 @@ export function createHighways(THREE, scene, data, { heightAt = () => 0, CSS2DOb
       if (h < 1e-4) continue;
       const yaw = Math.atan2(dx, dz), pitch = -Math.atan2(dy, h), L = Math.hypot(h, dy), mx = (a.x + b.x) / 2, mz = (a.z + b.z) / 2, my = (ya + yb) / 2;
       const nx = Math.cos(yaw), nz = -Math.sin(yaw); // 路面的橫向（往右）
-      put(lists.deck, mx, my, mz, W, 0.035, L + 0.05, yaw, pitch); deckChain.push(c.i);
+      put(lists.deck, mx, my, mz, W, 0.035, L + 0.05, yaw, pitch); deckChain.push(c.i); deckSeg.push(k);
       const bridge = a.layer > 0;
       if (!c.link) for (const sd of [-1, 1]) put(lists.line, mx + nx * sd * (W / 2 - 0.018), my + 0.019, mz + nz * sd * (W / 2 - 0.018), 0.01, 0.004, L + 0.04, yaw, pitch); // 白色邊線
       if (bridge) for (const sd of [-1, 1]) put(lists.rail, mx + nx * sd * (W / 2 - 0.005), my + 0.035, mz + nz * sd * (W / 2 - 0.005), 0.012, 0.04, L + 0.04, yaw, pitch); // 橋上護欄
@@ -92,8 +94,10 @@ export function createHighways(THREE, scene, data, { heightAt = () => 0, CSS2DOb
     root.add(im);
     return im;
   }
-  const deck = instanced(lists.deck, new THREE.MeshStandardMaterial({ color: 0x5f646b, roughness: 0.9 }), { shadow: true });
+  const DECK = 0x5f646b; // 路面灰；即時車速時混進路況顏色（instance 顏色乘材質白色）
+  const deck = instanced(lists.deck, new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9 }), { shadow: true });
   deck.userData = { type: "highway" };
+  { const g = new THREE.Color(DECK); for (let i = 0; i < lists.deck.length; i++) deck.setColorAt(i, g); }
   instanced(lists.line, new THREE.MeshBasicMaterial({ color: 0xf2f2ee }));
   instanced(lists.dash, new THREE.MeshBasicMaterial({ color: 0xf2f2ee }));
   instanced(lists.rail, new THREE.MeshStandardMaterial({ color: 0xc9c9c2, roughness: 0.7 }));
@@ -192,6 +196,33 @@ export function createHighways(THREE, scene, data, { heightAt = () => 0, CSS2DOb
   meshes.forEach((parts, ki) => parts.forEach((m) => (m.count = byKind.get(KINDS[ki].id))));
   heads.count = tails.count = N;
 
+  // ── 即時車速：sec 是全部路段（國道＋快速道路），chain.sec[k] 是第 k 小段對到的路段索引 ──
+  const sec = [];
+  let speeds = null; // Map 路段 id → [km/h, 壅塞等級]；null = 模擬
+  function addSections(list) {
+    const fresh = list.filter((s) => !sec.some((x) => x.id === s.id));
+    if (!fresh.length) return;
+    const base = sec.length;
+    sec.push(...fresh);
+    const m = matchSections(chains, fresh);
+    chains.forEach((c, i) => {
+      if (!m[i]) return;
+      c.sec ||= new Int16Array(m[i].length).fill(-1);
+      m[i].forEach((si, k) => { if (si >= 0 && c.sec[k] < 0) c.sec[k] = base + si; });
+    });
+    if (speeds) paint();
+  }
+  const liveSpeed = (c, k) => { const si = c.sec?.[k] ?? -1; return si >= 0 ? speeds?.get(sec[si].id)?.[0] : undefined; };
+  const gray = new THREE.Color(DECK), tint = new THREE.Color();
+  function paint() {
+    for (let i = 0; i < deckChain.length; i++) {
+      const v = speeds && liveSpeed(chains[deckChain[i]], deckSeg[i]);
+      deck.setColorAt(i, v ? tint.set(speedColor(v)).lerp(gray, 0.35) : gray);
+    }
+    deck.instanceColor.needsUpdate = true;
+  }
+  function setSpeeds(map) { speeds = map && map.size ? map : null; paint(); }
+
   let wantActive = 0;
   function update(dt, speedMul = 1, timeScale = 1, minute = 720) {
     if (!root.visible || !chains.length) return;
@@ -203,7 +234,8 @@ export function createHighways(THREE, scene, data, { heightAt = () => 0, CSS2DOb
       const on = car.i < wantActive;
       if (on !== car.active) { car.active = on; if (on) enter(car, false); else hide(car); }
       if (!on) continue;
-      advance(car, d * car.v * (car.chain.link ? 0.6 : 1));
+      const live = speeds && liveSpeed(car.chain, car.seg); // 即時車速：90 km/h 算原速，塞車的路段慢下來
+      advance(car, d * car.v * (car.chain.link ? 0.6 : 1) * (live ? Math.min(1.2, Math.max(0.12, live / 90)) : 1));
       place(car);
     }
     for (const parts of meshes) for (const m of parts) m.instanceMatrix.needsUpdate = true;
@@ -233,7 +265,13 @@ export function createHighways(THREE, scene, data, { heightAt = () => 0, CSS2DOb
     const cx = (x0 + x1) / 2, cz = (z0 + z1) / 2;
     return { ...r, label: nameOf(r), km, ns, junctions: js.map((j) => ({ i: j.i, name: lang === "en" ? j.en : lang === "ja" ? j.ja : j.name, km: j.km, district: j.district })),
       cars: cars.filter((c) => c.active && c.chain.route === id).length, center: new THREE.Vector3(cx, groundY(cx, cz), cz), radius: Math.max(x1 - x0, z1 - z0) / 2,
-      samples: mains.flatMap((c) => c.pts.filter((_, k) => k % 6 === 0)) };
+      samples: mains.flatMap((c) => c.pts.filter((_, k) => k % 6 === 0)), live: liveOf(id) };
+  }
+  // 這條路各路段的即時車速（依路段順序；沒有即時資料回 null）
+  function liveOf(id) {
+    if (!speeds) return null;
+    const list = sec.filter((s) => s.route === id && speeds.has(s.id)).map((s) => ({ id: s.id, name: s.name, dir: s.dir, speed: speeds.get(s.id)[0], level: speeds.get(s.id)[1] }));
+    return list.length ? list : null;
   }
   function carInfo(i) {
     const car = cars[+i];
@@ -246,6 +284,6 @@ export function createHighways(THREE, scene, data, { heightAt = () => 0, CSS2DOb
   const junctionPos = (i) => { const j = junctions[+i]; return j ? new THREE.Vector3(j.x, j.y, j.z) : null; };
   const segments = () => chains.map((c) => c.pts.map((p) => [p.x, p.z])); // 給景觀、行人避開用
   const state = () => ({ chains: chains.length, cars: cars.filter((c) => c.active).length, wantActive, maxActive, entries: entries.length });
-  return { update, setNight, setVisible, setQuality, pick, routeList, routeInfo, carInfo, carPos, junctionPos, segments, state,
+  return { update, setNight, setVisible, setQuality, addSections, setSpeeds, pick, routeList, routeInfo, carInfo, carPos, junctionPos, segments, state,
     get pickables() { return root.visible ? [deck, ...meshes.map((p) => p[0])] : []; } };
 }

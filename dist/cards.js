@@ -1,13 +1,14 @@
 // 卡片：各種被選取物件（區、建築、車站、活動、公車、國道、景觀、水庫、田、行人……）右側資訊卡的 HTML。
 // 只產生字串，不碰 DOM 與選取狀態；select()、圖釘模型與行人卡片的即時刷新留在 app.js。
-// createCards({ t, esc, sep, i18n, zh, city, world, infra, people, fx, fields, buses, scenery, monkeys, reservoirs, weather, talk, islands, buildings, pois, stations, flows, roles, mapLinks, agesData, sceneryData, rsvOf, POI_TYPE, flowsOf, roleLabel, specOf, specTags, lineOf, fmtRangeT, weekdayName, tripBtn, sceneryAnchor, buildingIdOf, now })
+// createCards({ traffic, youbike, rail, t, esc, sep, i18n, zh, city, world, infra, people, fx, fields, buses, scenery, monkeys, reservoirs, weather, talk, islands, buildings, pois, stations, flows, roles, mapLinks, agesData, sceneryData, rsvOf, POI_TYPE, flowsOf, roleLabel, specOf, specTags, lineOf, fmtRangeT, weekdayName, tripBtn, sceneryAnchor, buildingIdOf, now })
 //   now() → { calDate, minute }：app.js 的日期與時間比這裡晚宣告，產生卡片時才讀
 //   → { islandBtn, islandCard, buildingCard, pinCard, myPinCard, walkerStatus, stationCard, eventCard, routeName, busModeLine, busCard, highwayCard, carCard, busRouteCard, sceneryStatus, sceneryCard, monkeyCard, sceneryChips, busStopCard, busStatus, trailCard, sugarCard, reservoirCard, reservoirSection, fieldCard, poiCard, walkerCard }
 import * as THREE from "three";
 import { nextOccurrence, isActive, activeOccurrence, occurrencesIn, fmtDate } from "./calendar.js";
 import { levelClass } from "./reservoir.js";
+import { speedColor } from "./traffic.js";
 
-export function createCards({ t, esc, sep, i18n, zh, city, world, infra, people, fx, fields, buses, scenery, monkeys, reservoirs, weather, talk, islands, buildings, pois, stations, flows, roles, mapLinks, agesData, sceneryData, rsvOf, POI_TYPE, flowsOf, roleLabel, specOf, specTags, lineOf, fmtRangeT, weekdayName, tripBtn, sceneryAnchor, buildingIdOf, now }) {
+export function createCards({ t, esc, sep, i18n, zh, city, world, infra, people, fx, fields, buses, scenery, monkeys, reservoirs, weather, talk, islands, buildings, pois, stations, flows, roles, mapLinks, agesData, sceneryData, rsvOf, POI_TYPE, flowsOf, roleLabel, specOf, specTags, lineOf, fmtRangeT, weekdayName, tripBtn, sceneryAnchor, buildingIdOf, traffic, youbike, rail, now }) {
   const islandBtn = (id) => `<button class="chip" data-island="${id}" style="--c:${islands.get(id).color}">${esc(islands.get(id).name)}</button>`;
   const flowList = (list) =>
     list.length
@@ -90,7 +91,17 @@ export function createCards({ t, esc, sep, i18n, zh, city, world, infra, people,
     return `<div class="eyebrow">${esc(lineOf(s.id))}</div><h2>${esc(s.name)}<small>${esc(s.kind === "hsr" ? t("station.kind.hsr", "台鐵沙崙站與高鐵台南站") : s.kind === "major" ? t("station.kind.major", "特等站") : t("station.kind.rail", "台鐵車站"))}</small></h2>
       <dl class="meta"><dt>${esc(t("station.district", "所在區"))}</dt><dd>${islandBtn(s.district)}</dd><dt>${esc(t("station.neighbors", "相鄰站"))}</dt><dd>${s.neighbors.map((n) => stationBtn(n.id)).join(" ")}</dd></dl>
       <p>${tripBtn("station", s.id)} ${mapLink(zh(s) + (s.kind === "hsr" ? t("maplink.hsr_suffix", "站") : t("maplink.station_suffix", "車站")), s.district)}</p>
+      ${stationDepartures(s)}
       <p class="muted">${esc(t("station.note", "火車行駛後壁到沙崙的直通路線，每站停靠、到終點折返，深夜停駛。站點座標為近似值。"))}</p>`;
+  }
+  // 接下來的班次：時鐘在「現在」、而且拿到 TDX 班表時才列（含台鐵誤點）
+  const clock = (m) => { const x = ((Math.round(m) % 1440) + 1440) % 1440; return `${String(Math.floor(x / 60)).padStart(2, "0")}:${String(x % 60).padStart(2, "0")}`; };
+  function stationDepartures(s) {
+    if (rail.status().mode !== "live") return "";
+    const { minute } = now(), list = rail.upcoming(s.id, minute);
+    if (!list.length) return `<p class="muted">${esc(t("rail.none", "接下來沒有班次（或今日班表沒有這一站）。"))}</p>`;
+    return `<h3>${esc(t("rail.next", "接下來的班次"))}</h3><ul class="list">${list.map((x) => `<li><b>${esc(clock(x.time))}</b> ${esc(x.kind === "hsr" ? t("rail.hsr_train", "高鐵 {no}", { no: x.label }) : x.label)}<span>${esc(t("rail.to", "往{dest}", { dest: x.dest }))}${x.late ? ` · <em class="late">${esc(t("rail.late", "誤點 {n} 分", { n: x.late }))}</em>` : ""}</span></li>`).join("")}</ul>
+      <p class="muted">${esc(t("rail.src", "班表與台鐵誤點：交通部 TDX（台鐵、台灣高鐵）。時間已加上誤點；列車在站與站之間的位置依時刻表推算。"))}</p>`;
   }
   function eventCard(e) {
     const { calDate } = now();
@@ -132,7 +143,36 @@ export function createCards({ t, esc, sep, i18n, zh, city, world, infra, people,
         <dt>${esc(t("hw.cars", "地圖上"))}</dt><dd>${esc(t("hw.car_count", "{n} 台車（模擬）", { n: r.cars }))}</dd>
         <dt>${esc(t("hw.districts", "經過"))}</dt><dd>${esc(dists.join(sep))}</dd></dl>
       ${js ? `<h3>${esc(r.ns ? t("hw.junctions_ns", "交流道（由北到南）") : t("hw.junctions_we", "交流道（由西到東）"))}</h3><ol class="bus-stops">${js}</ol>` : ""}
-      <p class="muted">${esc(t("hw.note", "路線與交流道 © OpenStreetMap contributors（ODbL）。車流是依時段模擬的，不是即時路況；橋段依 OSM 標示架高。"))}</p>`;
+      ${highwayLive(r)}
+      <p class="muted">${esc(r.live ? t("hw.note_live", "路線與交流道 © OpenStreetMap contributors（ODbL）；橋段依 OSM 標示架高。路面顏色與車速依即時路況。") : t("hw.note", "路線與交流道 © OpenStreetMap contributors（ODbL）。車流是依時段模擬的，不是即時路況；橋段依 OSM 標示架高。"))}</p>`;
+  }
+  // 即時車速：時鐘在「現在」時依路段列出（南下／北上分開），路段名稱只留括號裡的起訖
+  const HW_DIR = { N: ["hw.dir.N", "北上"], S: ["hw.dir.S", "南下"], E: ["hw.dir.E", "東向"], W: ["hw.dir.W", "西向"] };
+  const hwReason = (code) => ({ "no-key": t("hw.reason.no_key", "尚未設定 TDX 金鑰"), quota: t("hw.reason.quota", "今日 TDX 額度已用完"), "no-data": t("hw.reason.no_data", "TDX 沒有這條路在台南的路段"), offline: t("hw.reason.offline", "連不上即時資料") }[code] ?? t("hw.reason.error", "即時資料暫時無法取得"));
+  const hhmm = (iso) => (iso ? new Date(iso).toLocaleTimeString(i18n.locale, { hour: "2-digit", minute: "2-digit", hour12: false }) : "—");
+  function highwayLive(r) {
+    const st = traffic.status(), express = r.id.startsWith("pr") || r.id === "ring", part = express ? st.express : st.freeway;
+    if (!r.live) return st.mode === "live" || st.reason !== "clock" ? `<p class="muted">${esc(t("hw.live_none", "這條路目前沒有即時車速（{why}），車流為模擬。", { why: r.id === "ring" ? t("hw.reason.no_source", "沒有公開的即時路況") : part?.ok ? t("hw.reason.no_match", "路段沒有資料") : hwReason(part?.code ?? st.reason) }))}</p>` : "";
+    const groups = new Map();
+    for (const x of r.live) { if (!groups.has(x.dir)) groups.set(x.dir, []); groups.get(x.dir).push(x); }
+    const short = (n) => (n.match(/\(([^)]*)\)/)?.[1] ?? n);
+    const src = express ? t("hw.src.tdx", "交通部 TDX（公路局）") : t("hw.src.nfb", "交通部高速公路局（經 TDX）");
+    return `<h3>${esc(t("hw.live_title", "即時車速"))}</h3>${[...groups].map(([dir, list]) => `<details${dir === [...groups.keys()][0] ? " open" : ""}><summary><b>${esc(HW_DIR[dir] ? t(...HW_DIR[dir]) : dir ?? "")}</b> <span class="muted">${esc(t("hw.live_avg", "平均 {v} km/h", { v: Math.round(list.reduce((a, x) => a + x.speed, 0) / list.length) }))}</span></summary>
+        <ul class="hw-live">${list.map((x) => `<li><i style="--c:#${speedColor(x.speed).toString(16).padStart(6, "0")}"></i>${esc(short(x.name))}<b>${esc(t("hw.kmh", "{v} km/h", { v: x.speed }))}</b></li>`).join("")}</ul></details>`).join("")}
+      <p class="muted">${esc(t("hw.live_src", "資料來源：{src}，{time} 更新", { src, time: hhmm(part?.asOf) }))}</p>`;
+  }
+  // YouBike 站：可借（含電輔車）、可還、車位數、營運狀態、資料時間與來源
+  function youbikeCard(i) {
+    const s = youbike.info(i);
+    if (!s) return `<p class='muted'>${esc(t("yb.not_found", "找不到這個 YouBike 站"))}</p>`;
+    const id = world.districtAt(s.x, s.z), st = youbike.status();
+    const state = s.status === 1 ? t("yb.status.on", "正常營運") : s.status === 2 ? t("yb.status.pause", "暫停營運") : t("yb.status.off", "停止營運");
+    const src = st.source === "tdx" ? t("yb.src.tdx", "交通部 TDX") : t("yb.src.youbike", "YouBike 官網（TDX 暫時無法使用）");
+    return `<div class="eyebrow">${esc(t("yb.eyebrow", "YouBike 2.0"))}</div><h2>${esc(s.name)}<small>${esc(state)}</small></h2>
+      <div class="stats"><div><b>${esc(s.rent ?? "—")}</b><span>${esc(t("yb.rent", "可借"))}${s.ebike ? esc(t("yb.ebike", "（電輔 {n}）", { n: s.ebike })) : ""}</span></div><div><b>${esc(s.ret ?? "—")}</b><span>${esc(t("yb.return", "可還"))}</span></div><div><b>${esc(s.cap ?? "—")}</b><span>${esc(t("yb.capacity", "車位"))}</span></div></div>
+      <dl class="meta">${id ? `<dt>${esc(t("poi.district", "所在區"))}</dt><dd>${islandBtn(id)}</dd>` : ""}<dt>${esc(t("yb.asof", "資料時間"))}</dt><dd>${esc(hhmm(st.asOf))}</dd></dl>
+      <p>${mapLinkAt(new THREE.Vector3(s.x, 0, s.z))}</p>
+      <p class="muted">${esc(t("yb.note", "資料來源：{src}，約 3 分鐘更新一次。柱頂顏色：綠＝車多、橘＝剩不到兩成、紅＝沒車、灰＝暫停。", { src }))}</p>`;
   }
   function carCard(c) {
     if (!c) return `<p class='muted'>${esc(t("hw.car_gone", "這台車已經開出地圖了"))}</p>`;
@@ -305,5 +345,5 @@ export function createCards({ t, esc, sep, i18n, zh, city, world, infra, people,
       <p class="muted">${esc(t("walker.path_note", "地面上的黑線是這個人目前的路線。"))}</p>`;
   }
 
-  return { islandBtn, islandCard, buildingCard, pinCard, myPinCard, walkerStatus, stationCard, eventCard, routeName, busModeLine, busCard, highwayCard, carCard, busRouteCard, sceneryStatus, sceneryCard, monkeyCard, sceneryChips, busStopCard, busStatus, trailCard, sugarCard, reservoirCard, reservoirSection, fieldCard, poiCard, walkerCard };
+  return { youbikeCard, islandBtn, islandCard, buildingCard, pinCard, myPinCard, walkerStatus, stationCard, eventCard, routeName, busModeLine, busCard, highwayCard, carCard, busRouteCard, sceneryStatus, sceneryCard, monkeyCard, sceneryChips, busStopCard, busStatus, trailCard, sugarCard, reservoirCard, reservoirSection, fieldCard, poiCard, walkerCard };
 }

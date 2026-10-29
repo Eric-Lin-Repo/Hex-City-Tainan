@@ -18,6 +18,9 @@ import { createCalendarPanel } from "./calendar-panel.js";
 import { createWeather } from "./weather.js";
 import { createBuses } from "./bus.js";
 import { createHighways } from "./highways.js";
+import { createTraffic } from "./traffic.js";
+import { createYoubike } from "./youbike.js";
+import { createRail } from "./rail.js";
 import { createTrails } from "./trails.js";
 import { createSugarRail } from "./sugar.js";
 import { createReservoirs, levelClass, ANCHORS } from "./reservoir.js";
@@ -40,6 +43,7 @@ import { createFood } from "./food.js";
 import { createCards } from "./cards.js";
 import { createTour } from "./tour.js";
 import { createLayers } from "./layers.js";
+import { createMarkets } from "./markets.js";
 
 const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
 const params = new URLSearchParams(location.search);
@@ -51,8 +55,8 @@ try {
       if (!r.ok) throw Error(`${url} ${r.status}`);
       return r.json();
     });
-  const [islandData, flowData, settings, roles, city, rail, poi, eventData, water, terrainData, mapLinks, toursData, busData, trailData, sugarData, agesData, cropsData, specData, stampsData, talkData, hsrData, seasonsData, foodData, sceneryData, hwData] = await Promise.all(
-    ["./data/islands.json", "./data/flows.json", "./data/settings.json", "./data/roles.json", "./data/city.json", "./data/rail.json", "./data/poi.json", "./data/events.json", "./data/water_mrt.json", "./data/terrain.json", "./data/maplinks.json", "./data/tours.json", "./data/bus.json", "./data/trails.json", "./data/sugar.json", "./data/ages.json", "./data/crops.json", "./data/specialties.json", "./data/stamps.json", "./data/talk.json", "./data/hsr.json", "./data/spec_seasons.json", "./data/food.json", "./data/scenery.json", "./data/highways.json"].map(loadJson),
+  const [islandData, flowData, settings, roles, city, rail, poi, eventData, water, terrainData, mapLinks, toursData, busData, trailData, sugarData, agesData, cropsData, specData, stampsData, talkData, hsrData, seasonsData, foodData, sceneryData, hwData, freewaySections] = await Promise.all(
+    ["./data/islands.json", "./data/flows.json", "./data/settings.json", "./data/roles.json", "./data/city.json", "./data/rail.json", "./data/poi.json", "./data/events.json", "./data/water_mrt.json", "./data/terrain.json", "./data/maplinks.json", "./data/tours.json", "./data/bus.json", "./data/trails.json", "./data/sugar.json", "./data/ages.json", "./data/crops.json", "./data/specialties.json", "./data/stamps.json", "./data/talk.json", "./data/hsr.json", "./data/spec_seasons.json", "./data/food.json", "./data/scenery.json", "./data/highways.json", "./data/freeway_sections.json"].map(loadJson),
   );
   // 多語言：翻譯直接覆蓋進資料，之後所有卡片與清單都不用改；原文留在 *_zh（Google 地圖查詢用）
   const i18n = await createI18n(detectLang(params), loadJson);
@@ -126,6 +130,7 @@ try {
   // 高鐵：兩列 8 節對開，只停高鐵台南站，跑在高架橋面上；開出地圖就隱藏、折返時再出現
   const hsrService = { id: "hsr", name: "台灣高鐵", color: "#e58a3c", cars: 8, trains: 2, points: hsrData.points.map(([x, z]) => new THREE.Vector3(x, 0, z)), stops: hsrData.stops };
   const hsr = createTrains(THREE, scene, [hsrService], terrain.heightAt, null, { style: "hsr", speed: 11 * S, deckY: TOP + 0.45, bounds: city.bounds, carGap: 0.86, startStop: 1 });
+  const railLive = createRail({ trains, hsr, stationIds: infra.services[0]?.stations || [], unitsPerKm: city.unitsPerKm }); // 時鐘在「現在」時台鐵、高鐵照真實班表跑（TDX）
   // 六色公車：幹線一開始就載入，支線在側欄打開該顏色時才載入；時鐘在「現在」時改用 TDX 即時位置（見 bus.js）
   const buses = createBuses(THREE, scene, busData, { heightAt: terrain.heightAt, projection: city.projection, loadBranches: () => loadJson("./data/bus_branches.json"), scale: S, onChange: () => busChanged() });
   const trails = createTrails(THREE, scene, trailData, terrain.heightAt, S); // 山海圳綠道與自行車道的虛線＋騎士
@@ -133,6 +138,8 @@ try {
   const sugar = createSugarRail(THREE, scene, sugarData, terrain.heightAt, S);
   // 高速公路與快速道路：路面依地形、橋段架高，車沿路段鏈開、偶爾上下匝道（highways.js）
   const highways = createHighways(THREE, scene, hwData, { heightAt: terrain.heightAt, CSS2DObject, scale: S, unitsPerKm: city.unitsPerKm, quality, lang: i18n.lang, rnd: mulberry(2028) });
+  const traffic = createTraffic({ highways, sections: freewaySections.sections, projection: city.projection }); // 時鐘在「現在」時國道依真實車速上色（高公局、TDX）
+  const youbike = createYoubike(THREE, scene, { projection: city.projection, groundY: (x, z) => TOP + terrain.heightAt(x, z), onChange: () => { if (!card.hidden && selected?.type === "youbike") cardContent.innerHTML = youbikeCard(selected.id); } }); // 拉近才畫 YouBike 站
   world.setRoads(highways.segments()); // 行人散步不停在公路上 // 烏樹林糖廠五分車：窄軌與一列觀光小火車
   const heat = createHeatmap(THREE, scene, B, world.groundY, S, 1.5); // 行人是 1 倍地圖的 1.5 倍 // 人流熱度圖（「熱度」開關）
   const fields = createFields(THREE, scene, city, cropsData, world.groundY); // 郊區田地，顏色隨作物產季與日期變化
@@ -210,6 +217,8 @@ try {
   const monkeys = createMonkeys({ THREE, scene, world, data: sceneryData.monkeys, projection: city.projection, scale: S, t, esc, islands, toast: (m) => toast(m),
     onComplete: () => celebrate(t("monkey.complete", "10 群台灣獼猴全部找到了！🎆")) });
   monkeys.button(gameMenu);
+  // 夜市與市場的動態（燈籠、招牌、煙、攤販、遮陽棚、機車）；分層的市場跟著建築一起長出來
+  const markets = createMarkets(THREE, scene, world, D.islands, { layerScale: (id) => { const k = layers.scaleOf(id); return k * k * (3 - 2 * k); } });
   // 拍照模式：收起介面，濾鏡＋相框＋浮水印，下載 PNG
   const photo = createPhoto({ t, esc, canvas: renderer.domElement, renderNow: () => renderer.render(scene, camera), toast: (m) => toast(m),
     placeName: () => { const tg = controls.target, id = world.districtAt(tg.x, tg.z); return selectedName() || (id ? islands.get(id)?.name : ""); },
@@ -460,7 +469,7 @@ try {
     const r = renderer.domElement.getBoundingClientRect();
     ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ndc, camera);
-    const hit = ray.intersectObjects([...(ming.visible ? ming.pickables : []), ...monkeys.pickables, ...scenery.pickables, ...people.pickables, ...fx.pickables, ...buses.pickables, ...highways.pickables, ...trails.pickables, ...sugar.pickables, ...reservoirs.pickables, ...fields.pickables, ...myPins.pickables(), ...world.pickables.filter((o) => !o.userData.hidden)], false)[0];
+    const hit = ray.intersectObjects([...(ming.visible ? ming.pickables : []), ...monkeys.pickables, ...scenery.pickables, ...people.pickables, ...fx.pickables, ...buses.pickables, ...youbike.pickables, ...highways.pickables, ...trails.pickables, ...sugar.pickables, ...reservoirs.pickables, ...fields.pickables, ...myPins.pickables(), ...world.pickables.filter((o) => !o.userData.hidden)], false)[0];
     if (!hit) select(null);
     else if (hit.object.userData.type === "ming") ming.found();
     else if (hit.object.userData.type === "walkerMesh") select(people.walkerAt(hit.object, hit.instanceId));
@@ -470,6 +479,7 @@ try {
     else if (hit.object.userData.type === "sugar") select({ ...hit.object.userData, id: hit.object.userData.line });
     else if (hit.object.userData.type === "reservoir") select({ ...hit.object.userData, id: hit.object.userData.name, x: hit.point.x, z: hit.point.z });
     else if (hit.object.userData.type === "bus" || hit.object.userData.type === "busstop") select(buses.pick(hit));
+    else if (hit.object.userData.type === "youbike") select(youbike.pick(hit));
     else if (hit.object.userData.type === "highway" || hit.object.userData.type === "car") select(highways.pick(hit)); // 路面與車都是 InstancedMesh
     else if (hit.object.userData.type === "monkey") { monkeys.found(hit.object.userData.id); select({ type: "monkey", id: hit.object.userData.id }); } // 公車與站牌是 InstancedMesh，用 instanceId 查回是哪一台／哪一站
     else select(hit.object.userData);
@@ -489,9 +499,9 @@ try {
   const card = $("#card"), cardContent = $("#card-content");
   let selected = null;
   // 各種卡片的 HTML 在 cards.js；calDate、minute 在後面才宣告，用 now() 延後讀
-  const { islandBtn, islandCard, buildingCard, pinCard, myPinCard, walkerStatus, stationCard, eventCard, routeName, busModeLine, busCard, highwayCard, carCard, busRouteCard, sceneryStatus, sceneryCard, monkeyCard, sceneryChips, busStopCard, busStatus, trailCard, sugarCard, reservoirCard, reservoirSection, fieldCard, poiCard, walkerCard } = createCards({
+  const { islandBtn, islandCard, buildingCard, pinCard, myPinCard, walkerStatus, stationCard, eventCard, routeName, busModeLine, busCard, highwayCard, carCard, busRouteCard, sceneryStatus, sceneryCard, monkeyCard, sceneryChips, busStopCard, busStatus, trailCard, sugarCard, reservoirCard, reservoirSection, fieldCard, poiCard, walkerCard, youbikeCard } = createCards({
     t, esc, sep, i18n, zh, city, world, infra, people, fx, fields, buses, scenery, monkeys, reservoirs, weather, talk, islands, buildings, pois, stations, flows, roles, mapLinks, agesData, sceneryData, rsvOf, POI_TYPE, flowsOf, roleLabel, specOf, specTags, lineOf, fmtRangeT, weekdayName, tripBtn, sceneryAnchor, buildingIdOf,
-    now: () => ({ calDate, minute }),
+    traffic, youbike, rail: railLive, now: () => ({ calDate, minute }),
   });
   let pin = null; // 圖釘：點地面任意處，顯示所在區與最近的地標
   function placePin(x, z) {
@@ -635,6 +645,10 @@ try {
       const p = buses.stopPos(u.id);
       if (p) flyTo(p.clone().add(new THREE.Vector3(0.5, 1.2, 1.6)), p.clone().setY(p.y + 0.15));
       cardContent.innerHTML = busStopCard(u.id);
+    } else if (u.type === "youbike") {
+      const p = youbike.pos(u.id);
+      if (p) flyTo(p.clone().add(new THREE.Vector3(0.5, 1.2, 1.6)), p.clone().setY(p.y + 0.15));
+      cardContent.innerHTML = youbikeCard(u.id);
     } else if (u.type === "trail") {
       const trail = trailsById.get(u.id);
       if (u.x != null) { const p = new THREE.Vector3(u.x, world.groundY(u.x, u.z) + 0.2, u.z); flyTo(p.clone().add(new THREE.Vector3(1.6, 2.6, 3.2)), p); }
@@ -1079,7 +1093,7 @@ try {
     const night = env.setTime(minute);
     nightNow = night;
     kit.setNight(night);
-    people.setNight(night);
+    people.setNight(night, minute); // 早上 06:00–13:00 散步的人會往市場走
     trains.setNight(night, minute);
     hsr.setNight(night, minute);
     buses.setNight(night, minute); // 06:00–22:30 以外收班
@@ -1224,8 +1238,8 @@ try {
     }
     if (!toggles.pause) {
       people.update(dt, period?.speed ?? 1, clockT.elapsedTime);
-      trains.update(dt, period?.speed ?? 1, playing ? TRAIN_PLAY_SCALE : 1);
-      hsr.update(dt, period?.speed ?? 1, playing ? TRAIN_PLAY_SCALE : 1);
+      trains.update(dt, period?.speed ?? 1, playing ? TRAIN_PLAY_SCALE : 1, minute); // minute：照真實班表跑時用
+      hsr.update(dt, period?.speed ?? 1, playing ? TRAIN_PLAY_SCALE : 1, minute);
       buses.update(dt, period?.speed ?? 1, playing ? TRAIN_PLAY_SCALE : 1);
       trails.update(dt, period?.speed ?? 1, playing ? TRAIN_PLAY_SCALE : 1);
       sugar.update(dt, period?.speed ?? 1, playing ? TRAIN_PLAY_SCALE : 1); // 播放一天時列車加速，一天內跑完全線
@@ -1244,12 +1258,13 @@ try {
       }
     }
     buses.setView(camera.position.distanceTo(controls.target)); // 拉近才顯示公車站牌
+    youbike.setView(camera.position.distanceTo(controls.target)); // YouBike 站也是
     if (layers.size) layers.update(dt, camera.position.distanceTo(controls.target), controls.target, selected?.type === "building" ? selected.id : null); // 分層的建築長出來／縮回
     if ((liveAcc += dt) > 1) { // 時鐘在「現在」（今天、沒在播放、跟真實時間差 10 分鐘內）時，公車改用 TDX 即時位置，時鐘也跟著走
       liveAcc = 0;
       const n = new Date(), nowMin = n.getHours() * 60 + n.getMinutes();
       const live = !playing && !tour.on && calDate.getTime() === todayUTC().getTime() && Math.abs(minute - nowMin) <= 10;
-      buses.setLive(live); clockLive = live;
+      buses.setLive(live); traffic.setLive(live); railLive.setLive(live); clockLive = live;
       if (live && Math.abs(minute - nowMin) >= 1) setMinute(nowMin);
     }
     animateCamera();
@@ -1260,6 +1275,7 @@ try {
     ming.update(dt, toggles.pause);
     scenery.update(toggles.pause ? 0 : dt, { minute, night: nightNow, month: calDate.getUTCMonth() + 1, weekday: calDate.getUTCDay(), dateKey: fmtDate(calDate), weather: weather.current(), live: clockLive, camera, target: controls.target, speedMul: period?.speed ?? 1 }); // 星空跟著相機，暫停時也要更新位置
     if (!toggles.pause) monkeys.update(dt, { minute });
+    markets.update(toggles.pause ? 0 : dt, { night: nightNow, minute, weather: weather.current() });
     guideTick(dt);
     tour.update();
     refreshWalkerCard(clockT.elapsedTime);

@@ -3,7 +3,9 @@ import { TOP } from "./world.js";
 
 // onDepart(train)：可選，火車離站開始行駛時呼叫一次（等待計數從 >0 跨到 ≤0）
 // opts：style "tra"（台鐵，預設）或 "hsr"（高鐵：白色流線車身、跑在高架橋面）；speed 速度；deckY 固定行駛高度（高架橋）；
-//       bounds 地圖範圍，超出就隱藏（高鐵開出台南後消失、折返時再出現）；carGap 車廂間距
+//       bounds 地圖範圍，超出就隱藏（高鐵開出台南後消失、折返時再出現）；carGap 車廂間距；pool 照真實班表跑時最多同時畫幾列
+// 照真實班表（rail.js，時鐘在「現在」時）：setSchedule([{ no, label, stops: [{ s, arr, dep }] }])，s 是沿第一條路線的距離、時間是當天分鐘數；
+//   update 的 minute 決定每列車在哪：在站內（arr～dep）停著，兩站之間依時間內插；第一站前、最後一站後不畫。setSchedule(null) 回到模擬。
 export function createTrains(THREE, scene, services, heightAt = () => 0, onDepart = null, opts = {}) {
   const style = opts.style || "tra", SPEED = opts.speed ?? 4.4, CAR_GAP = opts.carGap ?? 0.9, B = opts.bounds;
   const bodyMat = new THREE.MeshStandardMaterial({ color: 0xf4efe6, roughness: 0.6 });
@@ -68,6 +70,61 @@ export function createTrains(THREE, scene, services, heightAt = () => 0, onDepar
     }
   }
 
+  // ── 照真實班表跑：車廂另外準備一組（pool 列），模擬的列車先藏起來 ──
+  let sched = null;
+  const pool = [], poolN = opts.pool ?? 8, base = trains[0];
+  function ensurePool() {
+    if (pool.length || !base) return;
+    const sv = services[0], nCars = opts.poolCars ?? base.cars.length;
+    for (let k = 0; k < poolN; k++) {
+      const cars = [];
+      for (let i = 0; i < nCars; i++) { const car = makeCar(parseInt(sv.color.slice(1), 16), i === 0 ? -1 : i === nCars - 1 ? 1 : 0); car.visible = false; scene.add(car); cars.push(car); }
+      pool.push({ service: sv.id, pts: base.pts, cum: base.cum, total: base.total, stopS: base.stopS, cars, s: 0, dir: 1, stop: 0, wait: 0, speed: 0, no: null, label: "" });
+    }
+  }
+  function setSchedule(list) {
+    sched = list && list.length ? list : null;
+    if (sched) ensurePool();
+    for (const tr of trains) for (const car of tr.cars) car.visible = !sched;
+    if (!sched) for (const tr of pool) { tr.no = null; for (const car of tr.cars) car.visible = false; }
+  }
+  // 班表上這一刻的位置：沒在路線上回 null
+  function schedAt(e, m) {
+    const st = e.stops;
+    if (m < Math.min(st[0].arr, st[0].dep - 1) || m > st[st.length - 1].arr + 0.5) return null; // 第一站到站（或發車前 1 分鐘）出現、最後一站到站後半分鐘消失
+    for (let i = 0; i < st.length; i++) {
+      if (m <= st[i].dep) {
+        if (i === 0 || m >= st[i].arr) return { s: st[i].s, wait: true };
+        const a = st[i - 1], f = Math.min(1, Math.max(0, (m - a.dep) / (st[i].arr - a.dep || 1)));
+        return { s: a.s + (st[i].s - a.s) * f, wait: false, dir: Math.sign(st[i].s - a.s) || 1 };
+      }
+    }
+    return { s: st[st.length - 1].s, wait: true };
+  }
+  function updateSchedule(minute) {
+    const m = minute ?? 720, live = [];
+    for (const e of sched) {
+      const p = schedAt(e, m) ?? schedAt(e, m + 1440); // 跨午夜：前一天晚上發車的班次
+      if (p) live.push([e, p]);
+    }
+    const keep = new Map(pool.filter((tr) => tr.no).map((tr) => [tr.no, tr]));
+    const free = pool.filter((tr) => !live.some(([e]) => e.no === tr.no));
+    for (const tr of free) tr.no = null;
+    for (const [e, p] of live) {
+      const tr = keep.get(e.no) ?? free.shift();
+      if (!tr) break; // 同時在線上的超過 pool：多的不畫
+      if (tr.no !== e.no) { tr.no = e.no; tr.label = e.label ?? e.no; }
+      if (!p.wait) tr.dir = p.dir;
+      tr.wait = p.wait ? 1 : 0; tr.s = p.s;
+      tr.stop = tr.stopS.reduce((bi, s, i) => (Math.abs(s - p.s) < Math.abs(tr.stopS[bi] - p.s) ? i : bi), 0);
+    }
+    for (const tr of pool) {
+      const n = tr.cars.length;
+      if (!tr.no) { for (const car of tr.cars) car.visible = false; continue; }
+      tr.cars.forEach((car, i) => { placeAt(tr, tr.s + (i - (n - 1) / 2) * CAR_GAP * -tr.dir, car); if (tr.s < 0 || tr.s > tr.total) car.visible = false; else if (!B) car.visible = true; });
+    }
+  }
+
   const pos = new THREE.Vector3();
   // 沿折線距離 s 的位置與朝向
   function placeAt(train, s, obj) {
@@ -87,7 +144,8 @@ export function createTrains(THREE, scene, services, heightAt = () => 0, onDepar
   // 營運時段：有時鐘時 05:00–24:00 發車（台鐵末班車約午夜）；沒有時鐘時退回用夜色判斷
   const closed = () => (clockMinute != null ? clockMinute < 300 : night > 0.85);
   // timeScale：時間播放時把列車的時間也加速，讓一天（播放 16 秒）內能跑完全線所有站
-  function update(dt, speedMul = 1, timeScale = 1) {
+  function update(dt, speedMul = 1, timeScale = 1, minute = null) {
+    if (sched) return updateSchedule(minute);
     const d = dt * timeScale;
     for (const tr of trains) {
       if (tr.wait > 0) {
@@ -112,7 +170,9 @@ export function createTrains(THREE, scene, services, heightAt = () => 0, onDepar
   }
   function setNight(f, minute = null) { night = f; clockMinute = minute; }
   // 除錯用：每列車目前的位置與停靠站（stop 是停靠點序號）
-  const state = () => trains.map((tr) => ({ service: tr.service, s: +tr.s.toFixed(2), stop: tr.stop, dir: tr.dir, wait: +tr.wait.toFixed(2), x: +tr.cars[0].position.x.toFixed(2), z: +tr.cars[0].position.z.toFixed(2), visible: tr.cars[0].visible }));
+  const state = () => (sched ? pool.filter((tr) => tr.no) : trains).map((tr) => ({ service: tr.service, s: +tr.s.toFixed(2), stop: tr.stop, dir: tr.dir, wait: +tr.wait.toFixed(2), x: +tr.cars[0].position.x.toFixed(2), z: +tr.cars[0].position.z.toFixed(2), visible: tr.cars[0].visible, no: tr.no ?? null, label: tr.label ?? null }));
   update(0, 0);
-  return { update, setNight, state, count: trains.length };
+  // 第 i 條路線各停靠站的沿線距離（rail.js 把班表的車站換成 s 用）
+  const stopDistances = (i = 0) => trains.find((tr) => tr.service === services[i]?.id)?.stopS ?? [];
+  return { update, setNight, setSchedule, stopDistances, state, get count() { return sched ? pool.filter((tr) => tr.no).length : trains.length; }, get scheduled() { return !!sched; } };
 }

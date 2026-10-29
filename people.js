@@ -48,7 +48,7 @@ export function createPeople(THREE, scene, D, world, CSS2DObject) {
     for (const [id, n] of quota) for (let i = 0; i < n; i++) list.push(id);
     return list;
   }
-  let namesOn = false, night = 0;
+  let namesOn = false, night = 0, morning = false; // morning：06:00–13:00 市場開市，散步的人會往市場走
   const roles = D.roles?.roles || {};
   const surnames = D.roles?.surnames || ["陳"], given = D.roles?.given || ["小安"];
   const pick = (arr) => arr[Math.floor(rnd() * arr.length)];
@@ -165,10 +165,12 @@ export function createPeople(THREE, scene, D, world, CSS2DObject) {
       const pois = world.poisIn(w.at);
       const markets = pois.filter((p) => p.type === "nightmarket" && p.open);
       const sights = pois.filter((p) => p.type !== "nightmarket");
+      const shops = morning ? world.marketsIn(w.at) : [];
       const evs = world.eventsIn(w.at);
       const pickDest = () => {
         const r = rnd();
         if (evs.length && r < 0.4) return world.randomPointNear(w.at, evs[Math.floor(rnd() * evs.length)].pos, rnd);
+        if (shops.length && r < 0.5) return world.randomPointNear(w.at, shops[Math.floor(rnd() * shops.length)].pos, rnd);
         if (night > 0.4 && markets.length && r < 0.55) return world.randomPointNear(w.at, markets[Math.floor(rnd() * markets.length)].pos, rnd);
         if (night <= 0.4 && sights.length && r < 0.35) return world.randomPointNear(w.at, sights[Math.floor(rnd() * sights.length)].pos, rnd);
         if (sts.length && r < 0.6) return world.randomPointNear(w.at, sts[Math.floor(rnd() * sts.length)].pos, rnd);
@@ -351,7 +353,7 @@ export function createPeople(THREE, scene, D, world, CSS2DObject) {
     for (const w of walkers) w.visible = !(night > 0.6 && w.index % 3 !== 0); // 深夜只剩三分之一
   }
   function setNames(on) { namesOn = on; }
-  function setNight(f) { night = f; refreshVisibility(); }
+  function setNight(f, minute) { night = f; if (minute != null) morning = minute >= 360 && minute < 780; refreshVisibility(); }
   function setRain(on) { raining = !!on; } // 下雨時帶傘的人把傘撐開
 
   // 點選：從 InstancedMesh 的 instanceId 找回是哪個人

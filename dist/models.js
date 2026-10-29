@@ -401,7 +401,7 @@ export function buildModel(kit, kind, o, s, accentHex, ry = 0) {
       plant(0.55, 0.4, 0.3);
       return;
     }
-    // ── 夜市 ──
+    // ── 夜市 ──（燈籠串與攤位招牌會動，由 markets.js 畫在同樣的位置）
     case "nightmarket": {
       box([0, 0.02, 0], [1.6, 0.04, 1.0], 0xb0a596);
       for (let i = 0; i < 4; i++) {
@@ -409,9 +409,7 @@ export function buildModel(kit, kind, o, s, accentHex, ry = 0) {
         for (const z of [-0.3, 0.3]) {
           box([x, 0.14, z], [0.3, 0.26, 0.26], C.wood); // 攤位
           hip([x, 0.36, z], [0.36, 0.14, 0.32], [C.coral, C.yellow, 0x3f9a6b, 0x4a7fc1][i]); // 帆布頂
-          glow([x, 0.28, z + (z < 0 ? 0.16 : -0.16)], [0.24, 0.08, 0.01], C.window); // 招牌
         }
-        p("glowsphere", [x, 0.56, 0], [0.09, 0.11, 0.09], 0xff6b3d); // 燈籠串
       }
       box([0, 0.52, 0], [1.5, 0.015, 0.015], C.ink);
       for (const x of [-0.75, 0.75]) post(x, 0, 0.55, C.ink, 0.015);

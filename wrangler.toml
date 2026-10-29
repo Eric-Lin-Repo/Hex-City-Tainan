@@ -14,6 +14,11 @@ routes = [
 [vars]
 BUS_TTL = "60"
 
+# TDX 每日呼叫計數（免費方案每月約 4,500 次，公車、YouBike、台鐵、快速道路共用；邊緣快取是每個機房各一份，計數要放 KV 才會全域共用）
+[[kv_namespaces]]
+binding = "HEXCITY_QUOTA"
+id = "98efd6bf6bd542b89ea545959a0cf95a"
+
 [assets]
 directory = "./dist"
 binding = "ASSETS"

@@ -15,8 +15,8 @@ python3 -I tools/serve.py 8787   # 不快取的開發伺服器；也可以用 py
 改了 `tools/` 裡的來源資料或產生器後，一次重建 `data/` 並跑全部測試：
 
 ```bash
-bash tools/rebuild_all.sh          # 依序 build_city → build_hsr → build_terrain → build_bus → build_trails → build_sugar
-bash tools/rebuild_all.sh --test   # 重建後再跑 10 支 Python 測試、test_worker_bus.mjs 與全部 *.js 的 node --check
+bash tools/rebuild_all.sh          # 依序 build_city → build_hsr → build_terrain → build_bus → build_trails → build_sugar → build_traffic
+bash tools/rebuild_all.sh --test   # 重建後再跑 10 支 Python 測試、tools/test_*.mjs（Worker 與前端模組）與全部 *.js 的 node --check
 ```
 
 任何一步失敗就停下並印出是哪一步。
@@ -37,6 +37,10 @@ bash tools/rebuild_all.sh --test   # 重建後再跑 10 支 Python 測試、test
 | `app.js` | 主控：渲染器、相機、點選與 `select()`、側欄、時間控制、主迴圈。 |
 | `cards.js` | 右側資訊卡的 HTML（區、建築、車站、活動、公車、國道、景觀、水庫、田、行人……），`createCards({...})` 只產生字串，不碰 DOM。 |
 | `tour.js` | 主題導覽：依 `data/tours.json` 依序飛到各點、切時段、字幕與進度條，`createTour({...})`。 |
+| `markets.js` | 夜市與市場的動態（燈籠、霓虹招牌、烤攤的煙、攤販、遮陽棚、機車與推車），`createMarkets(...)`。 |
+| `traffic.js` | 國道與快速道路即時車速：路段對上路段鏈（`matchSections`）、時鐘在「現在」時每 60 秒問 `/api/freeway`。 |
+| `youbike.js` | YouBike 2.0 站點（拉近才畫，柱頂顏色代表可借車多寡），每 3 分鐘問 `/api/youbike`。 |
+| `rail.js` | 台鐵、高鐵照真實班表跑：`/api/rail` 的時刻表與台鐵誤點換成沿線距離＋時刻，交給 `train.js` 的 `setSchedule`。 |
 | `layers.js` | 分層建築（老街、小廟、市場）拉近才長出來、拉遠縮回，`createLayers({...})`。 |
 | `world.js` | 行政區輪廓擠出成島、橋、鄰接圖與路線、區內空地判斷。 |
 | `models.js` | 21 種程序化建築模型，每種是一段「擺積木」的程式。 |
@@ -309,6 +313,34 @@ python3 -I tools/build_city.py <twTown1982.topo.json> data
 - **分層顯示**（`layers.js`）：鏡頭離焦點 12×S 以內、而且建築在焦點附近時從地面長出來（點選一區就看得到）；從側欄、搜尋選取時直接長出來；還沒長出來的不能點、不顯示名牌。區卡片依「建築／老街・廟・市場」分組。`settings.json` 的 `minorBuildings` 名單也一樣分層顯示。
 - **模型**：老街、市場沿用 `oldstreet`、`market`；廟除了 `temple` 另有 `smalltemple`（單殿小廟）、`buddhist`（佛寺）。
 - 測試：`test_build.py` 的 `test_layers`（層級、府城五區、數量 32、示意標記）。卡片上「待查證」的項目照實寫出（例如東菜市設立年、開基天后宮古蹟等級、府中街舊名）。
+
+## 夜市與市場的動態（2026-10）
+
+`markets.js` 把會動的零件疊在 `models.js` 的 `nightmarket`／`market` 模型上，座標用模型的局部座標（`world.rotOf`／`world.scaleOf` 取朝向與比例，跟 `buildModel` 一樣先縮放、繞 y 轉、再平移），全部零件合併成 6 個 InstancedMesh，約 400 個。
+
+- **夜市**（6 座）：今天有營業（`world.setToday`）而且天黑（night > 0.4）才動——燈籠串掛在電線下擺盪、微微閃爍；8 塊攤位招牌像跑馬燈輪流亮、換色；3 攤烤攤冒煙（下雨少一半）；每攤後面一個攤販在忙。公休或白天燈籠、招牌照原本的亮度（公休變暗），沒有攤販與煙。夜市模型因此拿掉了燈籠與招牌零件（32 → 20 個）。
+- **市場**（所有 `market` 模型，13 棟）：06:00–13:00 開市——攤販叫賣、轉身，門口一台機車、一台推車來回；攤位前的帆布遮陽棚隨風擺，風速取自 `weather.js` 的 `wind`（Open-Meteo `wind_speed_10m`），下雨擺得大。收攤後遮陽棚只隨風輕擺，機車、推車停在門口。
+- **人潮**：`people.setNight(night, minute)` 在 06:00–13:00 讓散步的人有一半機率往所在區的市場走（`world.marketsIn`），晚上照舊往有營業的夜市走。
+- 拉近才出現的分層市場（東菜市、水仙宮市場等），動態零件跟著 `layers.js` 的縮放一起長出來、縮回去。
+
+## 即時交通（2026-10，數位台南第一批）
+
+時鐘在「現在」（側欄「📡 看現在」）時，下面幾項改用真實資料；抓不到就照原本的模擬跑，卡片會寫原因。
+
+| 項目 | 資料來源 | Worker | 更新 |
+|---|---|---|---|
+| 國道 1、3、8 號車速 | TDX 的高公局路段即時路況，只抓台南 56 段。高公局「交通資料庫」的 `LiveTraffic.xml` 免金鑰，但擋 Cloudflare 的連線（2026-10-29 線上實測 522），所以走 TDX | `/api/freeway` | 30 分鐘 |
+| 台 61、84、86 車速 | TDX 公路局省道路段（路段清單＋線形一天一次，`/api/expressway-sections`） | `/api/freeway` 的 `express` | 30 分鐘 |
+| YouBike 2.0（台南 793 站） | TDX；失敗時改用 YouBike 官網前端的 feed（非正式 API，只當備援；2026-10-29 線上實測官網擋 Cloudflare 回 403，實際上只有 TDX 能用） | `/api/youbike` | 3 分鐘 |
+| 台鐵、高鐵班表＋台鐵誤點 | TDX（台鐵起迄站時刻表 6 段、高鐵整天時刻表；台鐵 `TrainLiveBoard`） | `/api/rail` | 班表一天、誤點 5 分鐘 |
+
+- **國道**：`tools/build_traffic.py` 把 `tools/raw/freeway_Section.xml`、`freeway_SectionShape.xml`（高公局，每天更新）轉成 `data/freeway_sections.json`（台南 56 個分向路段，LINESTRING 點序就是行車方向）。`traffic.js` 的 `matchSections` 逐段找最近、方向相同的路段（國 1、3、8 主線 100% 對到，`tools/test_traffic.mjs`）；`highways.js` 的 `setSpeeds` 把路面染成綠（80 以上）、黃、橘、紅（40 以下），車速依 km/h ÷ 90 調整。國道卡片依南下／北上列各路段車速。北外環沒有公開的即時路況，維持模擬。
+- **YouBike**：拉近（鏡頭離焦點 16 以內）才畫、第一次拉近才抓資料；卡片顯示可借（含電輔車）、可還、車位、營運狀態與資料時間。
+- **台鐵**：起迄站時刻表（嘉義↔臺南、臺南↔高雄、臺南↔沙崙，含途經站）依車次合併，只留台南 17 站（`rail.js` 的 `TRA_CODE` 是臺鐵官方站碼）；誤點分鐘整班往後延，站與站之間依時刻表內插。台南境內起訖、不經過嘉義或高雄的區間車會漏掉。車站卡片列接下來 5 班（沙崙站一併列高鐵）。
+- **高鐵**：TDX 沒有即時位置與誤點，只用台南站的到離站時間，進出台南以每分鐘 4 公里往前後推；不停台南的直達車不畫。
+- **為什麼台鐵分段抓**：免費 Worker 每次約 10 ms CPU，全國整天的時刻表（好幾 MB）解析不完。
+- **TDX 額度**：免費方案每月約 4,500 次，所有用途共用。`worker.js` 的 `TDX_DAILY` 定每天上限（公車 33、YouBike 31、台鐵 31、高鐵 1、國道 24、快速道路 17，合計 137 ≈ 每月 4,100），計數存 Workers KV（`HEXCITY_QUOTA`，`wrangler.toml`），因為邊緣快取是每個機房各一份。超過上限就回 `code: "quota"`，前端退回模擬、卡片寫「今日 TDX 額度已用完」。另外 TDX 每把金鑰**每分鐘只能 5 次**（2026-10-29 剛設好金鑰時同時抓 6 段台鐵時刻表就被 429）：`tdxMinute` 把全部用途合計限制在每分鐘 4 次，超過回 `code: "busy"`（只快取 1 分鐘）；被 TDX 擋下（429、403、5xx）的那次退回當天額度；token 存 KV 全部機房共用；台鐵 6 段時刻表各自快取一天，一次請求最多補抓 2 段。
+- 測試：`tools/test_worker_{quota,freeway,youbike,rail}.mjs`（假 fetch，不連網）、`tools/test_traffic.mjs`、`tools/test_rail.mjs`、`tools/test_train_schedule.mjs`。本機要連 Worker 測可用 `npx wrangler dev --compatibility-date=2026-05-03 --persist-to <暫存資料夾>`（本機沒有 TDX 金鑰，所有即時資料都會回 no-key、照模擬跑）。TDX 金鑰用 `npx wrangler secret put TDX_CLIENT_ID`／`TDX_CLIENT_SECRET` 設在 Cloudflare 上。
 
 ## 部署（Cloudflare Workers 靜態資產 + Worker）
 

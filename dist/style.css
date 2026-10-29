@@ -478,3 +478,9 @@ body.touring .guide { display: none; }
 /* 找獼猴面板：各區還剩幾群 */
 .monkey-list { list-style: none; margin: 6px 0; padding: 0; display: grid; gap: 4px; font-size: 13px; }
 .monkey-list b { display: inline-block; min-width: 4.5em; padding-left: 6px; border-left: 4px solid var(--c); }
+/* 國道卡片的即時車速：每段一個色點（綠黃橘紅同路面） */
+.hw-live { list-style: none; margin: 4px 0 8px; padding: 0; font-size: 12px; columns: 2; column-gap: 12px; }
+.hw-live li { break-inside: avoid; position: relative; padding-left: 14px; display: flex; justify-content: space-between; gap: 6px; }
+.hw-live li i { position: absolute; left: 0; top: 5px; width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.hw-live b { font-weight: 600; white-space: nowrap; }
+@media (max-width: 800px) { .hw-live { columns: 1; } }

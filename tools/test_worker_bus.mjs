@@ -78,10 +78,10 @@ store.clear(); calls.length = 0; tokenN = 0; a1Status = 401;
 r = await (await worker.fetch(req("/api/bus"), env, ctx)).json();
 assert.equal(r.ok, true); assert.equal(tokenN, 2);
 
-// 6. 額度用完（429）：ok:false、code quota
+// 6. 頻率限制（429）：ok:false、code busy（只快取 1 分鐘）
 store.clear(); a1Status = 429;
 r = await (await worker.fetch(req("/api/bus"), env, ctx)).json();
-assert.equal(r.ok, false); assert.equal(r.code, "quota");
+assert.equal(r.ok, false); assert.equal(r.code, "busy");
 
 // 7. /api/reservoir 與靜態資產路由不受影響
 const assets = { fetch: async () => new Response("asset") };
