@@ -276,6 +276,27 @@ export function buildWorld(THREE, scene, D, kit, buildModel, tree) {
     return pts;
   }
 
+  // 公路（highways.js 建好後由 app 呼叫 setRoads）：用格子索引查，行人散步不停在公路上
+  const ROAD_CELL = 4, roadGrid = new Map();
+  function setRoads(lines) {
+    roadGrid.clear();
+    for (const pts of lines) for (let i = 0; i < pts.length - 1; i++) {
+      const [ax, az] = pts[i], [bx, bz] = pts[i + 1];
+      for (let gx = Math.floor(Math.min(ax, bx) / ROAD_CELL); gx <= Math.floor(Math.max(ax, bx) / ROAD_CELL); gx++)
+        for (let gz = Math.floor(Math.min(az, bz) / ROAD_CELL); gz <= Math.floor(Math.max(az, bz) / ROAD_CELL); gz++) {
+          const key = gx + "," + gz; if (!roadGrid.has(key)) roadGrid.set(key, []); roadGrid.get(key).push([ax, az, bx, bz]);
+        }
+    }
+  }
+  function nearRoad(x, z, m = 0.3) {
+    const gx0 = Math.floor(x / ROAD_CELL), gz0 = Math.floor(z / ROAD_CELL);
+    for (let gx = gx0 - 1; gx <= gx0 + 1; gx++) for (let gz = gz0 - 1; gz <= gz0 + 1; gz++) // 鄰格也查：線段可能剛好在格子邊外
+      for (const [ax, az, bx, bz] of roadGrid.get(gx + "," + gz) || []) {
+        const dx = bx - ax, dz = bz - az, L2 = dx * dx + dz * dz, t = L2 ? Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / L2)) : 0;
+        if (Math.hypot(ax + dx * t - x, az + dz * t - z) < m) return true;
+      }
+    return false;
+  }
   // 每區的田 [x, z, 寬, 深, 旋轉]（行人與景觀都不走、不放在田上）
   const fieldsOf = new Map(T.districts.map((d) => [d.id, d.fields || []]));
   const inField = (id, x, z, m = 0.1) => fieldsOf.get(id).some(([fx, fz, w, d, ry]) => { const c = Math.cos(ry), s = Math.sin(ry), dx = x - fx, dz = z - fz; return Math.abs(dx * c - dz * s) < w / 2 + m && Math.abs(dx * s + dz * c) < d / 2 + m; });
@@ -287,7 +308,7 @@ export function buildWorld(THREE, scene, D, kit, buildModel, tree) {
     const poiMargin = (areaOf.get(id) || 99) < SMALL_AREA ? 0.6 : 0.95;
     if ((poisByDistrict.get(id) || []).some((p) => Math.hypot(x - p.pos.x, z - p.pos.z) < poiMargin)) return false;
     if ((obstacles.get(id) || []).some(([ox, oz, r]) => Math.hypot(x - ox, z - oz) < r)) return false;
-    if (inLake(x, z) || inField(id, x, z)) return false;
+    if (inLake(x, z) || inField(id, x, z) || nearRoad(x, z)) return false;
     return slotsOf.get(id).every(([sx, sz]) => Math.hypot(x - sx, z - sz) > margin);
   }
   // 在某點附近找一個空地（行人去車站時用）
@@ -341,7 +362,7 @@ export function buildWorld(THREE, scene, D, kit, buildModel, tree) {
   const toLonLat = (x, z) => (P ? [x / (P.km_x * P.k) + P.lon_c, -z / (P.km_z * P.k) + P.lat_c] : null);
   const areaKm2 = (id) => (P ? (areaOf.get(id) || 0) / (P.k * P.k) : null);
 
-  return { centers, adjacency, buildingPos, pickables, pathBetween, route, randomPoint, randomPointNear, segmentClear, radiusOf, districtAt, isCore: (id) => smallIds.has(id), scaleOf: (key) => modelScale.get(key), zoneScale: (id) => zoneScale.get(id) ?? 1, toLonLat, areaKm2, bounds: T.bounds, registerStations, heightAt, groundY, pois, poiById, poisIn, setToday, eventsIn, setEventActive, setTreeColor, addObstacle, onLand: isLand,
+  return { centers, adjacency, buildingPos, pickables, pathBetween, route, randomPoint, randomPointNear, segmentClear, radiusOf, districtAt, isCore: (id) => smallIds.has(id), scaleOf: (key) => modelScale.get(key), zoneScale: (id) => zoneScale.get(id) ?? 1, toLonLat, areaKm2, bounds: T.bounds, registerStations, setRoads, onRoad: (x, z) => nearRoad(x, z, 0.3), heightAt, groundY, pois, poiById, poisIn, setToday, eventsIn, setEventActive, setTreeColor, addObstacle, onLand: isLand,
     // 整棟建築縮放（0 隱藏、1 原尺寸）；縮到一半以下就不能點
     // 附近 r 以內有沒有建築（任何區）：放大型景觀時避開建築用
     nearBuilding: (x, z, r) => { for (const slots of slotsOf.values()) for (const [sx, sz] of slots) if (Math.hypot(x - sx, z - sz) < r) return true; return false; },

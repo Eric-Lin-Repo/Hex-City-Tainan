@@ -17,6 +17,7 @@ import { lunarLabel, lunarOf, eventDateIn, nextOccurrence, isActive, activeOccur
 import { createCalendarPanel } from "./calendar-panel.js";
 import { createWeather } from "./weather.js";
 import { createBuses } from "./bus.js";
+import { createHighways } from "./highways.js";
 import { createTrails } from "./trails.js";
 import { createSugarRail } from "./sugar.js";
 import { createReservoirs, levelClass, ANCHORS } from "./reservoir.js";
@@ -47,8 +48,8 @@ try {
       if (!r.ok) throw Error(`${url} ${r.status}`);
       return r.json();
     });
-  const [islandData, flowData, settings, roles, city, rail, poi, eventData, water, terrainData, mapLinks, toursData, busData, trailData, sugarData, agesData, cropsData, specData, stampsData, talkData, hsrData, seasonsData, foodData, sceneryData] = await Promise.all(
-    ["./data/islands.json", "./data/flows.json", "./data/settings.json", "./data/roles.json", "./data/city.json", "./data/rail.json", "./data/poi.json", "./data/events.json", "./data/water_mrt.json", "./data/terrain.json", "./data/maplinks.json", "./data/tours.json", "./data/bus.json", "./data/trails.json", "./data/sugar.json", "./data/ages.json", "./data/crops.json", "./data/specialties.json", "./data/stamps.json", "./data/talk.json", "./data/hsr.json", "./data/spec_seasons.json", "./data/food.json", "./data/scenery.json"].map(loadJson),
+  const [islandData, flowData, settings, roles, city, rail, poi, eventData, water, terrainData, mapLinks, toursData, busData, trailData, sugarData, agesData, cropsData, specData, stampsData, talkData, hsrData, seasonsData, foodData, sceneryData, hwData] = await Promise.all(
+    ["./data/islands.json", "./data/flows.json", "./data/settings.json", "./data/roles.json", "./data/city.json", "./data/rail.json", "./data/poi.json", "./data/events.json", "./data/water_mrt.json", "./data/terrain.json", "./data/maplinks.json", "./data/tours.json", "./data/bus.json", "./data/trails.json", "./data/sugar.json", "./data/ages.json", "./data/crops.json", "./data/specialties.json", "./data/stamps.json", "./data/talk.json", "./data/hsr.json", "./data/spec_seasons.json", "./data/food.json", "./data/scenery.json", "./data/highways.json"].map(loadJson),
   );
   // 多語言：翻譯直接覆蓋進資料，之後所有卡片與清單都不用改；原文留在 *_zh（Google 地圖查詢用）
   const i18n = await createI18n(detectLang(params), loadJson);
@@ -133,7 +134,10 @@ try {
   const buses = createBuses(THREE, scene, busData, { heightAt: terrain.heightAt, projection: city.projection, loadBranches: () => loadJson("./data/bus_branches.json"), scale: S, onChange: () => busChanged() });
   const trails = createTrails(THREE, scene, trailData, terrain.heightAt, S); // 山海圳綠道與自行車道的虛線＋騎士
   const trailsById = new Map(trailData.trails.map((tr) => [tr.id, tr]));
-  const sugar = createSugarRail(THREE, scene, sugarData, terrain.heightAt, S); // 烏樹林糖廠五分車：窄軌與一列觀光小火車
+  const sugar = createSugarRail(THREE, scene, sugarData, terrain.heightAt, S);
+  // 高速公路與快速道路：路面依地形、橋段架高，車沿路段鏈開、偶爾上下匝道（highways.js）
+  const highways = createHighways(THREE, scene, hwData, { heightAt: terrain.heightAt, CSS2DObject, scale: S, unitsPerKm: city.unitsPerKm, quality, lang: i18n.lang, rnd: mulberry(2028) });
+  world.setRoads(highways.segments()); // 行人散步不停在公路上 // 烏樹林糖廠五分車：窄軌與一列觀光小火車
   const heat = createHeatmap(THREE, scene, B, world.groundY, S, 1.5); // 行人是 1 倍地圖的 1.5 倍 // 人流熱度圖（「熱度」開關）
   const fields = createFields(THREE, scene, city, cropsData, world.groundY); // 郊區田地，顏色隨作物產季與日期變化
   let treeReady = false; // renderTree 第一次畫完之後，水庫資料到了才重畫側欄（避免用到還沒宣告的變數）
@@ -162,7 +166,7 @@ try {
   const sceneryAnchor = (a) => (!a ? null : a.poi ? (world.poiById.has(a.poi) ? { type: "poi", id: a.poi } : null) : (buildingIdOf(a.building) ? { type: "building", id: buildingIdOf(a.building) } : null));
   const scenery = createScenery(THREE, scene, world, sceneryData, { projection: city.projection, quality, scale: S,
     anchorPos: (a) => { const k = sceneryAnchor(a); return !k ? null : k.type === "poi" ? world.poiById.get(k.id).pos : world.buildingPos.get(k.id); },
-    fields: city.districts.flatMap((d) => d.fields || []), fieldsApi: fields, tracks: [...rail.lines.map((l) => l.points), hsrData.points], lakes: D.water.lakes, rivers: D.water.rivers || [], districts: city.districts.map((d) => ({ id: d.id, name: d.name, hub: d.hub, polygon: d.polygon })), loadBusBranches: () => loadJson("./data/bus_branches.json") });
+    fields: city.districts.flatMap((d) => d.fields || []), fieldsApi: fields, tracks: [...rail.lines.map((l) => l.points), hsrData.points, ...highways.segments()], lakes: D.water.lakes, rivers: D.water.rivers || [], districts: city.districts.map((d) => ({ id: d.id, name: d.name, hub: d.hub, polygon: d.polygon })), loadBusBranches: () => loadJson("./data/bus_branches.json") });
   // 集章：37 區各一個代表地標，集滿放 10 秒煙火
   const stamps = createStamps({ t, data: stampsData, islands, esc, toast: (m) => toast(m), onPickDistrict: (id) => select({ type: "island", id }), onComplete: () => celebrate() });
   // 「🎮 玩」選單：工具列只留一顆鈕，集章、猜產地、找阿明、美食圖鑑、拍照都收進下拉選單（手機工具列放不下）
@@ -257,7 +261,7 @@ try {
   const weather = createWeather(THREE, scene, env, { bounds: B, scale: S, onChange: (w) => people.setRain?.(w.rain), translate: (zh) => t(WEATHER_KEY[zh] || zh, zh) }); // 即時天氣：雲量壓暗陽光、下雨飄雨絲、行人撐傘
   let activeKinds = []; // 目前可見的活動效果種類，給聲音層
   const stations = new Map(infra.stations.map((s) => [s.id, s]));
-  window.hexcity = { look: (x, z, d = 3) => { const p = new THREE.Vector3(x, world.groundY(x, z), z); flyTo(p.clone().add(new THREE.Vector3(d * 0.4, d * 0.8, d)), p); }, minor: () => Object.fromEntries([...minorIds].map(([id, k]) => [buildings.get(id)?.name, +k.toFixed(2)])), select: (u) => select(u), walker: (i) => people.info(i), ming: () => ming, quality: () => quality, fps: () => fpsNow, trains, hsr, buses, trails, sugar, terrain, stations: infra.stations.map((s) => ({ id: s.id, x: +s.pos.x.toFixed(2), z: +s.pos.z.toFixed(2) })) }; // 除錯用
+  window.hexcity = { look: (x, z, d = 3) => { const p = new THREE.Vector3(x, world.groundY(x, z), z); flyTo(p.clone().add(new THREE.Vector3(d * 0.4, d * 0.8, d)), p); }, minor: () => Object.fromEntries([...minorIds].map(([id, k]) => [buildings.get(id)?.name, +k.toFixed(2)])), select: (u) => select(u), walker: (i) => people.info(i), ming: () => ming, quality: () => quality, fps: () => fpsNow, trains, hsr, buses, highways, trails, sugar, terrain, stations: infra.stations.map((s) => ({ id: s.id, x: +s.pos.x.toFixed(2), z: +s.pos.z.toFixed(2) })) }; // 除錯用
   const lineOf = (id) => infra.lines.filter((l) => l.stations.includes(id)).map((l) => l.name).join(t("list.separator", "、"));
   const pois = new Map(world.pois.map((p) => [p.id, p]));
   const POI_TYPE = { attraction: [t("poi.type.attraction", "景點"), "🏯"], nightmarket: [t("poi.type.nightmarket", "夜市"), "🏮"], sciencepark: [t("poi.type.sciencepark", "科學園區"), "🏭"] };
@@ -361,14 +365,14 @@ try {
 
   // ── 跟隨：相機每幀跟著行人或火車，拖曳即解除 ──
   let follow = null; // { kind: "walker"|"train"|"bus", id, offset: Vector3 }
-  const followPos = (kind, id) => (kind === "walker" ? people.info(id)?.pos : kind === "bus" ? busPos(id) : kind === "hsr" ? hsrPos(id) : trainPos(id));
+  const followPos = (kind, id) => (kind === "walker" ? people.info(id)?.pos : kind === "bus" ? busPos(id) : kind === "hsr" ? hsrPos(id) : kind === "car" ? highways.carPos(id) : trainPos(id));
   function startFollow(kind, id) {
     const p = followPos(kind, id);
     if (!p) return;
     const offset = new THREE.Vector3(1.4, kind === "train" ? 2.6 : kind === "hsr" ? 3.0 : kind === "bus" ? 2.2 : 1.8, kind === "train" ? 4.0 : kind === "hsr" ? 5.0 : kind === "bus" ? 3.4 : 2.6);
     follow = { kind, id, offset };
     goal = null;
-    toast(kind === "walker" ? t("toast.follow_walker", "跟著這個人走，拖曳畫面可解除") : kind === "bus" ? t("toast.follow_bus", "跟著公車跑，拖曳畫面可解除") : t("toast.follow_train", "跟著火車跑，拖曳畫面可解除"));
+    toast(kind === "walker" ? t("toast.follow_walker", "跟著這個人走，拖曳畫面可解除") : kind === "bus" ? t("toast.follow_bus", "跟著公車跑，拖曳畫面可解除") : kind === "car" ? t("toast.follow_car", "跟著這台車跑，拖曳畫面可解除") : t("toast.follow_train", "跟著火車跑，拖曳畫面可解除"));
   }
   const trainPos = (i) => { const s = trains.state()[i]; return s ? new THREE.Vector3(s.x, world.groundY(s.x, s.z) + 0.2, s.z) : null; };
   const hsrPos = (i) => { const s = hsr.state()[i]; return s && s.visible ? new THREE.Vector3(s.x, TOP + 0.6, s.z) : null; };
@@ -460,7 +464,7 @@ try {
     const r = renderer.domElement.getBoundingClientRect();
     ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ndc, camera);
-    const hit = ray.intersectObjects([...(ming.visible ? ming.pickables : []), ...monkeys.pickables, ...scenery.pickables, ...people.pickables, ...fx.pickables, ...buses.pickables, ...trails.pickables, ...sugar.pickables, ...reservoirs.pickables, ...fields.pickables, ...myPins.pickables(), ...world.pickables.filter((o) => !o.userData.hidden)], false)[0];
+    const hit = ray.intersectObjects([...(ming.visible ? ming.pickables : []), ...monkeys.pickables, ...scenery.pickables, ...people.pickables, ...fx.pickables, ...buses.pickables, ...highways.pickables, ...trails.pickables, ...sugar.pickables, ...reservoirs.pickables, ...fields.pickables, ...myPins.pickables(), ...world.pickables.filter((o) => !o.userData.hidden)], false)[0];
     if (!hit) select(null);
     else if (hit.object.userData.type === "ming") ming.found();
     else if (hit.object.userData.type === "walkerMesh") select(people.walkerAt(hit.object, hit.instanceId));
@@ -470,6 +474,7 @@ try {
     else if (hit.object.userData.type === "sugar") select({ ...hit.object.userData, id: hit.object.userData.line });
     else if (hit.object.userData.type === "reservoir") select({ ...hit.object.userData, id: hit.object.userData.name, x: hit.point.x, z: hit.point.z });
     else if (hit.object.userData.type === "bus" || hit.object.userData.type === "busstop") select(buses.pick(hit));
+    else if (hit.object.userData.type === "highway" || hit.object.userData.type === "car") select(highways.pick(hit)); // 路面與車都是 InstancedMesh
     else if (hit.object.userData.type === "monkey") { monkeys.found(hit.object.userData.id); select({ type: "monkey", id: hit.object.userData.id }); } // 公車與站牌是 InstancedMesh，用 instanceId 查回是哪一台／哪一站
     else select(hit.object.userData);
   });
@@ -639,6 +644,27 @@ try {
       <p>${routeChip(b.line)} ${b.visible ? `<button class="chip act" data-follow-bus="${b.index}">${esc(t("bus.follow", "跟著公車跑"))}</button> <button class="chip act" data-ride="bus" data-ride-index="${b.index}">🚌 ${esc(t("ride.board", "上車"))}</button>` : ""}</p>
       <p class="muted">${busModeLine()}</p>
       <p class="muted">${esc(t("bus.note2", "路線與站牌 © OpenStreetMap contributors（ODbL）；即時位置來自交通部 TDX。模擬時依路線長度配車，營運 06:00–22:30。"))}</p>`;
+  }
+  // 高速公路卡片：路名、台南境內里程、經過哪些區、依序的交流道（點了飛過去）
+  function highwayCard(r) {
+    if (!r) return `<p class='muted'>${esc(t("hw.not_found", "找不到這條公路"))}</p>`;
+    const dists = [...new Set(r.samples.map((p) => world.districtAt(p.x, p.z)).filter(Boolean))].sort((a, b) => (islands.get(a)?.number ?? 99) - (islands.get(b)?.number ?? 99)).map((id) => islands.get(id)?.name).filter(Boolean); // 依區號（由北到南）
+    const js = r.junctions.map((j) => `<li><button type="button" data-hwj="${j.i}">${esc(j.name)}${j.km ? `<span class="sub">${esc(t("hw.km_mark", "{km} K", { km: j.km }))}</span>` : ""}</button></li>`).join("");
+    return `<div class="eyebrow" style="color:${esc(r.color)}">${esc(r.kind === "motorway" ? t("hw.eyebrow_freeway", "國道") : t("hw.eyebrow_expressway", "快速道路"))}</div><h2>${esc(r.label)}</h2>
+      <dl class="meta"><dt>${esc(t("hw.length", "台南境內"))}</dt><dd>${esc(t("hw.km", "約 {n} 公里", { n: Math.round(r.km) }))}</dd>
+        <dt>${esc(t("hw.cars", "地圖上"))}</dt><dd>${esc(t("hw.car_count", "{n} 台車（模擬）", { n: r.cars }))}</dd>
+        <dt>${esc(t("hw.districts", "經過"))}</dt><dd>${esc(dists.join(sep))}</dd></dl>
+      ${js ? `<h3>${esc(r.ns ? t("hw.junctions_ns", "交流道（由北到南）") : t("hw.junctions_we", "交流道（由西到東）"))}</h3><ol class="bus-stops">${js}</ol>` : ""}
+      <p class="muted">${esc(t("hw.note", "路線與交流道 © OpenStreetMap contributors（ODbL）。車流是依時段模擬的，不是即時路況；橋段依 OSM 標示架高。"))}</p>`;
+  }
+  function carCard(c) {
+    if (!c) return `<p class='muted'>${esc(t("hw.car_gone", "這台車已經開出地圖了"))}</p>`;
+    const KIND = { car: t("hw.kind.car", "小客車"), truck: t("hw.kind.truck", "貨車"), semi: t("hw.kind.semi", "聯結車"), coach: t("hw.kind.coach", "客運") };
+    const HEAD = { north: t("hw.head.north", "往北"), south: t("hw.head.south", "往南"), east: t("hw.head.east", "往東"), west: t("hw.head.west", "往西") };
+    return `<div class="eyebrow">${esc(t("hw.car_eyebrow", "公路上的車"))}</div><h2>${esc(KIND[c.kind] ?? c.kind)}<small>${esc(c.routeLabel)}${c.link ? ` · ${esc(t("hw.on_ramp", "匝道"))}` : ""}</small></h2>
+      <dl class="meta"><dt>${esc(t("hw.heading", "方向"))}</dt><dd>${esc(HEAD[c.heading] ?? "")}</dd></dl>
+      <p><button class="chip act" data-follow-car="${c.i}">${esc(t("hw.follow", "跟著這台車"))}</button> <button class="chip" data-highway="${esc(c.route)}">${esc(t("hw.show_route", "看這條路"))}</button></p>
+      <p class="muted">${esc(t("hw.car_note", "車流依時段模擬（尖峰多、半夜少），開出地圖或下了匝道就從其他入口重新進來。"))}</p>`;
   }
   function busRouteCard(id) {
     const r = buses.routeInfo(id);
@@ -887,6 +913,14 @@ try {
         if (c) flyTo(c.center.clone().add(new THREE.Vector3(0, 4 + c.radius * 1.4, 4 + c.radius * 1.6)), c.center);
         cardContent.innerHTML = busRouteCard(u.id);
       });
+    } else if (u.type === "highway") {
+      const r = highways.routeInfo(u.id);
+      if (r) flyTo(r.center.clone().add(new THREE.Vector3(0, 4 * S + r.radius * 1.2, 4 * S + r.radius * 1.4)), r.center);
+      cardContent.innerHTML = highwayCard(r);
+    } else if (u.type === "car") {
+      const c = highways.carInfo(u.id);
+      if (c) flyTo(c.pos.clone().add(new THREE.Vector3(1.0, 1.8, 2.4)), c.pos.clone().setY(c.pos.y + 0.1));
+      cardContent.innerHTML = carCard(c);
     } else if (u.type === "busstop") {
       const p = buses.stopPos(u.id);
       if (p) flyTo(p.clone().add(new THREE.Vector3(0.5, 1.2, 1.6)), p.clone().setY(p.y + 0.15));
@@ -1003,6 +1037,14 @@ try {
     if (sh) { const q = new URLSearchParams(location.search); q.set("pins", myPins.encode()); const url = `${location.origin}${location.pathname}?${q}`; navigator.clipboard?.writeText(url).then(() => toast(t("mypin.copied", "分享連結已複製"))).catch(() => prompt(t("mypin.share", "複製分享連結"), url)); return; }
     const rd = e.target.closest("[data-ride]");
     if (rd) { startRide(rd.dataset.ride, +(rd.dataset.rideIndex || 0)); return; }
+    const fc = e.target.closest("[data-follow-car]");
+    if (fc) { startFollow("car", +fc.dataset.followCar); return; }
+    const hwb = e.target.closest("[data-highway],[data-hwj]");
+    if (hwb) {
+      if (hwb.dataset.hwj != null) { const p = highways.junctionPos(+hwb.dataset.hwj); if (p) flyTo(p.clone().add(new THREE.Vector3(1.6, 2.8, 3.4)), p.clone().setY(p.y + 0.2)); }
+      else { select({ type: "highway", id: hwb.dataset.highway }); if (innerWidth <= 800 && hwb.closest("#sidebar")) setSidebar(false); }
+      return;
+    }
     const fw = e.target.closest("[data-follow-walker],[data-follow-train],[data-follow-bus],[data-follow-hsr]");
     if (fw) { if (fw.dataset.followWalker != null) startFollow("walker", +fw.dataset.followWalker); else if (fw.dataset.followHsr != null) { if (hsrPos(+fw.dataset.followHsr)) startFollow("hsr", +fw.dataset.followHsr); else toast(t("hsr.away_toast", "這班高鐵目前開出台南了，稍等折返再試")); } else if (fw.dataset.followBus != null) startFollow("bus", +fw.dataset.followBus); else startFollow("train", +fw.dataset.followTrain); return; }
     const scn = e.target.closest("[data-scenery]");
@@ -1113,6 +1155,10 @@ try {
       $("#tree").innerHTML += `<section class="isl"><div class="isl-head"><i style="--c:#2f6f9f"></i><b>🚆</b>${esc(t("tree.trains", "跟車"))}</div>
         <ul>${hsr.state().map((tr, i) => `<li class="pair"><button data-follow-hsr="${i}">${esc(t("tree.hsr_n", "高鐵 {n}", { n: i + 1 }))}<span class="sub">${esc(!tr.visible ? t("hsr.away", "台南以外") : tr.dir > 0 ? t("hsr.to_south", "往左營") : t("hsr.to_north", "往台北"))}</span></button><button class="mini" data-ride="hsr" data-ride-index="${i}" title="${esc(t("ride.board", "上車"))}">🚄 ${esc(t("ride.board", "上車"))}</button></li>`).join("")}${trains.state().map((tr, i) => `<li class="pair"><button data-follow-train="${i}">${esc(t("tree.train_n", "列車 {n}", { n: i + 1 }))}<span class="sub">${esc(tr.dir > 0 ? t("tree.train_to_shalun", "往沙崙") : t("tree.train_to_houbi", "往後壁"))}</span></button><button class="mini" data-ride="train" data-ride-index="${i}" title="${esc(t("ride.board", "上車"))}">🚆 ${esc(t("ride.board", "上車"))}</button></li>`).join("")}</ul></section>`;
     $("#tree").innerHTML += busSection(ql);
+    const hws = highways.routeList().filter((r) => !ql || r.label.toLowerCase().includes(ql) || r.name.includes(ql) || t("tree.search.highways", "公路 國道 高速公路 快速道路 交流道").includes(ql));
+    if (hws.length)
+      $("#tree").innerHTML += `<section class="isl"><div class="isl-head"><i style="--c:#2f7d4f"></i><b>🛣️</b>${esc(t("tree.highways", "公路"))}</div>
+        <ul>${hws.map((r) => `<li><button data-highway="${esc(r.id)}"><i class="dot" style="--c:${esc(r.color)}"></i>${esc(r.label)}</button></li>`).join("")}</ul></section>`;
     const scs = [...scenery.items.values()].filter((it) => !it.background).filter((it) => !ql || it.name.toLowerCase().includes(ql) || t("tree.search.scenery", "景觀 山 海 雲海 果園 魚塭").includes(ql));
     if (scs.length)
       $("#tree").innerHTML += `<section class="isl"><div class="isl-head"><i style="--c:#5f8f5e"></i><b>🏞️</b>${esc(t("tree.scenery", "山海景觀"))}</div>
@@ -1173,7 +1219,7 @@ try {
   document.addEventListener("pointerup", (e) => { if (e.target?.closest?.("#sidebar-close")) closeSidebarNow(e); }, true);
 
   // ── HUD 開關 ──
-  const toggles = { labels: true, names: false, flows: false, pause: false, events: true, sound: false, heat: false, bnames: true, speech: false, season: false };
+  const toggles = { labels: true, names: false, flows: false, pause: false, events: true, sound: false, heat: false, bnames: true, speech: false, season: false, roads: true };
   const TOGGLE_MSG = {
     labels: [t("toast.labels_on", "已顯示標籤"), t("toast.labels_off", "已隱藏標籤")],
     names: [t("toast.names_on", "已顯示動線行人的名牌"), t("toast.names_off", "已隱藏名牌")],
@@ -1182,6 +1228,7 @@ try {
     pause: [t("toast.pause_on", "已暫停行人、火車、活動與時間"), t("toast.pause_off", "繼續")],
     events: [t("toast.events_on", "已顯示民俗活動效果"), t("toast.events_off", "已隱藏民俗活動效果")],
     sound: [t("toast.sound_on", "已開啟聲音（全部即時合成）"), t("toast.sound_off", "已關閉聲音")],
+    roads: [t("toast.roads_on", "已顯示高速公路與快速道路"), t("toast.roads_off", "已隱藏高速公路與快速道路")],
   };
   function updateFlowVisibility() {
     for (const [id, line] of flowLines) {
@@ -1204,6 +1251,7 @@ try {
       if (k === "labels") labelRenderer.domElement.classList.toggle("hide-labels", !toggles.labels);
       if (k === "bnames") labelRenderer.domElement.classList.toggle("hide-bnames", !toggles.bnames);
       if (k === "events") { fx.setVisible(toggles.events); activeKinds = fx.activeKinds(); }
+      if (k === "roads") { highways.setVisible(toggles.roads); labelRenderer.domElement.classList.toggle("hide-roads", !toggles.roads); }
       if (k === "sound") { audio.toggle(); toggles.sound = audio.enabled; b.setAttribute("aria-pressed", String(audio.enabled)); }
       if (k === "speech") {
         if (toggles.speech) {
@@ -1327,6 +1375,7 @@ try {
     buses.setNight(night, minute); // 06:00–22:30 以外收班
     trails.setNight(night, minute); // 06:00–19:00 才有騎士
     sugar.setNight(night, minute); // 五分車 09:00–16:30
+    highways.setNight(night); // 入夜亮車燈
   }
   const stopPlay = () => { playing = false; playBtn.textContent = "▶"; };
   dayInput.addEventListener("input", () => { stopPlay(); setMinute(+dayInput.value); });
@@ -1336,7 +1385,7 @@ try {
   setMinute(params.has("t") ? +params.get("t") : 480);
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches) setPlaying(true); // 預設就循環播放，按 ❚❚ 才停
   setDate(calDate);
-  for (const k of ["flows", "names", "events", "labels", "heat", "bnames", "season"]) if (params.has(k)) { const v = params.get(k) === "1"; if (v !== toggles[k]) $(`[data-toggle="${k}"]`).click(); }
+  for (const k of ["flows", "names", "events", "labels", "heat", "bnames", "season", "roads"]) if (params.has(k)) { const v = params.get(k) === "1"; if (v !== toggles[k]) $(`[data-toggle="${k}"]`).click(); }
   $$(".tg").forEach((b) => b.setAttribute("aria-pressed", String(!!toggles[b.dataset.toggle]))); // HTML 預設與 toggles 若不一致，以 toggles 為準
   if (params.has("sel")) { // 還原網址裡的選取；出錯就略過，不讓整頁載入失敗
     try {
@@ -1518,6 +1567,7 @@ try {
     renderer.setPixelRatio(Math.min(devicePixelRatio, QUALITY[q].ratio));
     renderer.shadowMap.enabled = QUALITY[q].shadows;
     scenery.setQuality(q);
+    highways.setQuality(q);
     scene.traverse((o) => { if (o.material) [].concat(o.material).forEach((m) => (m.needsUpdate = true)); });
     resize();
   }
@@ -1551,6 +1601,7 @@ try {
       buses.update(dt, period?.speed ?? 1, playing ? TRAIN_PLAY_SCALE : 1);
       trails.update(dt, period?.speed ?? 1, playing ? TRAIN_PLAY_SCALE : 1);
       sugar.update(dt, period?.speed ?? 1, playing ? TRAIN_PLAY_SCALE : 1); // 播放一天時列車加速，一天內跑完全線
+      highways.update(dt, period?.speed ?? 1, playing ? TRAIN_PLAY_SCALE : 1, minute);
       fx.update(dt, nightNow, period?.speed ?? 1);
       weather.update(dt);
       heat.update(people, dt);

@@ -151,6 +151,20 @@ class BuildCityTest(unittest.TestCase):
             for n in names: self.assertIn(n, by[dn], f"{dn} 沒有 {n}")
             self.assertLess(len(names), len(by[dn]), f"{dn} 不能整區都是次要建築")
 
+    def test_layers(self):
+        """分層顯示的建築（buildings_source.json 第 5 欄 layer）：只有 street，集中在府城五區，數量與第 3 批一致（小吃老店已拿掉）；
+        門牌查不到、用路段位置的（pinned_buildings.json 的 approx）卡片要標示意，其他真實位置的不標。"""
+        core = {"中西區", "北區", "東區", "南區", "安平區"}
+        pins = json.load(open(os.path.join(ROOT, "tools", "pinned_buildings.json"), encoding="utf-8"))["pins"]
+        layered = [(i["name"], b) for i in self.islands for b in i["buildings"] if b.get("layer")]
+        self.assertTrue(all(b["layer"] == "street" for _, b in layered))
+        self.assertTrue(all(dn in core for dn, _ in layered), "分層建築只放在府城五區")
+        self.assertEqual(len(layered), 32)
+        for dn, b in layered:
+            pin = pins.get(f"{dn}:{b['name']}")
+            self.assertIsNotNone(pin, f"{dn} {b['name']} 沒有座標")
+            self.assertEqual(b["geocoded"], not pin.get("approx"), f"{b['name']} 的示意標記不對")
+
 
 if __name__ == "__main__":
     unittest.main()

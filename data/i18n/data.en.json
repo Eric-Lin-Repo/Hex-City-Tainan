@@ -1141,6 +1141,262 @@
         "Presbyterian seminary",
         "117 Dongmen Rd. Sec. 1, East District"
       ]
+    },
+    "d1002102-14": {
+      "name": "Taiwan Provincial City God Temple",
+      "desc": "The Ming Zheng–era City God temple of Chengtian Prefecture, Taiwan's earliest official City God temple.",
+      "facts": [
+        "Dedicated to the City God (Weiling Gong); built 1669; national monument",
+        "The front hall has the 1937 plaque \"You've Come\""
+      ]
+    },
+    "d1002102-15": {
+      "name": "Tainan Tiantan (Temple of Heaven)",
+      "desc": "The Jade Emperor temple on Jiuling, the old city's highest point, once a Ming Zheng altar to Heaven.",
+      "facts": [
+        "Dedicated to the Jade Emperor; built 1854; municipal monument",
+        "Holds the \"Yi\" (One) plaque, one of the old city's three famous plaques"
+      ]
+    },
+    "d1002102-16": {
+      "name": "Kaiji Lingyou Temple",
+      "desc": "A Ming Zheng–era temple to Xuantian Shangdi, nicknamed the Little Shangdi Temple.",
+      "facts": [
+        "Built around 1665; municipal monument",
+        "When moved in 1932 the whole temple was turned 180 degrees"
+      ]
+    },
+    "d1002102-17": {
+      "name": "Tainan Fahua Temple",
+      "desc": "An old Buddhist temple on the site of Li Maochun's late-Ming Dream Butterfly Garden.",
+      "facts": [
+        "Built 1684; one of the old city's 'seven temples and eight shrines'; municipal monument",
+        "Mostly destroyed in WWII and rebuilt in 1959; the bell tower still holds a 1713 bell"
+      ]
+    },
+    "d1002102-18": {
+      "name": "Tainan Dongyue Temple",
+      "desc": "A Dongyue Emperor temple built under Zheng Jing, known for its 'breaking the city' ritual.",
+      "facts": [
+        "Built 1673, rebuilt 1751; municipal monument",
+        "The front hall was cut off by road widening in 1979 and restored in 1994"
+      ]
+    },
+    "d1002102-19": {
+      "name": "Zonggan Temple",
+      "desc": "Built by the Ming Zheng navy; Taiwan's only temple whose main deity is Lord Ni.",
+      "facts": [
+        "Originally Shenggong Temple; the name was later miswritten as 'Zonggan'; municipal monument",
+        "Navy custom: a mooncake dice game in the temple at Mid-Autumn"
+      ]
+    },
+    "d1002102-20": {
+      "name": "Tainan Jingfu Shrine",
+      "desc": "The Earth God shrine of Fotou Harbor, the only Earth God shrine in the old city listed as a monument.",
+      "facts": [
+        "Built 1750; renamed Jingfu after rebuilding in 1814",
+        "Keeps an 1811 plaque"
+      ]
+    },
+    "d1002102-21": {
+      "name": "Kaiji Martial Temple",
+      "desc": "Called by the temple Taiwan's first Guan Yu temple, nicknamed the Little Guandi Temple.",
+      "facts": [
+        "Temple records date it to 1669; the original main hall is a municipal monument",
+        "Almost destroyed in a 1945 air raid; only the front gate and original hall remain"
+      ]
+    },
+    "d1002102-22": {
+      "name": "Tainan Jinhua Temple",
+      "desc": "A royal lord temple on Shennong Street, founded by porters of the Five Canals.",
+      "facts": [
+        "Built 1830; municipal monument",
+        "With Nansha Temple and the Medicine King Temple it forms the 'Three Alliance' area"
+      ]
+    },
+    "d1002104-5": {
+      "name": "Kaiji Tianhou Temple",
+      "desc": "Considered the earliest Mazu temple on Taiwan's main island, nicknamed the Little Mazu Temple.",
+      "facts": [
+        "Built 1662; heritage grade to be verified",
+        "Keeps Ming-style dragon pillars with three-clawed dragons"
+      ]
+    },
+    "d1002104-6": {
+      "name": "Kaiji Jade Emperor Temple",
+      "desc": "The old Jade Emperor temple founded under Ming Zheng, one of the old city's two great Tiangong temples.",
+      "facts": [
+        "Built 1670, originally the Jade Emperor Prince Temple",
+        "Rebuilt after an 1800 earthquake and rededicated to the Jade Emperor"
+      ]
+    },
+    "d1002104-7": {
+      "name": "Yuanhe Temple, Dachong Street",
+      "desc": "A Baosheng Dadi temple on Dachong Street that later took in the incense of Bailong Temple.",
+      "facts": [
+        "Built 1696",
+        "Its Ruyi Zengshou Tang troupe is called Taiwan's oldest 'family general' troupe"
+      ]
+    },
+    "d1002101-7": {
+      "name": "Tainan Mituo Temple",
+      "desc": "An old Buddhist temple that grew from a Ming Zheng–era Amitabha hall.",
+      "facts": [
+        "Demolished in 1971 and rebuilt in 1980",
+        "Keeps a bell cast in 1858"
+      ]
+    },
+    "d1002101-8": {
+      "name": "Tainan Longshan Temple",
+      "desc": "A Guanyin temple once outside the East Gate, one of the old city's 'seven temples and eight shrines'.",
+      "facts": [
+        "Built 1715, branched from Anhai Longshan Temple in Quanzhou",
+        "Burned in 2000 and restored around 2005"
+      ]
+    },
+    "d1002101-9": {
+      "name": "East Gate Daren Temple",
+      "desc": "The main temple of the old city's Eight Alliance area, dedicated to Lords Zhu, Chi and Li.",
+      "facts": [
+        "Built around 1716 (earlier dates are also cited)",
+        "Moved about four times for road works; its caisson ceiling is largely intact"
+      ]
+    },
+    "d1002103-7": {
+      "name": "Xishu Wanhuang Temple",
+      "desc": "The royal lord temple of Xishu village, known for its Turtle Jiao festival in the eighth lunar month.",
+      "facts": [
+        "Founded around 1739; the current building dates from 1979–1984",
+        "Keeps Qing-era plaques from 1744 and 1798"
+      ]
+    },
+    "d1002103-8": {
+      "name": "Yancheng Tianhou Temple",
+      "desc": "The Mazu temple of the old Yancheng salt works, also called Fangang Tianhou Temple.",
+      "facts": [
+        "Founded 1758 (or 1768); moved to its present site in 1930",
+        "A Qing stele in front is revered by locals as 'Stone Lord'"
+      ]
+    },
+    "d1002103-9": {
+      "name": "Sikunshen Longshan Temple",
+      "desc": "An old Kunshen temple to Qingshui Zushi — a Longshan Temple that is not dedicated to Guanyin.",
+      "facts": [
+        "Said to have been founded in 1665",
+        "Rebuilt 1987–1990"
+      ]
+    },
+    "d1002107-8": {
+      "name": "Anping Miaoshou Temple",
+      "desc": "The neighborhood temple of Anping's Jianzai Palace community, dedicated to Baosheng Dadi.",
+      "facts": [
+        "Built 1755; municipal monument",
+        "Its boat hall holds the 1867 boat 'Jin Wan An'"
+      ]
+    },
+    "d1002107-9": {
+      "name": "Anping City God Temple",
+      "desc": "A City God temple built by the Qing navy, one of Anping's four great public temples.",
+      "facts": [
+        "Built 1749; rebuilt 1989",
+        "Its door gods are Ox-Head and Horse-Face, painted by Chen Shouyi"
+      ]
+    },
+    "d1002107-10": {
+      "name": "Anping Lingji Temple",
+      "desc": "A temple in Anping's Gangzaiwei, known for its ghost-platform festival on the 9th of the seventh lunar month.",
+      "facts": [
+        "Said to date from 1718; dedicated to Lord Wu",
+        "Houses two royal boats"
+      ]
+    },
+    "d1002102-23": {
+      "name": "West Market",
+      "desc": "Tainan's first public market; its main hall, completed in 1912, is a municipal monument.",
+      "facts": [
+        "Opened 1905; designated a municipal monument in 2003",
+        "Reopened in August 2025 after restoration"
+      ]
+    },
+    "d1002102-24": {
+      "name": "East Market",
+      "desc": "Tainan's second public market, opened in the Japanese era.",
+      "facts": [
+        "Opened around 1909 (dates vary; to be verified)",
+        "Keeps its steel-truss roof, cypress stalls and terrazzo walls"
+      ]
+    },
+    "d1002102-25": {
+      "name": "Shuixian Temple Market",
+      "desc": "A morning market of the Five Canals area that grew from a Qing-era market in front of Shuixian Temple.",
+      "facts": [
+        "Became a market in 1918; rebuilt after a 1985 fire and renamed",
+        "Mainly a morning market, about 6:00–12:00"
+      ]
+    },
+    "d1002102-26": {
+      "name": "Yongle Market",
+      "desc": "Tainan's first combined market, completed in 1963, at the heart of Guohua Street's food scene.",
+      "facts": [
+        "Two buildings joined by a bridge, 234 stalls",
+        "Grew from a postwar street market once called the 'thieves' market'"
+      ]
+    },
+    "d1002104-8": {
+      "name": "Yamuliao Market",
+      "desc": "A market that grew from the square in front of Sanlaoye Temple, known for its charcoal-fired noodles.",
+      "facts": [
+        "Became a market in 1918, called Meiji Market in the Japanese era",
+        "Renamed Guangfu Market after the war; the old name returned in 2007"
+      ]
+    },
+    "d1002102-27": {
+      "name": "Xinmei Street",
+      "desc": "A Qing-era commercial street of the old city, made up of Rice Street, Fortune-Stick Lane and Sail Shed.",
+      "facts": [
+        "Kaiji Martial Temple stands on the street",
+        "The Xinmei Street historic district won a 2023 Taiwan Landscape Award"
+      ]
+    },
+    "d1002102-28": {
+      "name": "Xinyi Street",
+      "desc": "An old street that led out of the city in the Qing era, formerly Laogushi Street.",
+      "facts": [
+        "Its Duiyue Gate is the old city's only gate you can still pass through; national monument",
+        "The old name comes from the coral stone used to build the gate"
+      ]
+    },
+    "d1002102-29": {
+      "name": "Minquan Road Section 2",
+      "desc": "Provintia Street in the Dutch era and the Qing-era Cross Street.",
+      "facts": [
+        "One of the old city's earliest streets; now a main road with a few old shops left",
+        "Its Dajingtou well is a municipal monument"
+      ]
+    },
+    "d1002102-30": {
+      "name": "Fuzhong Street",
+      "desc": "The old street opposite the Confucius Temple, with the Panggong stone archway at its entrance.",
+      "facts": [
+        "Called Tiaozaihang Street in the Qing era (old name to be verified)",
+        "The stone archway dates from the Qianlong era"
+      ]
+    },
+    "d1002104-9": {
+      "name": "Ziqiang Street (Dachong Street)",
+      "desc": "Dachong Street of Qing-era Zhenbei Ward, home to Kaiji Tianhou Temple.",
+      "facts": [
+        "Now called Ziqiang Street, formerly Dachong Street",
+        "The origin of the name 'Dachong' (great gun) is to be verified"
+      ]
+    },
+    "d1002107-11": {
+      "name": "Zhongxing Street",
+      "desc": "The main street of old Anping, formerly called Brick Street.",
+      "facts": [
+        "Forms a grid with Yanping and Xiaozhong streets",
+        "Its lanes and old buildings are well preserved"
+      ]
     }
   },
   "pois": {

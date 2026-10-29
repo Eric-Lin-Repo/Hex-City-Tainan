@@ -51,6 +51,9 @@ h1, h2, h3, p { margin: 0; }
 .island-label i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
 .island-label.active { background: var(--ink); color: var(--cream); }
 #labels.lod-far .poi-label, #labels.lod-far .station-label, #labels.lod-far .event-label { display: none !important; }
+/* 交流道路牌：綠底白字，拉近才顯示 */
+.hw-label { padding: 1px 6px; border-radius: 3px; background: #1f6b3a; color: #fff; border: 1px solid #fff; font-size: 11px; white-space: nowrap; pointer-events: none; }
+#labels.lod-far .hw-label, #labels.lod-mid .hw-label, #labels.hide-labels .hw-label, #labels.hide-roads .hw-label, #labels.riding .hw-label { display: none !important; }
 /* 中距離也顯示景點名牌，但和區名、車站或更重要的名牌重疊就藏（app.js 的 declutter 加 .clutter） */
 #labels .clutter { display: none !important; }
 #labels.hide-labels .island-label,

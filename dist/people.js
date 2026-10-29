@@ -317,7 +317,9 @@ export function createPeople(THREE, scene, D, world, CSS2DObject) {
       // 走進市區（建築縮小過的區）就跟著縮：每半秒查一次所在的區，比例慢慢過渡，跨區時不會突然變大變小
       if ((w.zoneT = (w.zoneT ?? 0) - dt) <= 0) { w.zoneT = 0.5 + Math.random() * 0.2; w.zoneGoal = world.zoneScale(world.districtAt(w.pos.x, w.pos.z)); }
       w.zone = (w.zone ?? w.zoneGoal) + (w.zoneGoal - (w.zone ?? w.zoneGoal)) * Math.min(1, dt * 2);
-      const s = w.scale * w.zone;
+      // 跨區的路線會橫越高速公路：走到公路上時先藏起來，當作從地下道過去（每 0.15 秒查一次）
+      if ((w.roadT = (w.roadT ?? 0) - dt) <= 0) { w.roadT = 0.15; w.under = !!world.onRoad?.(w.pos.x, w.pos.z); }
+      const s = w.under ? 0 : w.scale * w.zone;
       const bob = w.wait > 0 ? 0 : Math.abs(Math.cos(w.phase)) * 0.012;
       rootM.makeRotationY(w.yaw);
       rootM.scale(sc.set(s, s, s)); // 小孩、市區：整個人連關節一起縮

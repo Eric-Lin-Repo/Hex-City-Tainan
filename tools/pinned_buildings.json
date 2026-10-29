@@ -1,5 +1,5 @@
 {
-  "_note": "要放在真實位置的建築（key 是「區:建築名」；大學、地理編碼查不到的地標）。build_city.py 在其他建築都放好之後，才把它們放到離真實座標最近的空地（不影響其他區的亂數配置）；new: true 表示是後來加的建築，不參與隨機取樣。座標 2026-10 查證，來源見 source。",
+  "_note": "要放在真實位置的建築（key 是「區:建築名」；大學、地理編碼查不到的地標）。build_city.py 在其他建築都放好之後，才把它們放到離真實座標最近的空地（不影響其他區的亂數配置）；new: true 表示是後來加的建築，不參與隨機取樣。座標 2026-10 查證，來源見 source。；approx: true 表示門牌查不到、座標取所在路段（卡片仍標示意）",
   "pins": {
     "東區:國立成功大學": {
       "lat": 22.99901,
@@ -64,6 +64,199 @@
       "lat": 23.0164,
       "lon": 120.4737,
       "source": "https://www.twtainan.net/en/attractions/detail/4567"
+    },
+    "中西區:臺灣府城隍廟": {
+      "lat": 22.9920139,
+      "lon": 120.209075,
+      "source": "https://zh.wikipedia.org/zh-tw/臺灣府城隍廟",
+      "new": true
+    },
+    "中西區:臺灣首廟天壇": {
+      "lat": 22.993874,
+      "lon": 120.203953,
+      "source": "https://zh.wikipedia.org/zh-tw/臺灣首廟天壇",
+      "new": true
+    },
+    "中西區:開基靈祐宮": {
+      "lat": 22.998111,
+      "lon": 120.203694,
+      "source": "https://zh.wikipedia.org/zh-tw/開基靈祐宮",
+      "new": true
+    },
+    "中西區:臺南法華寺": {
+      "lat": 22.984046,
+      "lon": 120.20964,
+      "source": "https://zh.wikipedia.org/zh-tw/臺南法華寺",
+      "new": true
+    },
+    "中西區:臺南東嶽殿": {
+      "lat": 22.99062222,
+      "lon": 120.20965,
+      "source": "https://zh.wikipedia.org/zh-tw/臺南東嶽殿",
+      "new": true
+    },
+    "中西區:總趕宮": {
+      "lat": 22.9919641,
+      "lon": 120.1998792,
+      "source": "https://zh.wikipedia.org/zh-tw/總趕宮",
+      "new": true
+    },
+    "中西區:臺南景福祠": {
+      "lat": 22.9977055,
+      "lon": 120.198494,
+      "source": "https://zh.wikipedia.org/zh-tw/臺南景福祠",
+      "new": true
+    },
+    "中西區:開基武廟": {
+      "lat": 22.996442,
+      "lon": 120.200831,
+      "source": "https://zh.wikipedia.org/zh-tw/開基武廟",
+      "new": true
+    },
+    "中西區:臺南金華府": {
+      "lat": 22.997391,
+      "lon": 120.196582,
+      "source": "https://zh.wikipedia.org/zh-tw/臺南金華府",
+      "new": true
+    },
+    "北區:開基天后宮": {
+      "lat": 22.99962,
+      "lon": 120.20258,
+      "source": "https://zh.wikipedia.org/zh-tw/開基天后宮",
+      "new": true
+    },
+    "北區:開基玉皇宮": {
+      "lat": 22.999976,
+      "lon": 120.20701,
+      "source": "https://zh.wikipedia.org/zh-tw/開基玉皇宮",
+      "new": true
+    },
+    "北區:大銃街元和宮": {
+      "lat": 23.001263,
+      "lon": 120.203658,
+      "source": "https://zh.wikipedia.org/zh-tw/臺南元和宮",
+      "new": true
+    },
+    "東區:臺南彌陀寺": {
+      "lat": 22.9885,
+      "lon": 120.214455,
+      "source": "https://zh.wikipedia.org/zh-tw/臺南彌陀寺",
+      "new": true
+    },
+    "東區:臺南龍山寺": {
+      "lat": 22.9854967,
+      "lon": 120.2206961,
+      "source": "https://zh.wikipedia.org/zh-tw/臺南龍山寺",
+      "new": true
+    },
+    "東區:東門大人廟": {
+      "lat": 22.989278,
+      "lon": 120.211834,
+      "source": "https://zh.wikipedia.org/zh-tw/東門大人廟",
+      "new": true
+    },
+    "南區:喜樹萬皇宮": {
+      "lat": 22.9414909,
+      "lon": 120.177478,
+      "source": "https://zh.wikipedia.org/zh-tw/喜樹萬皇宮",
+      "new": true
+    },
+    "南區:鹽埕天后宮": {
+      "lat": 22.971231,
+      "lon": 120.18938,
+      "source": "https://zh.wikipedia.org/zh-tw/鹽埕天后宮",
+      "new": true
+    },
+    "南區:四鯤鯓龍山寺": {
+      "lat": 22.961688,
+      "lon": 120.17116,
+      "source": "https://zh.wikipedia.org/zh-tw/四鯤鯓龍山寺",
+      "new": true
+    },
+    "安平區:安平妙壽宮": {
+      "lat": 22.99972,
+      "lon": 120.16167,
+      "source": "https://zh.wikipedia.org/zh-tw/安平妙壽宮",
+      "new": true
+    },
+    "安平區:安平城隍廟": {
+      "lat": 22.99959,
+      "lon": 120.16353,
+      "source": "https://zh.wikipedia.org/zh-tw/安平城隍廟",
+      "new": true
+    },
+    "安平區:安平靈濟殿": {
+      "lat": 22.9986722,
+      "lon": 120.1650944,
+      "source": "https://zh.wikipedia.org/zh-tw/安平靈濟殿",
+      "new": true
+    },
+    "中西區:西市場": {
+      "lat": 22.9934482,
+      "lon": 120.1974334,
+      "source": "https://www.cna.com.tw/news/aloc/202110060091.aspx",
+      "new": true
+    },
+    "中西區:東菜市": {
+      "lat": 22.9909,
+      "lon": 120.209663,
+      "source": "https://zh.wikipedia.org/zh-tw/東菜市",
+      "new": true
+    },
+    "中西區:水仙宮市場": {
+      "lat": 22.996948,
+      "lon": 120.197517,
+      "source": "https://zh.wikipedia.org/zh-tw/水仙宮市場",
+      "new": true
+    },
+    "中西區:永樂市場": {
+      "lat": 22.997621,
+      "lon": 120.198873,
+      "source": "https://zh.wikipedia.org/zh-tw/永樂市場_(臺南市)",
+      "new": true
+    },
+    "北區:鴨母寮市場": {
+      "lat": 22.998931,
+      "lon": 120.204629,
+      "source": "https://zh.wikipedia.org/zh-tw/鴨母寮市場",
+      "new": true
+    },
+    "中西區:新美街": {
+      "lat": 22.99639,
+      "lon": 120.20079,
+      "source": "https://www.twtainan.net/zh-tw/event/newsdetail/6331/",
+      "new": true
+    },
+    "中西區:信義街": {
+      "lat": 23.00073,
+      "lon": 120.19443,
+      "source": "https://www.twtainan.net/zh-tw/attractions/detail/681/",
+      "new": true
+    },
+    "中西區:民權路二段": {
+      "lat": 22.99534,
+      "lon": 120.20158,
+      "source": "https://www.twtainan.net/zh-tw/attractions/detail/738/",
+      "new": true
+    },
+    "中西區:府中街": {
+      "lat": 22.9902,
+      "lon": 120.20664,
+      "source": "https://www.twtainan.net/zh-tw/attractions/detail/1327/",
+      "new": true
+    },
+    "北區:自強街（大銃街）": {
+      "lat": 22.99967,
+      "lon": 120.20249,
+      "source": "https://www.twtainan.net/zh-tw/Attractions/Detail/803/",
+      "new": true
+    },
+    "安平區:中興街": {
+      "lat": 23.0016371,
+      "lon": 120.1628183,
+      "source": "https://oldisgood.tainan.gov.tw/index.php?id=456&index=3&lang=cht&option=module&task=pageinfo",
+      "new": true,
+      "approx": true
     }
   }
 }
