@@ -12,6 +12,15 @@ python3 -I tools/serve.py 8787   # 不快取的開發伺服器；也可以用 py
 
 必須用 HTTP 伺服器，直接雙擊 index.html 會因為 ES Module 與 fetch 的同源限制而失敗。
 
+改了 `tools/` 裡的來源資料或產生器後，一次重建 `data/` 並跑全部測試：
+
+```bash
+bash tools/rebuild_all.sh          # 依序 build_city → build_hsr → build_terrain → build_bus → build_trails → build_sugar
+bash tools/rebuild_all.sh --test   # 重建後再跑 10 支 Python 測試、test_worker_bus.mjs 與全部 *.js 的 node --check
+```
+
+任何一步失敗就停下並印出是哪一步。
+
 ## 檔案
 
 | 檔案 | 角色 |
@@ -25,7 +34,10 @@ python3 -I tools/serve.py 8787   # 不快取的開發伺服器；也可以用 py
 | `data/water_mrt.json` | 河流折線、水庫與潟湖多邊形（世界座標，從 `tools/raw/osm_water.json` 轉出）。 |
 | `data/roles.json` | 身分的名稱與說明、隨機姓名用的姓與名。 |
 | `data/settings.json` | 總人數 `population`、每條動線的行人數 `flowWalkersPerFlow`、一天的時段 `dayCycle`。 |
-| `app.js` | 主控：渲染器、相機、點選、側欄、卡片、時間控制。 |
+| `app.js` | 主控：渲染器、相機、點選與 `select()`、側欄、時間控制、主迴圈。 |
+| `cards.js` | 右側資訊卡的 HTML（區、建築、車站、活動、公車、國道、景觀、水庫、田、行人……），`createCards({...})` 只產生字串，不碰 DOM。 |
+| `tour.js` | 主題導覽：依 `data/tours.json` 依序飛到各點、切時段、字幕與進度條，`createTour({...})`。 |
+| `layers.js` | 分層建築（老街、小廟、市場）拉近才長出來、拉遠縮回，`createLayers({...})`。 |
 | `world.js` | 行政區輪廓擠出成島、橋、鄰接圖與路線、區內空地判斷。 |
 | `models.js` | 21 種程序化建築模型，每種是一段「擺積木」的程式。 |
 | `kit.js` | 零件庫，同種幾何合併成一個 InstancedMesh。 |
@@ -294,7 +306,7 @@ python3 -I tools/build_city.py <twTown1982.topo.json> data
 府城五區（中西、北、東、南、安平）加了 32 處，由子代理逐筆查證、附出處：小廟 21、傳統市場 5、老街 6。原本另有 20 家小吃老店（再拉近才出現的巷弄層），2026-10-29 依使用者要求拿掉。
 
 - **資料**：`tools/buildings_source.json` 每列的第 5 欄 `{layer: "street"}`；座標在 `tools/pinned_buildings.json`（維基、台南旅遊網、OSM；中興街門牌查不到，用所在路段的位置並標 `approx: true`，卡片照樣顯示「位置為區內示意」）。
-- **分層顯示**（`app.js` 的 `minorIds`）：鏡頭離焦點 12×S 以內、而且建築在焦點附近時從地面長出來（點選一區就看得到）；從側欄、搜尋選取時直接長出來；還沒長出來的不能點、不顯示名牌。區卡片依「建築／老街・廟・市場」分組。`settings.json` 的 `minorBuildings` 名單也一樣分層顯示。
+- **分層顯示**（`layers.js`）：鏡頭離焦點 12×S 以內、而且建築在焦點附近時從地面長出來（點選一區就看得到）；從側欄、搜尋選取時直接長出來；還沒長出來的不能點、不顯示名牌。區卡片依「建築／老街・廟・市場」分組。`settings.json` 的 `minorBuildings` 名單也一樣分層顯示。
 - **模型**：老街、市場沿用 `oldstreet`、`market`；廟除了 `temple` 另有 `smalltemple`（單殿小廟）、`buddhist`（佛寺）。
 - 測試：`test_build.py` 的 `test_layers`（層級、府城五區、數量 32、示意標記）。卡片上「待查證」的項目照實寫出（例如東菜市設立年、開基天后宮古蹟等級、府中街舊名）。
 

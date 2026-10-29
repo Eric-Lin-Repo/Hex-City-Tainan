@@ -447,5 +447,6 @@
  "hw.heading": "Direction",
  "hw.follow": "Follow this vehicle",
  "hw.show_route": "Show this road",
- "hw.car_note": "Traffic is simulated by time of day (busy at rush hour, quiet at night); vehicles that leave the map or take an exit come back in at another entrance."
+ "hw.car_note": "Traffic is simulated by time of day (busy at rush hour, quiet at night); vehicles that leave the map or take an exit come back in at another entrance.",
+ "section.street": "Old streets, temples, markets (appear when you zoom in)"
 }
